@@ -1,0 +1,13 @@
+# Busyings
+
+Currently Ph.D Candidate on the Accumulate project at [CLiPS](http://www.clips.uantwerpen.be) under the supervision of [Walter Daelemans](http://www.clips.uantwerpen.be/people/walter-daelemans).
+
+In the scope of the Accumulate project I will work on clinical text mining but I am interested in a lot of other things.
+
+## Talk
+
+CLIN 26 - "Detecting racism in Dutch social media posts"
+
+## Poster
+
+CLIN 26 - "A novel approach to aspect extraction taking into account linguistic structure"
