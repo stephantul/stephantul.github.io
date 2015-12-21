@@ -1,10 +1,10 @@
 # Site settings
 title:       stephan tulkens
-email:       stephan@28101989.com
+email:       stephantul@gmail.com
 author:      stephan tulkens
 description: ""
 baseurl:     ""
-url:         "stephantul.github.io"
+url:         "http://stephantul.github.io"
 date_format: "%b %-d, %Y"
 
 # Google services
@@ -15,7 +15,7 @@ google_verification:
 animated:             false
 show_related_posts:   false
 show_post_footers:    true
-show_social_icons:    false
+show_social_icons:    true
 ajaxify_contact_form: false
 
 # Disqus post comments
@@ -23,11 +23,11 @@ ajaxify_contact_form: false
 disqus_shortname:
 
 # Social icons
-github_username:
-bitbucket_username:
-stackoverflow_id:
-twitter_username:
-google_plus_id:
+github_username: stephantul
+bitbucket_username: 
+stackoverflow_id: 
+twitter_username: tulkenss
+google_plus_id: 
 linkedin_username:
 angellist_username:
 medium_id:
