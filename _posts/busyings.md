@@ -1,11 +1,3 @@
----
-layout:     post
-title:      Busyings
-date:       2022-09-10 15:45:38
-summary:    overview of things I do.
-categories: personal
----
-
 # Busyings
 
 Currently Ph.D Candidate on the Accumulate project at [CLiPS](http://www.clips.uantwerpen.be) under the supervision of [Walter Daelemans](http://www.clips.uantwerpen.be/people/walter-daelemans).
