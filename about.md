@@ -15,7 +15,3 @@ I am interested in things related to semantics, specifically in the definition o
 I enjoy all things programming, although I consider myself somewhat of a late adopter; if something works, and I know it well, I will generally keep on using it instead of trying something new. My programming language of choice is Python (3.x).
 
 On the machine learning side, I enjoy using neural networks, specifically unsupervised neural networks such as Self-Organizing Maps (SOMs). I think there's something really elegant about unsupervised learning, and this is a topic I intend to research further in the future.
-
-The Jekyll Theme of this page is based on Millikyl. You can find the source code for the Millikyl theme  [here](https://github.com/fareez-ahamed/millikyl)
-
-You can find the source code for Jekyll [here](https://github.com/jekyll/jekyll)

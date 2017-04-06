@@ -1,25 +1,62 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
+# Harmony Jekyll theme general configurations
 
-# Site settings
-title: Stéphan Tulkens
-email: stephantul@gmail.com
-description: > # this means to ignore newlines until "baseurl:"
-  Academic blog of Stéphan Tulkens
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site
-twitter_username: tulkenss
-github_username:  stephantul
+# Base URL
+baseurl: /harmony
 
-highlighter: rouge
+# Site live URL
+url: http://stephantul.github.io
 
-markdown: kramdown
+# Localhost
+# url: http://127.0.0.1:4000
 
-kramdown:
-  input: GFM
-  hard_wrap: false
-  syntax_highlighter: rouge
+# Harmony theme configuration. Please change accordingly.
+harmony:
+  name: Stephan Tulkens
+  # Little description about your site
+  description: Computational Psycholinguist
+  # 'meta_description:' Write an awesome description for your new site here.
+  # It will appear in your document head meta (for Google search results) and
+  # in your feed.xml site description.
+  meta_description: > #
+   Stephan Tulkens' Blog
+  basetheme: theme-base-01 # pre defined thmes are darken, blue-water, redish.
+  author: # Author details
+    name: Stéphan Tulkens
+    email: stephantul@gmail.com
+    url: http://stephantul.github.io
+
+  # Google Analytics key, leave blank to ignore
+  google_analytics_key: UA-xxxx-x
+
+  # Profile links, leave blank to ignore
+  social:
+    github: stephantul
+    twitter: tulkenss
+    facebook:
+    gplus:
+    dribble:
+    pinterest:
+  # Toggle disclaimer in footer
+  show_disclaimer: true
+
+# Conversion / Build settings
+markdown:    kramdown
+# This is how you put pygments config in jekyll 2.0 instead of pygments: true
+highlighter: pygments
+
+# Permalinks
+permalink:        pretty
+
+exclude:
+  - CNAME
+  - Gemfile
+  - Rakefile
+  - README.md
+  - .gitignore
+  - .sass-cache
+  - Gemfile.lock
+
+# Sass conversion configs
+sass:
+    sass_dir: assets/css/_sass
+    style: :compressed
