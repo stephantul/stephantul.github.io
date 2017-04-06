@@ -2,7 +2,7 @@
 layout: post
 title:  "Talk: Lexical representations in theories of word reading"
 date:   2016-04-06 18:23:10 +0530
-categories: bilingualism reading word lexical meaning
+categories: reading
 ---
 
 I recently gave a talk about lexical representations at a  [conga](http://www.neocortex.be) meeting, which is a monthly meeting of a group of philosophers, neuroscientists, and computational linguists.
