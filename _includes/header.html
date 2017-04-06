@@ -1,34 +1,32 @@
 <nav class="navigation">
 
-  <img class="header_image" src="/Array.svg" height="250" alt="diagram" title="Diagram">
+    <section class="container">
+        <div class="navigation-title">
+          <div class="header_image">
+            <img src="/Array.svg" height="250" alt="diagram" title="Diagram">
+          </div>
+          <a href="{{ site.baseurl }}/index.html">
+              <h1 class="title">{{ site.title }}</h1>
+          </a>
+          <h5 class="subtitle">Computational Psycholinguist</h5>
+        </div>
 
 
-  <section class="container">
+        <ul class="navigation-list float-right">
 
-
-
-    <a class="navigation-title" href="{{ site.baseurl }}/index.html">
-      <!--  -->
-      <h1 class="title">{{ site.title }}</h1>
-
-    </a>
-
-
-    <ul class="navigation-list float-right">
-
-      <li class="navigation-item">
-        <a class="navigation-link" href="{{ site.baseurl }}/index" data-popover>Blog</a>
-        <a class="navigation-link" href="{{ site.baseurl }}/code" data-popover>Code</a>
-        <a class="navigation-link" href="{{ site.baseurl }}/publications" data-popover>Publications</a>
-        <a class="navigation-link" href="{{ site.baseurl }}/about" data-popover>About</a>
-        <a>
+            <li class="navigation-item">
+                <a class="navigation-link" href="{{ site.baseurl }}/index" data-popover>Blog</a>
+                <a class="navigation-link" href="{{ site.baseurl }}/code" data-popover>Code</a>
+                <a class="navigation-link" href="{{ site.baseurl }}/publications" data-popover>Publications</a>
+                <a class="navigation-link" href="{{ site.baseurl }}/about" data-popover>About</a>
+                <a>
           {% include icon-github.html username=site.github_username %}
         </a>
-        <a>
+                <a>
           {% include icon-twitter.html username=site.twitter_username %}
         </a>
-      </li>
-    </ul>
-  <h5 class="subtitle">Computational Psycholinguist</h5>
-  </section>
+            </li>
+        </ul>
+
+    </section>
 </nav>
