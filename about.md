@@ -1,21 +1,21 @@
 ---
 layout: page
-title: About Pixyll
+title: About
 permalink: /about/
 ---
 
-This page was created from a modified Pixyll theme. Original about below:
+This is the personal blog of Stéphan Tulkens. I am currently a ph.d student at [CLiPS](www.clips.ua.ac.be), the Computational Linguistics and Psycholinguistics Research Center at the University of Antwerp in Belgium. I am currently funded through the Belgian FWO to work on computational models of semantics in bilingualism, using machine learning methods, under the supervision of Professor [Walter Daelemans](http://www.clips.ua.ac.be/~walter/) and Professor [Dominiek Sandra](http://www.clips.ua.ac.be/people/dominiek-sandra).
 
-This Jekyll theme was crafted with <3 by [John Otander](http://johnotander.com)
-([@4lpine](https://twitter.com/4lpine)).
+Previously, I also held a researcher position at CLiPS, where I worked on extracting concepts from free text clinical records in the scope of the [Accumulate](www.accumulate.be) project.
 
-Checkout the [Github repository](https://github.com/johnotander/pixyll) to download it,
-request a feature, report a bug, or contribute. It's free, and open source
-([MIT](http://opensource.org/licenses/MIT)).
+I hold bachelor's degrees in Software Engineering and Philosophy, and a master's degree in Computational Linguistics.
 
-Thanks to the following:
+I am interested in things related to semantics, specifically in the definition of word meaning, and how this influences our conception of semantics in computational models. Another thing I like thinking about is the notion of representation, and how it is used in Computational Linguistics and Psycholinguistics, and how the use of this concept differs from the way it is used in philosophy.
 
-* [BASSCSS](http://basscss.com)
-* [Jekyll](http://jekyllrb.com)
-* [Refills](http://refills.bourbon.io/)
-* [Type Scale](http://type-scale.com/)
+I enjoy all things programming, although I consider myself somewhat of a late adopter; if something works, and I know it well, I will generally keep on using it instead of trying something new. My programming language of choice is Python (3.x).
+
+On the machine learning side, I enjoy using neural networks, specifically unsupervised neural networks such as Self-Organizing Maps (SOMs). I think there's something really elegant about unsupervised learning, and this is a topic I intend to research further in the future.
+
+The Jekyll Theme of this page is based on Millikyl. You can find the source code for the Millikyl theme  [here](https://github.com/fareez-ahamed/millikyl)
+
+You can find the source code for Jekyll [here](https://github.com/jekyll/jekyll)

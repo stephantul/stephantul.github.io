@@ -1,59 +1,25 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
 # Site settings
-title:       stephan tulkens
-email:       stephantul@gmail.com
-author:      stephan tulkens
-description: ""
-baseurl:     ""
-url:         "http://stephantul.github.io"
-date_format: "%b %-d, %Y"
-
-# Google services
-google_analytics:
-google_verification:
-
-# Optional features
-animated:             false
-show_related_posts:   false
-show_post_footers:    true
-show_social_icons:    true
-ajaxify_contact_form: false
-
-# Disqus post comments
-# (leave blank to disable Disqus)
-disqus_shortname:
-
-# Social icons
-github_username: stephantul
-bitbucket_username: 
-stackoverflow_id: 
+title: Stéphan Tulkens
+email: stephantul@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Academic blog of Stéphan Tulkens
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site
 twitter_username: tulkenss
-google_plus_id: 
-linkedin_username:
-angellist_username:
-medium_id:
-bitcoin_url:
-paypal_url:
-flattr_button:
+github_username:  stephantul
 
-# Post sharing icons
-show_sharing_icons: false
-share_text: 'Share this post!'
-# Change to 'true' to enable individual icons
-share_facebook: false
-share_twitter: false
-share_googleplus: false
-share_linkedin: false
-share_digg: false
-share_tumblr: false
-share_reddit: false
-share_stumbleupon: false
-share_hackernews: false
+highlighter: rouge
 
-# Build settings
-markdown:     kramdown
-redcarpet:
-  extensions: ['smart', 'tables', 'with_toc_data']
-permalink:    pretty
-paginate:     4
-sass:
-  compressed: true
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
