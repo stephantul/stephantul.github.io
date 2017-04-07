@@ -195,9 +195,11 @@ header.main-header, footer.main-footer {
 header.main-header {
   color: $base-00;
   border-top: 5px $base-00 solid;
-  border-bottom: 2px $color-2 solid;
+  border-bottom: 2px $base-08 solid;
 
-  h1, h2 { text-align: center; color: inherit;}
+  h1 { text-align: left; color: inherit;}
+  h5 { text-align: left; color: $base-02;}
+
   a {
     color: inherit;
     &:hover, &:active, &:focus {
@@ -207,7 +209,7 @@ header.main-header {
 
   ul {
     width: 100%;
-    text-align: center;
+    text-align: left;
     padding: 15px;
   }
   ul li {
@@ -224,7 +226,7 @@ header.main-header {
 
   ul li a {
     display:inline-block;
-    color: inherit;
+    color: $base-03;
     border-bottom: 2px transparent solid;
     padding-bottom:5px;
     @include transition(all, .2s);

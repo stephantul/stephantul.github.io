@@ -3,14 +3,14 @@ layout: page
 title: Publications
 permalink: /publications/
 ---
-### Journal papers
+##### Journal papers
 
 > S. Tulkens, L. Hilte, E. Lodewyckx, B. Verhoeven & W. Daelemans  
 > The Automated Detection of Racist Discourse in Dutch Social Media  
 > Clin Journal 6:3-20; 2016.  
 > [link](http://clinjournal.org/sites/clinjournal.org/files/Tulkens2016.pdf)  
 
-### Conference papers
+##### Conference papers
 
 > S. Suster, S. Tulkens, W. Daelemans  
 > A Short Review of Ethical Challenges in Clinical Natural Language Processing    
@@ -30,5 +30,6 @@ permalink: /publications/
 > [code](https://github.com/clips/yarn)
 
 > S. Tulkens, L. Hilte, E. Lodewyckx, B. Verhoeven, W. Daelemans  
-> A Dictionary-based Approach to Racism Detection in Dutch Social Media TaCos Proceedings 2016   
+> A Dictionary-based Approach to Racism Detection in Dutch Social Media  
+> TaCos Proceedings 2016  
 > [link](http://www.ta-cos.org/sites/ta-cos.org/files/dictionary-based-approach.pdf)

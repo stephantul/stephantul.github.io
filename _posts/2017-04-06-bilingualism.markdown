@@ -1,11 +1,11 @@
 ---
 layout: post
 title:  "Talk: Lexical representations in theories of word reading"
-date:   2016-04-06 18:23:10 +0530
+date:   2017-04-06 18:23:10 +0530
 categories: reading
 ---
 
-I recently gave a talk about lexical representations at a  [conga](http://www.neocortex.be) meeting, which is a monthly meeting of a group of philosophers, neuroscientists, and computational linguists.
+I recently gave a talk about lexical representations at a  [CoNGA](http://www.neocortex.be) meeting, which is a monthly meeting of a group of philosophers, neuroscientists, and computational linguists.
 
 This session was on the topic of representation, a construct which is at the heart of many theories in cognitive science. We meet every month on one of the campuses of the University of Antwerp, so if you want to come down and have a chat, please do!
 
