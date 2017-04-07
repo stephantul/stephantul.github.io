@@ -1,4 +1,5 @@
-// General colors
+ @import url('https://fonts.googleapis.com/css?family=Arvo|Fira+Sans');
+ // General colors
 
 $color-white: #FFF;
 $color-black: #000;
@@ -20,4 +21,6 @@ $base-09: #FFFFFF;
 
 
 // Fonts
-$primary-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+$primary-font: 'Fira Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family: "Arvo", serif;

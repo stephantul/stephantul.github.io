@@ -197,7 +197,7 @@ header.main-header {
   border-top: 5px $base-00 solid;
   border-bottom: 2px $base-08 solid;
 
-  h1 { text-align: left; color: inherit;}
+  h1 { text-align: left; color: inherit; font-weight: bolder; font-family: "Arvo";}
   h5 { text-align: left; color: $base-02;}
 
   a {
@@ -492,6 +492,7 @@ body.theme-base-01 {
 
   div.page-content {
     h1, h2, h3, h4, h5, h6 { color: $base-01; }
+
   }
 
 
@@ -624,6 +625,9 @@ div.posts {
   }
 }
 div.post {
+
+  h3 {font-weight: bold; font-family: "Arvo"}
+
   padding-top: .5em;
   padding-bottom: 1em;
   border-bottom: 1px $base-05 solid;
