@@ -195,10 +195,7 @@ header.main-header, footer.main-footer {
 header.main-header {
   color: $base-00;
   border-top: 5px $base-00 solid;
-  border-bottom: 2px $base-08 solid;
-
-  h1 { text-align: left; color: inherit; font-weight: bolder; font-family: "Arvo";}
-  h5 { text-align: left; color: $base-02;}
+  border-bottom: 2px $color-white solid;
 
   a {
     color: inherit;
@@ -206,6 +203,10 @@ header.main-header {
       border-bottom-color: transparent;
     }
   }
+
+  h1 { text-align: left; color: $color-black; font-weight: bolder; font-family: "Arvo";
+      a{color: $color-black;}}
+  h5 { text-align: left; color: $base-02;}
 
   ul {
     width: 100%;
@@ -476,11 +477,12 @@ body.theme-base-01 {
 
   a {
     @extend .default-anchor;
+    color: $base-03
   }
 
   footer.main-footer {
-    background-color: $color-black;
-    color: $color-white;
+    background-color: $color-white;
+    color: $color-black;
   }
 
   header.main-header {
@@ -626,7 +628,9 @@ div.posts {
 }
 div.post {
 
-  h3 {font-weight: bold; font-family: "Arvo"}
+  h3 {font-weight: bold; font-family: "Arvo";
+      color: $color-black;
+      a{color: $color-black;}}
 
   padding-top: .5em;
   padding-bottom: 1em;
