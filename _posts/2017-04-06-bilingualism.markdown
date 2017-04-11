@@ -9,7 +9,7 @@ I recently gave a talk about lexical representations at a  [CoNGA](http://www.ne
 
 This session was on the topic of representation, a construct which is at the heart of many theories in cognitive science. We meet every month on one of the campuses of the University of Antwerp, so if you want to come down and have a chat, please do!
 
-You can find the slides [here](/slides/conga_2017.pdf)
+You can find the slides [here](https://github.com/stephantul/stephantul.github.io/tree/master/slides/conga_2017.pdf)
 
 In this post I want to give the outline of the talk, as to provide people who weren't there an idea of what I talked about.
 
