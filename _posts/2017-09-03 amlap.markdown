@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Poster: A Self-Organizing Model of the Bilingual Reading System"
-date:   2017-09-06 00:00:00 +0000
+date:   2017-09-03 00:00:00 +0000
 categories: dynamics
 ---
 
