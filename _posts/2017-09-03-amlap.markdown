@@ -6,31 +6,34 @@ categories: dynamics
 ---
 
 At [AMLAP 2017](http://wp.lancs.ac.uk/amlap2017/), I gave a poster presentation on our model of word reading, which is currently christened Global Space (GS).
-On this page you can find the poster and the hand-out, as well as links to any follow-up research we have done on the model.
+On this page you can find the poster, as well as links to any follow-up research we have done on the model.
 
 The poster can be found [here](https://github.com/stephantul/stephantul.github.io/tree/master/slides/poster_amlap2017.pdf)
 
 ### The Idea
 
-The main idea behind GS is that we should make as few assumptions about the word reading process as possible, which is also known as [Occam's razor](https://plato.stanford.edu/entries/simplicity/#PriJusSim).
+The main idea behind GS is that we should make as few assumptions about the word reading process as possible, something which is also known as [Occam's razor](https://plato.stanford.edu/entries/simplicity/#PriJusSim).
 
 In the case of GS, the specific area we are targeting with our razor is the notion of representation used in models of word reading.
 
 Previous models have assumed that if some factor influences word recognition, it is therefore also represented in our mental lexicon.
-Specifically, these models have also assumed the existence of phonological representations which are completely separate from orthographic representations, and which are processed by separate modules or subsystems.
-The pattern of performance seen in human subjects in priming and lexical decision experiments is then presupposed to be the result of the co-activation and competition between different representations in a neighborhood.
+For example, if a model assumes that phonological information, e.g. two words sounding alike, influences reading times of these words, this phonological information will be included in the lexicon as a separate representation.
+Therefore, homophones co-activate because their identical phonological representations are activated by a single orthographic representation.
+The pattern of performance seen in human subjects in priming and lexical decision experiments is then presupposed to be the result of the co-activation and competition between all sorts of different representations.
+This becomes problematic when one asks what causes a word to be read; if one assumes that orthographical and phonological information all influence word reading in separate lexicons, who judges which information is combined, and when the combined evidence is strong enough?
 
 In GS, we do away with the assumption that phonology and orthography are represented in separate modules, and represent a word as the concatenation of its orthographic and phonological vectors.
+This assumes that words are represented in a single space, hence the name Global Space.
 During reading, only the orthographic parts of the vector are displayed, and the phonological part is inferred from its orthographic counterpart.
+We can do this because the representations in our model are transparent, they are in imperfect copies of things found in the world. It is in fact this imperfection which we think can explain some of the things we see in experiments.
 
 Instead of regarding the pattern of performance of human subjects as being the result of competition and co-activation across different levels of representation, we think it might be the result of competition for limited storage space.
 
 ### The implementation
 
-To test this assumption, we used a Self-Organizing Map (SOM) to cluster 108 Dutch and English words, which, as said before, consist of the concatenation of orthographic and phonological representations.
+To test our hypothesis, we used a Self-Organizing Map (SOM) to cluster 108 Dutch and English words, which, as said before, consist of the concatenation of orthographic and phonological representations.
 
-A SOM consists of a certain amount of neurons, arranged in a grid.
-Each neuron has a weight vector, the dimensionality of which is equal to the input dimensionality.
+A SOM consists of a certain amount of neurons, arranged in a grid, where each neuron has a weight vector, the dimensionality of which is equal to the input dimensionality.
 So, unlike normal neural networks, a SOM does not transform its input into opaque hidden states, but into inexact (quantized) representations of the input.
 SOM training consists of finding a set of approximate representations which most closely approximate the training set.
 
@@ -62,4 +65,4 @@ Presenting input the SOM causes the neurons, and hence the state of the system, 
 On presentation of an input to the map, neurons are activated or suppressed, depending on their similarity to the input.
 Concurrently, the current state vector _s_ is also fed back into the system. Thus, the next position of the system depends on the current state of the system as well as the current input.
 
-This procedure endows the SOM with both time dependence, since we can measure the time words take until convergence, and greater expressive power, since words are not longer assigned to a singe cluster.
+This procedure endows the SOM with both time dependence, since we can measure the time words take until convergence, and greater expressive power, since words are not longer assigned to a single cluster.
