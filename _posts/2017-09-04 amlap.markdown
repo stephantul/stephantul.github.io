@@ -1,0 +1,65 @@
+---
+layout: post
+title:  "Poster: A Self-Organizing Model of the Bilingual Reading System"
+date:   2017-09-06 00:00:00 +0000
+categories: dynamics
+---
+
+At [AMLAP 2017](http://wp.lancs.ac.uk/amlap2017/), I gave a poster presentation on our model of word reading, which is currently christened Global Space (GS).
+On this page you can find the poster and the hand-out, as well as links to any follow-up research we have done on the model.
+
+The poster can be found [here](https://github.com/stephantul/stephantul.github.io/tree/master/slides/poster_amlap_2017.pdf)
+
+### The Idea
+
+The main idea behind GS is that we should make as few assumptions about the word reading process as possible, which is also known as [Occam's razor](https://plato.stanford.edu/entries/simplicity/#PriJusSim).
+
+In the case of GS, the specific area we are targeting with our razor is the notion of representation used in models of word reading.
+
+Previous models have assumed that if some factor influences word recognition, it is therefore also represented in our mental lexicon.
+Specifically, these models have also assumed the existence of phonological representations which are completely separate from orthographic representations, and which are processed by separate modules or subsystems.
+The pattern of performance seen in human subjects in priming and lexical decision experiments is then presupposed to be the result of the co-activation and competition between different representations in a neighborhood.
+
+In GS, we do away with the assumption that phonology and orthography are represented in separate modules, and represent a word as the concatenation of its orthographic and phonological vectors.
+During reading, only the orthographic parts of the vector are displayed, and the phonological part is inferred from its orthographic counterpart.
+
+Instead of regarding the pattern of performance of human subjects as being the result of competition and co-activation across different levels of representation, we think it might be the result of competition for limited storage space.
+
+### The implementation
+
+To test this assumption, we used a Self-Organizing Map (SOM) to cluster 108 Dutch and English words, which, as said before, consist of the concatenation of orthographic and phonological representations.
+
+A SOM consists of a certain amount of neurons, arranged in a grid.
+Each neuron has a weight vector, the dimensionality of which is equal to the input dimensionality.
+So, unlike normal neural networks, a SOM does not transform its input into opaque hidden states, but into inexact (quantized) representations of the input.
+SOM training consists of finding a set of approximate representations which most closely approximate the training set.
+
+An important constraint on a SOM is that, unlike in other Vector Quantizers, similar neurons need to be similar together.
+SOM learning can therefore be constructed as a two-stage process: given an input, first make the most similar neuron to the input more similar to the input, and then make the surrounding neurons on the map more similar to this input, as a function of their distance to the best matching neuron.
+
+Note that, given this description, there are two interpretations of SOM clustering.
+
+In the first interpretation, a SOM is a clustering mechanism analogous to _k_-means; every input presented to the SOM receives a single neuron as its cluster.
+In a second interpretation, a SOM is a neural network which produces _distributed_ representations; here every input gets a _vector_ of euclidean distances to each neuron as its activation.
+
+We trained the map for 100 epochs on a set of 10,000 words, which were sampled proportionally from the set of 108 words using CELEX frequencies. We used a learning rate of 1.0, a 25 x 25 grid and used the standard SOM algorithm, as implemented in [SOMBER](https://github.com/stephantul/somber).  
+
+Initial results using standard SOM clustering showed that very similar words, e.g. `found` and `hound`, were clustered to the same neuron, making them indistinguishable by the model, which is undesirable.
+On top of this, a SOM does not possess a time dependent component, making it hard to find a good analogue for the time-dependent reaction time measurements often used in psycholinguistic experiments.
+
+While using the error, e.g. the difference between the vector and the most similar neuron, as a stand-in for RT might look like a feasible option, it does not involve any time dependence, and hence glosses over the actual procedure humans go when they read.
+
+### Introducing time
+
+We devised a time-dependent procedure which simultaneously removes the problem of different words being indistinguishable because they cluster to the same neuron.
+This time-dependence procedure is heavily based on ideas from Dynamic Systems Theory (DST).
+
+In DST, cognition is often thought of as a point moving through an extremely high-dimensional space. The current state of the cognitive system is then nothing more than the position of the point in this high-dimensional space.
+
+In GS, the state of the system is modeled as a vector _s_, which contains the activation of each of the _N_ neurons of a trained SOM.
+Presenting input the SOM causes the neurons, and hence the state of the system, to change.
+
+On presentation of an input to the map, neurons are activated or suppressed, depending on their similarity to the input.
+Concurrently, the current state vector _s_ is also fed back into the system. Thus, the next position of the system depends on the current state of the system as well as the current input.
+
+This procedure endows the SOM with both time dependence, since we can measure the time words take until convergence, and greater expressive power, since words are not longer assigned to a singe cluster.
