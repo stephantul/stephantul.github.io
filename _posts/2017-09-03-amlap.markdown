@@ -1,14 +1,14 @@
 ---
 layout: post
 title:  "Poster: A Self-Organizing Model of the Bilingual Reading System"
-date:   2017-09-03 00:00:00 +0000
+date:   2017-09-03 18:23:10 +0530
 categories: dynamics
 ---
 
 At [AMLAP 2017](http://wp.lancs.ac.uk/amlap2017/), I gave a poster presentation on our model of word reading, which is currently christened Global Space (GS).
 On this page you can find the poster and the hand-out, as well as links to any follow-up research we have done on the model.
 
-The poster can be found [here](https://github.com/stephantul/stephantul.github.io/tree/master/slides/poster_amlap_2017.pdf)
+The poster can be found [here](https://github.com/stephantul/stephantul.github.io/tree/master/slides/poster_amlap2017.pdf)
 
 ### The Idea
 
