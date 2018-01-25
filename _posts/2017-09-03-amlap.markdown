@@ -50,7 +50,7 @@ We trained the map for 100 epochs on a set of 10,000 words, which were sampled p
 Initial results using standard SOM clustering showed that very similar words, e.g. `found` and `hound`, were clustered to the same neuron, making them indistinguishable by the model, which is undesirable.
 On top of this, a SOM does not possess a time dependent component, making it hard to find a good analogue for the time-dependent reaction time measurements often used in psycholinguistic experiments.
 
-While using the error, e.g. the difference between the vector and the most similar neuron, as a stand-in for RT might look like a feasible option, it does not involve any time dependence, and hence glosses over the actual procedure humans go when they read.
+While using the error, e.g. the difference between the vector and the most similar neuron, as a stand-in for RT might look like a feasible option, it does not involve any time dependence, and hence glosses over the actual procedure humans perform when they read.
 
 ### Introducing time
 
