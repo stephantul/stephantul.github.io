@@ -13,4 +13,4 @@ Another thing I like thinking about is the notion of representation, how it is u
 
 I enjoy all things programming, except web-design. My programming language of choice is Python (3.x).
 
-On the machine learning side, I enjoy using neural networks, specifically unsupervised neural networks such as Self-Organizing Maps (SOMs). I think there's something really elegant about unsupervised learning, and this is a topic I intend to research further in the future.
+On the machine learning side, I enjoy using neural networks, specifically unsupervised neural networks such as Self-Organizing Maps (SOMs).
