@@ -4,7 +4,7 @@ title:  "Getting spacy to only split on spaces."
 date:   2019-05-02 00:00:00 +0530
 categories: spacy
 ---
-[Spacy](spacy.io) is a fast and easy-to-use python package which can be used to quickly parse, tokenize, tag, chunk across a variety of languages.
+[Spacy](https://spacy.io) is a fast and easy-to-use python package which can be used to quickly parse, tokenize, tag, chunk across a variety of languages.
 I attempted to apply Spacy to data in a NER task for which I had pre-tokenized data with gold standard BIO tags.
 Unfortunately, Spacy would still further tokenize some words, while actually I just needed it to split on white space.
 
@@ -25,6 +25,6 @@ if __name__ == "__main__":
     print([token.text for token in s2])
 ```
 
-As it turns out, the default arguments for `Tokenizer` amount to selecting no Tokenization at all.
+As it turns out, the default arguments for `Tokenizer` amount to selecting no tokenization at all.
 
 Note that, quite obviously, the tagging accuracy will suffer when you keep noisy tokens. In my case, however, this was necessary to keep the alignment.
