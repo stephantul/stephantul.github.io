@@ -28,3 +28,12 @@ if __name__ == "__main__":
 As it turns out, the default arguments for `Tokenizer` amount to only splitting on space characters.
 Note that all the other components in the pipeline are maintained, although keep in mind that their accuracy will suffer because they might get unexpected tokens.
 In my case, however, this was the only way to proceed.
+
+Note that this fails for tokens that are separated by more than one space character (thanks for my colleague Madhumita Sushil for pointing this out.)
+
+```python
+    s3 = nlp("dog's    are funny     haaa.")
+    print([token.text for token in s3])
+```
+
+This can be remedied by removing the double spaces before passing them to `spacy`.
