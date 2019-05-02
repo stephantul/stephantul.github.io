@@ -29,7 +29,7 @@ As it turns out, the default arguments for `Tokenizer` amount to only splitting 
 Note that all the other components in the pipeline are maintained, although keep in mind that their accuracy will suffer because they might get unexpected tokens.
 In my case, however, this was the only way to proceed.
 
-Note that this fails for tokens that are separated by more than one space character (thanks for my colleague Madhumita Sushil for pointing this out.)
+Note that this fails for tokens that are separated by more than one space character (thanks to my colleague Madhumita Sushil for pointing this out.)
 
 ```python
     s3 = nlp("dog's    are funny     haaa.")
