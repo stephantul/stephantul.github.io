@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Getting spacy to only split on spaces."
+title:  "Getting spacy to only split on spaces"
 date:   2019-05-02 00:00:00 +0530
 categories: spacy
 ---
