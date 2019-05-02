@@ -19,12 +19,12 @@ if __name__ == "__main__":
     nlp = spacy.load('en_core_web_sm')
     s1 = nlp("dog's are funny animal's's._ ")
     nlp.tokenizer = Tokenizer(nlp.vocab)
-    s2 = nlp("dog's are funny animal's's. ")
+    s2 = nlp("dog's are funny animal's's._ ")
 
     print([token.text for token in s1])
     # ['dog', "'s", 'are', 'funny', 'animal', "'s", "'s", '.', '_']
     print([token.text for token in s2])
-    # ["dog's", 'are', 'funny', "animal's's."]
+    # ["dog's", 'are', 'funny', "animal's's._"]
 ```
 
 As it turns out, the default arguments for `Tokenizer` amount to only splitting on space characters.
