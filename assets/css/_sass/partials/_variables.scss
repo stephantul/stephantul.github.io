@@ -1,4 +1,4 @@
- @import url('https://fonts.googleapis.com/css?family=Arvo|Fira+Sans');
+ @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
  // General colors
 
 $color-white: #FFF;
@@ -9,18 +9,9 @@ $color-2: $color-black;
 
 // Color schemes for themes based on https://github.com/chriskempson/base16
 $base-00: #FFFFFF;
-$base-01: $color-black;
-$base-02: #999999;
-$base-03: #888888;
-$base-04: #FFFFFF;
-$base-05: #FFFFFF;
-$base-06: #FFFFFF;
-$base-07: #FFFFFF;
-$base-08: $color-black;
-$base-09: #FFFFFF;
-
-
+$base-01: #000000;
+$base-02: #FFBF00;
+$base-03: rgba($base-02, .1);
 // Fonts
 
-$primary-font: 'Fira Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family: "Arvo", serif;
+$primary-font: Arial, sans-serif;
