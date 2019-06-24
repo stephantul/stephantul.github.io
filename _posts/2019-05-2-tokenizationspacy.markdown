@@ -5,10 +5,10 @@ date:   2019-05-02 00:00:00 +0530
 categories: spacy
 ---
 [spacy](https://spacy.io) is a fast and easy-to-use python package which can be used to quickly parse, tokenize, tag, and chunk with high accuracy across a variety of languages.
-I attempted to apply `spacy` to a NER task for which I had pre-tokenized data with gold standard BIO tags.
+I attempted to apply spacy to a NER task for which I had pre-tokenized data with gold standard BIO tags.
 Unfortunately, the default pipeline would still further tokenize some words, while actually I just needed it to split on space characters.
 
-The solution to this is not completely obvious, so here's a snippet that allows a standard `spacy` pipeline to just split on space.
+The solution to this is not completely obvious, so here's a snippet that allows a standard spacy pipeline to just split on space.
 
 ```python
 import spacy
@@ -38,10 +38,10 @@ Note that this fails for tokens that are separated by more than one space charac
     # ["dog's", '   ', 'are', 'funny', '    ', 'haaa.']
 ```
 
-This can be remedied by removing the double spaces before passing them to `spacy`.
+This can be remedied by removing the double spaces before passing them to spacy.
 
 Unsurprisingly, people have asked [about this before](https://github.com/explosion/spaCy/issues/379).
-As Matthew Honnibal, the creator of `spacy`, kindly points out, splitting on space is a bad idea.
+As Matthew Honnibal, the creator of spacy, kindly points out, splitting on space is a bad idea.
 This is because the other components in the `spacy` pipeline have never seen the "un-tokenized" tokens we're presenting to them.
 A better idea is to remerge them afterwards, so here's a snippet showing you how to remerge sentences.
 
@@ -60,6 +60,6 @@ def remerge_sent(sent):
     return sent
 ```
 
-This has the advantage of keeping the integrity of the `spacy` pipeline intact: the merged tokens get assigned the POS tag of the uppermost word in the parse tree of whatever two tokens you are trying to merge.
+This has the advantage of keeping the integrity of the spacy pipeline intact: the merged tokens get assigned the POS tag of the uppermost word in the parse tree of whatever two tokens you are trying to merge.
 
-So, here you go, two ways of using `spacy` with already-tokenized data.
+So, here you go, two ways of using spacy with already-tokenized data.
