@@ -284,7 +284,7 @@ footer.main-footer {
   li > a {
     width: 32px;
     height: 32px;
-    background: $base-00;
+    background: $base-01;
     background-image: url("./images/socials-icons.svg");
     background-size: 224px 64px;
     border-radius: 0.25em;
@@ -292,7 +292,7 @@ footer.main-footer {
     border-bottom-color: transparent;
 
     &:hover {
-      background-color: $base-01;
+      background-color: $base-00;
     }
   }
 
