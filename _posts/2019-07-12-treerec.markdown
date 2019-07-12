@@ -30,6 +30,12 @@ def recursive_tree(tree):
     return res
 ```
 
+And an example of use:
+```python
+a = recursive_tree((("dog", "cat"), "walked"))
+>>> [['VISITED-dog', 'VISITED-cat'], 'VISITED-walked']
+```
+
 Here's a more useful example:
 
 ```python
@@ -60,7 +66,20 @@ def recursive_compose(tree, embeddings, emb_size):
     return np.mean(res, 0)
 ```
 
-This function recursively composes a parse tree applying the mean function for the word embeddings in some sentence.
-A similar mechanism has been used as a baseline in [Socher et al. 2011](http://papers.nips.cc/paper/4204-dynamic-pooling-and-unfolding-recursive-autoencoders-for-paraphrase-detection.pdf), although they used binary parse trees.
+This function recursively composes a parse tree applying the mean function to each sub-tree in some parse tree.
+A similar mechanism was used as a baseline in [Socher et al. 2011](http://papers.nips.cc/paper/4204-dynamic-pooling-and-unfolding-recursive-autoencoders-for-paraphrase-detection.pdf), although they used binary parse trees.
+
+Here's an example:
+```python
+# Random embeddings
+emb_mtr = np.random.rand(2, 10)
+# Transform them into a dictionary
+embeddings = dict(zip(["dog", "cat"], emb_mtr))
+a = recursive_compose((("dog", "cat"), "walked"), embeddings, 10)
+>>> array([0.18, 0.19, 0.35, 0.34, 0.38, 0.23, 0.31, 0.29, 0.27, 0.2 ])
+# a should be equal to np.mean(emb_mtr, 0) // 2 because "walked" is missing.
+z = np.allclose(a, np.mean(emb_mtr, 0) / 2)
+>>> True
+```
 
 So, there you have it, some simple functions to deal with parse trees represented as lists of lists.
