@@ -9,8 +9,6 @@ Previously, I also held a researcher position at CLiPS, where I worked on extrac
 
 I am interested in things related to semantics, specifically in the definition of word meaning, and how this influences our conception of semantics in computational models.
 
-Another thing I like thinking about is the notion of representation, how it is used in Computational Linguistics and Psycholinguistics, and how the use of this concept differs from the way it is used in philosophy.
+Another thing I like thinking about is the notion of representation, and how it is used in Computational Linguistics and Psycholinguistics.
 
 I enjoy all things programming, except web-design. My programming language of choice is Python (3.x).
-
-On the machine learning side, I enjoy using neural networks, specifically unsupervised neural networks such as Self-Organizing Maps (SOMs).
