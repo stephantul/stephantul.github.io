@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Parsing a spacy json to a tree."
+title:  "Parsing a spacy json to a tree"
 date:   2019-07-14 00:00:00 +0530
 categories: trees, spacy
 ---
