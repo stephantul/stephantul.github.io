@@ -76,7 +76,7 @@ Each sentence is then processed separately by `encode_sent`.
 
 `encode_sent` simply adds all tokens as entries to their parents, and finally returns the root node.
 Since all tokens in the sentence except the root node are attached to other tokens, returning the root node ensures that we can access all tokens by recursively traversing the root node.
-A pecularity of the fact that we are using `dict` to store our tree is that we need to create a key, `text`, to store the words themselves.
+A peculiarity of the fact that we are using `dict` to store our tree is that we need to create a key, `text`, to store the words themselves.
 
 The `skip` argument of both functions is a way of telling the function which information to omit. If you are not interested in `pos` information in your final tree, you can tell the parser to omit this information.
 
