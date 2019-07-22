@@ -132,3 +132,8 @@ if __name__ == "__main__":
 ```
 
 Note the use of the unpacking operators `*`.
+We need these because otherwise the output of `product` is interpreted as a single tuple of three values.
+Normally, we would unpack this tuple with `*`, but unpacking `product` leads to the unpacking of the entire output of `product`, which is in this case a set of 64 triples! This is not what the function (or you, as a user, I guess), expects.
+
+`zip`, together with the first unpacking operator, turns the output of `product` into a tuple of three tuples, each of which have the same length, in this case 64.
+Applying the `*` operator again unpacks each of these into 64 unpackes tuples, each of which contains three separate values, which are then passed into the function.
