@@ -1,0 +1,123 @@
+---
+layout: post
+title:  "Using itertools.product instead of nested for loops"
+date:   2019-07-21-00:00:00 +0530
+categories: python
+---
+
+In many programming situations, you will often have to compare each item in a list to each other item in a list, creating the well-known nested for-loop.
+
+```python
+results = []
+for x in list_of_items:
+    for y in another_list_of_items:
+        results.append(func(x, y))
+```
+
+This is alright!
+But things get ugly really fast once you involve more than a single list.
+
+```python
+result = []
+for x in list_of_items:
+    for y in another_list_of_items:
+        for z in yet_another_list_of_items:
+            for a in this_list_i_found:
+                results.append(func(x, y, z, a))
+```
+
+Nested for loops are especially annoying if you want to respect [PEP-8's](https://www.python.org/dev/peps/pep-0008/) [recommended line length](https://www.python.org/dev/peps/pep-0008/#maximum-line-length), which is 79 characters (🤯🤯🤯).
+
+One place where this frequently comes up in my experience is automation code for experiments, where you exhaustively iterate over a bunch of parameters, and then run some code multiple times to average over the scores.
+This might look something like this:
+
+```python
+import numpy as np
+import json
+
+param_1 = np.array([0, 1, 2, 3])
+param_2 = np.array([4, 5, 6, 7])
+param_k = np.array([0, 1])
+
+num_iters = 10
+
+if __name__ == "__main__":
+
+    results = {}
+
+    for x in param_1:
+        for y in param_2:
+            for k in param_k:
+                for i in range(num_iters):
+                    results[(x, y, k, i)] = experiment(x, y, k)
+
+    json.dump(results, open("results.json", "w"))
+```
+
+Note that this use-case is roughly equivalent to what you would do using [sklearn's](https://scikit-learn.org/stable/) [GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV) module, and if you are using an sklearn compatible workflow, I highly recommend you use their stuff.
+It is _wonderful_.
+
+But in some cases (maybe you are not using machine learning, but are simply iterating over some lists), you still want to have multiple parameters in multiple for-loops.
+
+In this case you can use `itertools.product`.
+`product` simply takes as input multiple iterables, and then defines a generator over the [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) of the lists.
+
+```python
+from itertools import product
+
+a = [1, 2, 3]
+b = [4, 5]
+c = list(product(a, b))
+print(c)
+>>> [(1, 4), (1, 5), (2, 4), (2, 5), (3, 4), (3, 5)]
+```
+
+Note that this is exactly equivalent to a nested for loop, except that it takes up way fewer lines.
+
+Here's another example, showing the workflow in experiment automation, using the same example as before.
+
+```python
+import numpy as np
+import json
+from itertools import product
+
+param_1 = np.array([0, 1, 2, 3])
+param_2 = np.array([4, 5, 6, 7])
+param_k = np.array([0, 1])
+
+num_iters = 10
+
+if __name__ == "__main__":
+
+    results = {}
+
+    for x, y, k, i in product(param_1,  
+                              param_2,
+                              param_k,
+                              range(num_iters)):
+        results[(x, y, k, i)] = experiment(x, y, k)
+
+    json.dump(results, open("results.json", "w"))
+```
+
+This produces statements which are more readable, and which are not in danger of going over the character limit.
+
+If you use `product`, and are not afraid to do a little bit of functional programming, you can also use it in conjunction with python's built-in `map`.
+
+```python
+from itertools import product
+
+
+def simple_func(x, y, z):
+    return (x ** 3) + (y ** 2) + z
+
+a = [1, 2, 3, 4]
+b = [1, 2, 3, 4]
+c = [1, 2, 3, 4]
+
+if __name__ == "__main__":
+
+    result = list(map(simple_func, *zip(*product(a, b, c))))
+```
+
+Note the use of the unpacking operators `*`.
