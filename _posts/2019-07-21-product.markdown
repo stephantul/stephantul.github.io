@@ -57,10 +57,10 @@ if __name__ == "__main__":
 Note that this use-case is roughly equivalent to what you would do using [sklearn's](https://scikit-learn.org/stable/) [GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV) module, and if you are using an sklearn compatible workflow, I highly recommend you use their stuff.
 It is _wonderful_.
 
-But in some cases (maybe you are not using machine learning, but are simply iterating over some lists), you still want to have multiple parameters in multiple for-loops.
+But in some cases, you still want to have multiple parameters in multiple for-loops.
 
 In this case you can use `itertools.product`.
-`product` simply takes as input multiple iterables, and then defines a generator over the [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) of the lists.
+`product` simply takes as input multiple iterables, and then defines a generator over the [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) of these iterables.
 
 ```python
 from itertools import product
@@ -72,7 +72,18 @@ print(c)
 >>> [(1, 4), (1, 5), (2, 4), (2, 5), (3, 4), (3, 5)]
 ```
 
-Note that this is exactly equivalent to a nested for loop, except that it takes up way fewer lines.
+Note that this is exactly equivalent to a nested for loop, except that it takes up way fewer lines. This is especially apparent when you use more than three iterables.
+
+```python
+from itertools import product
+
+a = [1, 2, 3]
+b = [4, 5]
+c = [7, 8, 9]
+d = [10, 11, 12]
+e = [4, 5, 1]
+f = list(product(a, b, c, d, e))
+```
 
 Here's another example, showing the workflow in experiment automation, using the same example as before.
 
