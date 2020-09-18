@@ -38,7 +38,7 @@ This takes about 117ms on my macbook. That sounds fine, right? But actually, whe
 
 As it turns out, almost all time is spent in the `argsort` function. So, in order to make a faster alternative, we should avoid the use of `argsort`.
 
-There is a really easy to way to solve this. First, assuming that we rank items from large to small, observe that the rank of an item is simply the number of items that are larger than the item we're interested in. Given that we already know the item we're interested in, i.e., we know the word the model is trying to predict, retrieving its value is trivial. So, instead of sorting and then finding our item in this list, we can just get the value of the item we're trying to predict, and count how how many items get a larger value. This is exactly the rank of our predicted item. Implementing this in `pytorch` is trivial due to broadcast semantics, as shown below.
+There is a really easy way to solve this. First, assuming that we rank items from large to small, observe that the rank of an item is simply the number of items that are larger than the item we're interested in. Given that we already know the item we're interested in, i.e., we know the word the model is trying to predict, retrieving its value is trivial. So, instead of sorting and then finding our item in this list, we can just get the value of the item we're trying to predict, and count how how many items get a larger value. This is exactly the rank of our predicted item. Implementing this in `pytorch` is trivial due to broadcast semantics, as shown below.
 
 ```python
 def get_top_k(x, indices):
