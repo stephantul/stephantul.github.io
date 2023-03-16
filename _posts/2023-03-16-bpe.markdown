@@ -29,6 +29,9 @@ This happens because the byte pre-tokenizer in transformers actually remaps some
 We therefore first need to remap the characters to their correct values, which you can do with the following function:
 
 ```python
+from itertools import chain
+from typing import Dict
+
 def create_char_map() -> Dict[str, int]:
     pairs = [("!", "~"), ("\xA1", "\xAC"), ("\xAE", "\xFF")]
     regular = set(chain(*[range(ord(s), ord(e) + 1) for s, e in pairs]))
