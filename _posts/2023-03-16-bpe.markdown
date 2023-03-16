@@ -5,8 +5,6 @@ date:   2023-03-16-00:00:00 +0000
 categories: python tokenizers
 ---
 
-# Introduction
-
 The huggingface [tokenizers](https://github.com/huggingface/tokenizers) library, can be used to train many varieties of sub-word tokenizers. In short, a sub-word tokenizer is a tokenizer that learns to split up strings into frequently occurring pieces. Ideally, a sub-word tokenizer is _exhaustive_, which means that it can split up any string, even strings contains sequences it has never seen before, into sub-word tokens. A truly exhaustive sub-word tokenizer is useful because it will never ever encounter an `<UNK>` symbol, i.e., a thing it doesn't know what to do with. Reaching this state is difficult when tokenizing on the characte level, however, as there are tens of thousands of unique unicode characters, and it is undesirable to give all of these unicode characters separate tokens in the vocabulary.
 
 ## Byte-level pre-tokenization
