@@ -9,11 +9,11 @@ The huggingface [tokenizers](https://github.com/huggingface/tokenizers) library,
 
 ## Byte-level pre-tokenization
 
-One way to overcome this issue is by using byte-level pre-tokenization, which decomposes each unicode character into a sequence of one to four bytes. As there are only 256 unique bytes, the base vocabulary of the subword tokenizer becomes a lot smaller. Simultaneously, you will be guaranteed to never encounter an unknown token, as all characters have unique byte decompositions. The downside of this is of course that your sequences also become a lot longer, since many characters decompose into multiple bytes.
+One way to overcome this issue is by using [byte-level pre-tokenization](https://huggingface.co/docs/tokenizers/api/pre-tokenizers#tokenizers.pre_tokenizers.ByteLevel), which decomposes each unicode character into a sequence of one to four bytes. As there are only 256 unique bytes, the base vocabulary of the subword tokenizer becomes a lot smaller. Simultaneously, you will be guaranteed to never encounter an unknown token, as all characters have unique byte decompositions. The downside of this is of course that your sequences also become a lot longer, since many characters decompose into multiple bytes.
 
 ## Implementation and problem statement
 
-Pre-tokenization on the byte level often leads to incomprehensible tokens. For example, the string `お問い合わせください` (which means "Please contact us" ,according to Google Translate) is converted to the unreadable `ãģĬåķıãģĦåĲĪãĤıãģĽãģıãģłãģķãģĦ`. One naive solution would be to map all these characters back to their bytes, as follows:
+Pre-tokenization on the byte level often leads to incomprehensible tokens. For example, the string `お問い合わせください` (which means "Please contact us", according to Google Translate) is converted to the unreadable `ãģĬåķıãģĦåĲĪãĤıãģĽãģıãģłãģķãģĦ`. One naive solution would be to map all these characters back to their bytes, as follows:
 
 ```python
 string = "ãģĬåķıãģĦåĲĪãĤıãģĽãģıãģłãģķãģĦ"
@@ -31,15 +31,17 @@ We therefore first need to remap the characters to their correct values, which y
 ```python
 def create_char_map() -> Dict[str, int]:
     pairs = [("!", "~"), ("\xA1", "\xAC"), ("\xAE", "\xFF")]
-    exception_chars = set(chain(*[range(ord(s), ord(e) + 1) for s, e in pairs]))
+    regular = set(chain(*[range(ord(s), ord(e) + 1) for s, e in pairs]))
 
     mapping = {}
 
-    for x in range(256):
-        if x not in exception_chars:
-            mapping[chr(256 + len(mapping))] = x
+    i = 0
+    for ordinal in range(256):
+        if ordinal in regular:
+            mapping[chr(ordinal)] = ordinal
         else:
-            mapping[chr(x)] = x
+            mapping[chr(256 + i)] = ordinal
+            i += 1
 
     return mapping
 ```
