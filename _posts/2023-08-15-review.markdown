@@ -7,7 +7,7 @@ categories: engineering culture
 
 This post is about code reviews, and how they can go wrong. A code review is an activity where another team member, who may or may not have been involved in the project or the code, looks at the code, and tries to spot errors or inconsistencies. 
 
-In my experience, there's a recurring issue where people ask 'if' or 'why' the code works during code reviews. This experience can be a bit frustrating because it feels like they want me to reiterate what's already written; I've already written all the code, and now I also need to explain that it really does what I say it does. Upon reflection, I believe this has to do with a shift in 'the burden of proof.'
+In my experience, there's a recurring issue where people ask 'if' or 'why' the code works during code reviews. This experience can be a bit frustrating because it feels like they want me to reiterate what's already written; I've already written all the code, and now I also need to explain that it really does what I say it does. Upon reflection, I believe this has to do with a shift in ['the burden of proof.'](https://en.wikipedia.org/wiki/Burden_of_proof_(philosophy))
 
 In normal discussions, the burden of proof rests with the person making a claim; they need to provide evidence to support their statement. For example, if I claim that 'cheese is predominantly green in color,' it's my responsibility to back it up with evidence. I can't expect others to prove me wrong from the outset; instead, I first should demonstrate why I believe I'm right. Dealing with people who don't respect the burden of proof can be incredibly challenging. They may make outrageous claims without offering any reasonable counter-evidence, which is something I think everyone has experience with.
 
