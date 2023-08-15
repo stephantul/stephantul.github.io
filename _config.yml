@@ -11,14 +11,14 @@ url: http://stephantul.github.io
 
 # Harmony theme configuration. Please change accordingly.
 harmony:
-  name: Stephan Tulkens
+  name: Stéphan Tulkens
   # Little description about your site
   description: Computational Psycholinguist
   # 'meta_description:' Write an awesome description for your new site here.
   # It will appear in your document head meta (for Google search results) and
   # in your feed.xml site description.
   meta_description: > #
-   Stephan Tulkens' Blog
+   Stéphan Tulkens' Blog
   basetheme: theme-base-01 # pre defined thmes are darken, blue-water, redish.
   author: # Author details
     name: Stéphan Tulkens
