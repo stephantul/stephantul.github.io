@@ -1,0 +1,38 @@
+---
+layout: post
+title:  "The burden of proof for code reviews"
+date:   2023-08-15-00:00:00 +0000
+categories: engineering culture
+---
+
+This post is about code reviews, and how they can go wrong. A code review is an activity where another team member, who may or may not have been involved in the project or the code, looks at the code, and tries to spot errors or inconsistencies. 
+
+In my experience, there's a recurring issue where people ask 'if' or 'why' the code works during code reviews. This experience can be a bit frustrating because it feels like they want me to reiterate what's already written; I've already written all the code, and now I also need to explain that it really does what I say it does. Upon reflection, I believe this has to do with a shift in 'the burden of proof.'
+
+In normal discussions, the burden of proof rests with the person making a claim; they need to provide evidence to support their statement. For example, if I claim that 'cheese is predominantly green in color,' it's my responsibility to back it up with evidence. I can't expect others to prove me wrong from the outset; instead, I first should demonstrate why I believe I'm right. Dealing with people who don't respect the burden of proof can be incredibly challenging. They may make outrageous claims without offering any reasonable counter-evidence, which is something I think everyone has experience with.
+
+In this post, my argument is that, in code reviews under reasonable circumstances, the burden of proof is reversed. The writer of the code no longer has to prove that their code is correct during the code review process. 
+
+Now, let's set some ground rules.
+
+From now on, I'll assume that any code submitted for review includes well-structured unit tests with good coverage and integration tests if needed. The code should also adhere to the appropriate linting and type-checking requirements of the chosen programming language. For example, in Python, the code should pass unit tests, pass a linter check (e.g., ruff), and adhere to proper typing (e.g., using mypy).
+
+To understand why the burden of proof is reversed, let's consider the code as a claim in a regular discussion. Normally, the person making the claim must provide evidence of its correctness, and the listener reviews this evidence. In code reviews, this process seems to be flipped: the code is assumed to be correct, because it passes various tests. The reviewer can now argue and demonstrate that the submitted code is incorrect. When a reviewer instead assumes that there is still a burden of proof to be fulfilled by the author, the whole preview process turns into a slog, and can feel disconcerting and unproductive. After all, you've already put in the effort to produce the code and unit tests; now, you're also expected to show that it works beyond passing the tests.
+
+I've thought about why the burden of proof is reversed in code reviews, and it seems there could be a few reasons. Although I'm not entirely certain which one is most relevant:
+
+* Trust: Perhaps the underlying assumption in code reviews is trust. When your co-workers write code that passes the required tests, there's an initial assumption that the code is correct unless something is off.
+
+* Tests are Proof: Another reasonable idea is that the tests submitted with the code serve as proof of its functionality. Therefore, demanding additional evidence could be seen as disregarding the proof already provided
+
+* Efficiency: assuming that your co-workers are wrong is unproductive in most situations, not just code reviews. For example, if you don't believe your HR department can submit forms on time, and you keep haranguing them about it, everybody loses.
+
+Another, related, reason to be annoyed is perceived laziness. A lot of questions I get during code reviews could have been solved by the reviewers actually running the code themselves. If you want to know if something works, just run it.
+
+So, the next time you review, please think of the effect it has on the person whose code you are reviewing.
+
+A related concept is the [code review pyramid](https://www.morling.dev/blog/the-code-review-pyramid/) by Gunnar Morling. I think that a lot of code reviews that tend to go wrong focus on style and tests, rather than implementation semantics.
+
+Another issue I see pop up is related to [Chesterton's fence](https://fs.blog/chestertons-fence/). I think that the concepts of the code review pyramid, Chesterton's fence, and the reversal of the burden of proof are all related somehow, but I don't know how (yet).
+
+Thanks for reading! If you have comments or questions. please let me know.
