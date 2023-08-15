@@ -27,7 +27,7 @@ if __name__ == "__main__":
                 for gamma in params["gamma"]:
                     bundle["gamma"] = gamma
 
-            clf = SVC(params)
+            clf = SVC(**params)
             # Do some stuff with your clf
 ```
 
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         # iterating over gamma if we use a linear kernel.
         if d["kernel"] == "linear" and "gamma" != params["gamma"][0]:
             continue
-        clf = SVC(d)
+        clf = SVC(**d)
         # Do something with the classifier.
 ```
 
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         d = dict(zip(keys, bundle[:-1]))
         if d["kernel"] == "linear" and "gamma" != params["gamma"][0]:
             continue
-        clf = SVC(d)
+        clf = SVC(**d)
         # Do something with the classifier.
 ```
 
