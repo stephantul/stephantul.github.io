@@ -170,7 +170,8 @@ div.default-page-content {
 
 body {
   color: $color-1;
-  background-color: $grad1;
+  background-color: $base-02;
+  background-image: linear-gradient(40deg, $grad1, $grad1, $grad1, $grad2, $grad3);
 }
 
 a {
@@ -187,7 +188,7 @@ header.main-header, footer.main-footer {
 }
 
 header.main-header {
-  color: $text1;
+  color: $base-00;
   border-bottom: 3px $base-00 solid;
 
   a {
@@ -195,8 +196,8 @@ header.main-header {
     border-bottom-color: $base-00;
   }
 
-  h1 { text-align: left; color: $text1; font-weight: bolder; font-family: "Oswald"}
-  h5 { text-align: left; color: $text1;}
+  h1 { text-align: left; color: $base-00; font-weight: bolder; font-family: "Oswald"}
+  h5 { text-align: left; color: $base-00;}
 
   ul {
     width: 100%;
