@@ -56,10 +56,10 @@ mapping = create_char_map()
 
 string = "ãģĬåķıãģĦåĲĪãĤıãģĽãģıãģłãģķãģĦ"
 remapped = bytes([mapping[char] for char in string])
-encoded_string = string.decode("utf-8")
+decoded_string = string.decode("utf-8")
 
 expected = "お問い合わせください"
-assert expected == encoded_string
+assert expected == decoded_string
 ```
 
 As you can see, the assert passes, and we correctly decoded the entire string. NICE!
