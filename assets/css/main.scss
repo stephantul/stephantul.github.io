@@ -568,14 +568,14 @@ pre {
   }
 }
 
-/*.highlight {
-  margin-bottom: 1em;
-  margin-top: 1em;
+.highlight {
+  margin-bottom: 0em;
+  margin-top: 0em;
   background-color: $base-02;
   pre {
     margin-bottom: 0;
   }
-}*/
+}
 
 /* Gist via GitHub Pages */
 .gist .gist-file {
