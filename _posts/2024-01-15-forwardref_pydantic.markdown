@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "New year's resolutions"
+title:  "Solving a ForwardRef error in pydantic"
 date:   2024-01-15-00:00:00 +0000
 categories: python pydantic
 ---
 
 I recently ran into the following error when initializing a Pydantic `BaseModel`:
 
-```
+```text
 ConfigError: field "other_model" not yet prepared so type is still a ForwardRef, you might need to call Model.update_forward_refs().
 ```
 
@@ -24,7 +24,7 @@ class Model(BaseModel)
     other_model: OtherModel
 
 class OtherModel(BaseModel)
-	name: str
+    name: str
 ```
 
 Calling `Model.update_forward_refs()` solved the problem for me, but it weirded me out a bit. Why was this necessary all of a sudden? And why didn't I see this error before?
@@ -39,7 +39,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 class OtherModel(BaseModel)
-	name: str
+    name: str
 
 class Model(BaseModel)
     other_model: OtherModel
