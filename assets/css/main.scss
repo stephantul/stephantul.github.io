@@ -545,6 +545,8 @@ code {
   font-size: 85%;
   color: $base-00;
   background-color: $base-02;
+  border-radius: .5em;
+
 }
 pre {
   display: block;
@@ -561,6 +563,7 @@ pre {
   code {
     padding: 0;
     font-size: 100%;
+    border-radius: 1em;
   }
 
   @include MQ(M) {
