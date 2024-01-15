@@ -112,7 +112,7 @@ h6 {
 
 p {
   line-height: 1.6;
-  color: $color-black;
+  color: black;
   @include font-size(14px);
   @include MQ(M) {
     @include font-size(18px);
@@ -155,12 +155,12 @@ em, i { font-style: italic; }
 a.default-anchor {
   text-decoration: underline;
   text-decoration-thickness: .1em;
-  color: $color-black;
+  color: black;
   font-family: "Varela Round";
 }
 
 body {
-  color: $color-black;
+  color: black;
   background: linear-gradient(40deg, $grad1, $grad1, $grad1, $grad2, $grad3);
 }
 
@@ -194,18 +194,18 @@ header.main-header {
   ul li {
     display: inline-block;
     position:relative;
-    color: $color-white;
+    color: white;
   }
 
   ul li span {
-    color: $color-black;
+    color: black;
     display: inline-block;
     width: 15px;
   }
 
   ul li a {
     display:inline-block;
-    color: $color-black;
+    color: black;
     border-bottom: 2px transparent solid;
     padding-bottom:5px;
     @include transition(all, .2s);
@@ -216,7 +216,7 @@ header.main-header {
 }
 
 footer.main-footer {
-  color: $color-black;
+  color: black;
   .column {
     float:left;
     @include column(1);
@@ -418,8 +418,8 @@ code, pre {
 code {
   padding: .15em .3em;
   font-size: 85%;
-  color: $color-black;
-  background-color: $color-white;
+  color: black;
+  background-color: white;
   border-radius: .5em;
 
 }
@@ -434,7 +434,7 @@ pre {
   white-space: pre-wrap;
   word-break: break-all;
   word-wrap: break-word;
-  border: 0px solid $color-black;
+  border: 0px solid black;
   code {
     padding: 0;
     font-size: 100%;
@@ -571,7 +571,7 @@ p.post-meta {
     @include MQ(M) {
       padding-top: 30px;
     }
-    span { color: $color-black; }
+    span { color: black; }
     a,span {
       @include font-size(12px);
       @include MQ(M) {
@@ -606,17 +606,17 @@ p.post-meta {
 table {
   margin: 1em 0;
   width: 100%;
-  border: 1px solid $color-black;
+  border: 1px solid black;
   border-collapse: collapse;
 }
 td,
 th {
   padding: .25em .5em;
-  border: 1px solid $color-black;
+  border: 1px solid black;
 }
 tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd) th {
-  background-color: $color-black;
+  background-color: black;
 }
 
 .hljs,
@@ -626,5 +626,5 @@ tbody tr:nth-child(odd) th {
 
 .hljs
 {
-  background-color: #268bd2;
+  background-color: white;
 }
