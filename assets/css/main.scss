@@ -164,7 +164,7 @@ a.default-anchor {
 }
 
 div.default-page-content {
-  h1, h2, h3, h4, h5, h6 { color: $base-00; }
+  h1, h2, h3, h4, h5, h6 { color: $base-00;}
 }
 
 body {
@@ -262,85 +262,6 @@ footer.main-footer {
   p.disclaimer {
     text-align: center;
   }
-
- ul.social-media {
-  text-align:left;
-  padding: 0 0 10px 0;
-  li {
-    display:inline-block;
-  }
-  li > a {
-    width: 32px;
-    height: 32px;
-    background: $base-01;
-    background-image: url("./images/socials-icons.svg");
-    background-size: 224px 64px;
-    border-radius: 0.25em;
-    @include transition(background-color 0.2s);
-    border-bottom-color: transparent;
-
-    &:hover {
-      background-color: $base-00;
-    }
-  }
-
-  li a.twitter {
-    background-position: 0 0;
-      &:hover {
-        background-position: 0 -32px;
-    }
-  }
-
-  li a.github {
-    background-position: -32px 0;
-    &:hover {
-      background-position: -32px -32px;
-    }
-  }
-
-  li a.facebook {
-    background-position: -64px 0;
-    &:hover {
-      background-position: -64px -32px;
-    }
-  }
-
-  li a.dribble {
-    background-position: -96px 0;
-    &:hover {
-      background-position: -96px -32px;
-    }
-  }
-
-  li a.google {
-    background-position: -128px 0;
-    &:hover {
-      background-position: -128px -32px;
-    }
-  }
-
-  li a.pinterest {
-      background-position: -196px 0;
-      &:hover {
-        background-position: -196px -32px;
-      }
-    }
-  }
-}
-
-.no-svg footer.main-footer ul.social-media li a {
-  width: 32px;
-    height: 32px;
-    background-color: $base-00;
-    background-image: url("./images/socials-icons.png");
-    background-size: 224px 64px;
-    border-radius: 0.25em;
-    @include transition(background-color 0.2s);
-    border-bottom-color: transparent;
-
-    &:hover {
-      background-color: $base-01;
-    }
 }
 
 div.page-content {
@@ -457,9 +378,6 @@ body.theme-base-01 {
 
   a {
     @extend .default-anchor;
-    text-decoration: underline overline;
-    text-decoration-thickness: .1em;
-    color: $base-00
   }
 
   footer.main-footer {
@@ -475,7 +393,10 @@ body.theme-base-01 {
 
   div.page-content {
     h1, h2, h3, h4, h5, h6 { color: $base-00; }
+  }
 
+  div.post{
+    a {text-decoration: overline underline;}
   }
 
 
