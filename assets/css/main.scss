@@ -157,11 +157,9 @@ em, i { font-style: italic; }
 // default
 
 a.default-anchor {
-
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+  text-decoration: wavy underline;
+  text-decoration-thickness: 1px;
   color: $base-01;
-
 }
 
 div.default-page-content {
