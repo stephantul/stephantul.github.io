@@ -3,7 +3,7 @@ layout: page
 permalink: /about/
 ---
 
-Hi! :wave:, I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](stephan.tul+github@gmail.com).
+Hi! 👋, I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](stephan.tul+github@gmail.com).
 
 ## Personal
 
