@@ -24,17 +24,17 @@ layout: default
 	<div class="post-footer">
 		<div class="column-1">
 			{% if page.previous %}
-				<a href="{{page.previous.url | prepend: site.baseurl | prepend: site.url }}"><< Older</a>
+				<a href="{{page.previous.url | prepend: site.baseurl | prepend: site.url }}">&lt;&lt; Older</a>
 			{% else %}
-				<span><< Older</span>
+				<span>&lt;&lt; Older</span>
 			{% endif %}
 		</div>
 		<div class="column-2"><a href="{{ '/' | prepend: site.baseurl | prepend: site.url }} ">Home</a></div>
 		<div class="column-3">
 			{% if page.next %}
-				<a href="{{ page.next.url | prepend: site.baseurl | prepend: site.url }}">Newer >></a>
+				<a href="{{ page.next.url | prepend: site.baseurl | prepend: site.url }}">Newer &gt;&gt;</a>
 			{% else %}
-				<span>Newer >></span>
+				<span>Newer &gt;&gt;</span>
 			{% endif %}
 		</div>
 	</div>
