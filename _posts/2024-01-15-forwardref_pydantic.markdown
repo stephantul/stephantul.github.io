@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "New year's resolutions"
+title:  "Solving a ForwardRef error in pydantic"
 date:   2024-01-15-00:00:00 +0000
 categories: python pydantic
 ---
