@@ -246,15 +246,6 @@ footer.main-footer {
       padding: 10px 0;
       text-transform: uppercase;
   }
-  h6::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      width: 2em;
-      height: 2px;
-      background: $base-00;
-      overflow: hidden;
-  }
 
   ul.menu {
     padding: 0 0 1em 0;
