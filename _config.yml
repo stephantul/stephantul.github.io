@@ -28,14 +28,6 @@ harmony:
   # Google Analytics key, leave blank to ignore
   google_analytics_key:
 
-  # Profile links, leave blank to ignore
-  social:
-    github: stephantul
-    twitter: tulkenss
-    facebook:
-    gplus:
-    dribble:
-    pinterest:
   # Toggle disclaimer in footer
   show_disclaimer: false
 
