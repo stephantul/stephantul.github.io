@@ -189,11 +189,11 @@ header.main-header, footer.main-footer {
 
 header.main-header {
   color: $base-00;
-  border-bottom: 3px $base-00 solid;
+
 
   a {
     color: $base-00;
-    border-bottom-color: $base-00;
+    border-bottom-color: transparent;
   }
 
   h1 { text-align: left; color: $base-00; font-weight: bolder; font-family: "Oswald"}
@@ -348,7 +348,7 @@ footer.main-footer {
     background-size: 224px 64px;
     border-radius: 0.25em;
     @include transition(background-color 0.2s);
-    border-bottom-color: $base-00;
+    border-bottom-color: transparent;
 
     &:hover {
       background-color: $base-01;
@@ -449,7 +449,7 @@ div.page-content {
   }
 
   a {
-      border-bottom-color: $base-00;
+      border-bottom-color: transparent;
   }
 }
 
@@ -614,7 +614,7 @@ div.post {
 
   padding-top: .5em;
   padding-bottom: 1em;
-  border-bottom: 1px $base-00 solid;
+  border-bottom: 1px transparent solid;
   @include MQ(M) {
 
     padding-bottom: 2em;
@@ -644,7 +644,7 @@ p.post-meta {
 .related {
   padding-top: 1em;
   padding-bottom: 1em;
-  border-top: 1px solid $base-00;
+  border-top: 1px solid transparent;
 
   @include MQ(M) {
     padding-top: 2em;
@@ -677,8 +677,8 @@ p.post-meta {
 --------------------------------- */
 .post-footer {
 
-  border-top: 1px solid $base-00;
-  border-bottom: 1px solid $base-00;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
   height: 40px;
   display: table;
   width: 100%;

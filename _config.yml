@@ -40,10 +40,10 @@ harmony:
   show_disclaimer: false
 
 # Conversion / Build settings
-markdown:    kramdown
+markdown: kramdown
 
 # Permalinks
-permalink:        pretty
+permalink: pretty
 
 exclude:
   - CNAME
