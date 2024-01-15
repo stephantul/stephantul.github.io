@@ -569,9 +569,9 @@ pre {
 }
 
 .highlight {
-  margin-bottom: 0em;
-  margin-top: 0em;
-  background-color: $base-02;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  background-color: inherit;
   pre {
     margin-bottom: 0;
   }
