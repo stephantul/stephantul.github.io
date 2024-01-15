@@ -257,7 +257,6 @@ footer.main-footer {
 }
 
 div.page-content {
-  @extend .default-page-content;
   min-height: initial;
 
   @include MQ(M) {
