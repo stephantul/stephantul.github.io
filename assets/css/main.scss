@@ -618,3 +618,13 @@ tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd) th {
   background-color: $color-black;
 }
+
+.hljs,
+.hljs-subst {
+  color: black;
+}
+
+.hljs
+{
+  background-color: #268bd2;
+}
