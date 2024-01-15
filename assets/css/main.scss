@@ -378,6 +378,7 @@ body.theme-base-01 {
 
   a {
     @extend .default-anchor;
+    color: $base-00
   }
 
   footer.main-footer {
