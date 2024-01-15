@@ -157,13 +157,10 @@ em, i { font-style: italic; }
 // default
 
 a.default-anchor {
-  text-decoration: underline overline;
+  text-decoration: underline;
   text-decoration-thickness: .1em;
   color: $base-01;
   font-family: "Varela Round";
-}
-
-h1, h2, h3, h4, h5, h6 {text-decoration: underline; font-family: "Varela Round"; text-decoration-thickness: .1em;
 }
 
 div.default-page-content {
@@ -460,6 +457,8 @@ body.theme-base-01 {
 
   a {
     @extend .default-anchor;
+    text-decoration: underline overline;
+    text-decoration-thickness: .1em;
     color: $base-00
   }
 
