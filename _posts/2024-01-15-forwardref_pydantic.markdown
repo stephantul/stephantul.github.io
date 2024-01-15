@@ -7,7 +7,7 @@ categories: python pydantic
 
 I recently ran into the following error when initializing a Pydantic `BaseModel`:
 
-```
+```text
 ConfigError: field "other_model" not yet prepared so type is still a ForwardRef, you might need to call Model.update_forward_refs().
 ```
 
