@@ -164,9 +164,8 @@ a.default-anchor {
 }
 
 body {
-  color: $color-2;
-  background-color: $color-1;
-  background-image: linear-gradient(40deg, $grad1, $grad1, $grad1, $grad2, $grad3);
+  color: $color-black;
+  background: linear-gradient(40deg, $grad1, $grad1, $grad1, $grad2, $grad3);
 }
 
 a {
@@ -425,7 +424,7 @@ code {
   padding: .15em .3em;
   font-size: 85%;
   color: $color-black;
-  background-color: $color-1;
+  background-color: $color-white;
   border-radius: .5em;
 
 }
