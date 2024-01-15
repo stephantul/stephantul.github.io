@@ -13,7 +13,7 @@ ConfigError: field "other_model" not yet prepared so type is still a ForwardRef,
 
 This threw me for a loop, Googling didn't really reveal anything useful, except [this SO post](https://stackoverflow.com/questions/71510622/pydantics-update-forward-refs-raises-typing-nameerror), which doesn't give the correct answer. So I decided to dig in!
 
-First off, the file I was importing `Model` from looked a bit like this. It consists of a `BaseModel` that has another `BaseModel` as a field. 
+First off, the file I was importing `Model` from looked a bit like this. It consists of a `BaseModel` that has another `BaseModel` as a field.
 
 ```python
 from __future__ import annotations
