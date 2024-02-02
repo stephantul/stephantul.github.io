@@ -20,7 +20,7 @@ This is of course assuming you have nested lists of strings. Your use-case might
 
 # First attempts
 
-In order to explain what is going on, I'll first introduce a function that processes a list of lists of arbitrary depth, and returns all strings from all lists. That is, it flattents the list (I know there are easier ways to flatten lists, bear with me.)
+In order to explain what is going on, I'll first introduce a function that processes a list of lists of arbitrary depth, and returns all strings from all lists. That is, it flattens the list (I know there are easier ways to flatten lists, bear with me.)
 
 ```python
 Hierarchy = list[list | str]
@@ -73,6 +73,7 @@ One way to make the type hierarchical is to introduce a class that has itself as
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Iterator
 
 
 @dataclass
@@ -125,11 +126,11 @@ TypeError: unsupported operand type(s) for |: 'str' and 'type'
 
 What is happening here? As it turns out, when type checking, `mypy` is happy to pretend that `"Hierarchy"` actually refers to the type `Hierarchy` which we defined earlier on the same line. This allows for recursive references. But at run-time, `"Hierarchy"` no longer represents a type, but is just a good old string. So, what we're actually doing is the following:
 
-```
-"Hierarchy" | str
+```python
+result = "Hierarchy" | str
 ```
 
-I.e., we're using the pipe operator, often used in boolean logic, and apply it to a `str` and a `type`.
+I.e., we're using the pipe operator, often used in boolean logic, and apply it to an instance of a `str` and a `type` (which happens to be `str`).
 Arbitrary classes can implement their own logic for the pipe operator by implementing the dunder method `__or__`. `str` doesn't implement `__or__`, so using `|` doesn't make a lot of sense. Note that this can actually give a *really really* ugly bug if you do use a type that implements `__or__`, as it won't crash, but will instead return the value of whatever `__or__` returns.
 
 So, given that this is a syntax error, our last recourse could be to introduce good old `Union` from typing. From python 3.10 onwards, the `|` is an alias for `Union`, and I've never imported `Union` since. This is the first time (lots of first times here), that I've seen a replacement for a typing operator not being equal to that typing operator, so, this threw me for a loop again. In fact, I only solved it by reading through the comments of [this SO answer](https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python).
