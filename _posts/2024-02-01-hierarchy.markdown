@@ -58,7 +58,7 @@ def flatten_list(hierarchy: Hierarchy) -> list[str]:
 
 Running `mypy` on this piece of code gives us:
 
-```
+```text
 note: Revealed type is "builtins.list[Union[builtins.list[Any], builtins.str]]"
 note: Revealed type is "Union[builtins.list[Any], builtins.str]"
 ```
@@ -103,7 +103,7 @@ Hierarchy = list[Hierarchy | str]
 
 Now, what is super confusing about this, is that this correctly passes `mypy` type checking, but fails when actually running the code, and with the following error:
 
-```
+```text
 NameError: name 'Hierarchy' is not defined
 ```
 
@@ -120,7 +120,7 @@ Hierarchy = list["Hierarchy" | str]
 
 Note that this no longer requires us to import `annotations`. This does pass type checking, but, again, doesn't actually work! When running this code, it throws a `TypeError`. 
 
-```
+```text
 TypeError: unsupported operand type(s) for |: 'str' and 'type'
 ```
 
@@ -146,7 +146,7 @@ Hierarchy = list[Union["Hierarchy", str]]
 
 The revealed types in the function above, are:
 
-```
+```text
 note: Revealed type is "builtins.list[Union[builtins.str, ...]]"
 note: Revealed type is "Union[builtins.str, builtins.list[Union[builtins.str, ...]]]"
 ```
