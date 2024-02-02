@@ -7,7 +7,7 @@ categories: python mypy types
 
 I recently tried to create a recursive type in Python using mypy. Recursive types naturally occur when processing nested collections of arbitrary depth, such as lists or dictionaries. For me, this most often happens when processing JSON data in the wild.
 
-I found it quite hard to correctly define a recursive type. If you simply want to know how to create it, here is how:
+I found it quite hard to correctly define a recursive type. If you simply want to know how to create one, here is how.
 
 ```python
 from typing import Union
@@ -107,7 +107,7 @@ Now, what is super confusing about this, is that this correctly passes `mypy` ty
 NameError: name 'Hierarchy' is not defined
 ```
 
-This is probably the first time I saw something that passed static type checks that was simply wrong. Note that `pylance`, which is the default type checker in VSCode, does flag this as an error. Usually, I don't see any discrepancies between the two, so this is interesting. Also note that without `annotations` imported, this also doesn't type check.
+This is probably the first time I saw something that passed static type checks that was simply wrong. Note that `pylance`, which is the default type checker in VSCode, does flag this as an error. Usually, I don't see any discrepancies between the two, so this is interesting. Also note that without `annotations` imported, this also doesn't pass `mypy`.
 
 So, what is happening here is that definitions in Python are built in a bottom-up fashion. In order to define `Hierarchy`, we need to know which types are used by `Hierarchy`. But this is not possible, because `Hierarchy` hasn't been defined at that point.
 
