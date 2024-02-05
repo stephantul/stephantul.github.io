@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Correctly typing recursive hierarchies in Python"
-date:   2024-02-01-00:00:00 +0000
+date:   2024-02-05-00:00:00 +0000
 categories: python mypy types
 ---
 
