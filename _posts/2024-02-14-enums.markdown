@@ -5,7 +5,7 @@ date:   2024-02-12-00:00:00 +0000
 categories: python
 ---
 
-Enumerations are types that take a set of pre-defined options, called _members_ which are also assigned values. Usually, enumerations members, as the name implies, simply mapped to a integer values, but any arbitrary value might work. An example of an enumeration in Python for colors:
+Enumerations are types that take a set of pre-defined options, called _members_ which are also assigned values. Usually, enumerations members are, as the name implies, simply mapped to a integer values, but any arbitrary value might work. Here's an example of an enumeration in Python for colors:
 
 ```python
 from enum import Enum
@@ -21,7 +21,7 @@ Creating this Enum allows us to use `Color.RED` in code as a symbolic value, ins
 
 The TLDR version of this blog: enumerations are a great way to cure your codebase of what is called ["stringly typing"](https://wiki.c2.com/?StringlyTyped). That's it!
 
-If you are still interested, let's use a simple example from a Machine Learning workflow. In Machine Learning, we usually train models on some set of data, which we call the train set, and fine-tune our training procedure (i.e., hyperparameters) on another set, which is called the validation set. After training, we produce accuracy scores for held out data, commonly called the test set.
+If you are still interested, let's use a simple example from a Machine Learning workflow. In Machine Learning, we usually train models on some set of data, which we call the train set, and fine-tune our training procedure (e.g., the model hyperparameters) on another set, which is called the validation set. After training, we produce accuracy scores for held out data, commonly called the test set.
 
 Let's think of a simple function that gives us the correct split for a given dataset. We're pretending to use mongoDB.
 
@@ -48,10 +48,11 @@ class DatasetType(Enum):
 
 ```
 
+(Note that we could also have used `auto` here, in combination with a `StrEnum`, but only on Python >= 3.11.)
 Now, our function above reduces to:
 
 ```python
-def get_data(customer_id: str, dataset_type: DatasetType) -> list[dict]:
+def get_data(dataset_id: str, dataset_type: DatasetType) -> list[dict]:
     db_client = get_client()
     records = db_client.find({"dataset_id": dataset_id, "dataset_split": dataset_type.value})
 
@@ -59,9 +60,9 @@ def get_data(customer_id: str, dataset_type: DatasetType) -> list[dict]:
 
 ```
 
-Note the call to `.value` in the query itself. This is because we don't want to pass the Enum member itself, but the string value of that member. The database has no knowledge of the enumeration, so this query might fail. 
+Note the call to `.value` in the query itself. This is because we don't want to pass the Enum member itself, but the string value of that member. The database has no knowledge of the enumeration, so this query might fail if you don't use `.value`.
 
-As you can see, a programmer that has no knowledge of the code base will have a much easier time to discover the meaning of `dataset_type`, and can also easily determine the values this type can take. This makes refactors and changes in the code much less error-prone, and much easier.
+As you can see, a programmer that has no knowledge of the code base will have a much easier time to discover the meaning of the argument called `dataset_type`, and can also easily determine the values this type can take. This makes refactors and changes in the code much less error-prone, and much easier.
 
 ## `name` and `value`
 
@@ -81,7 +82,17 @@ print(list(Color))
 # [<Color.RED: 0>, <Color.GREEN: 1>]
 ```
 
-I don't think I have ever used `name` for anything, and always use the members directly in functions. I tend to only coerce members to their `value` at the last possible moment, i.e., when interfacing with another library, a function that has no knowledge of the enumeration, or when returning API responses. 
+I don't think I have ever used `name` for anything, and always use the members directly in functions. I tend to only coerce members to their `value` at the last possible moment, i.e., when interfacing with another library, a function that has no knowledge of the enumeration, or when returning API responses.
+
+Also useful to know: you can get enumeration members by their value by calling the enumeration directly, and by their name by indexing them as a string. Using the Color enumeration defined above:
+
+```
+Color(0)
+# <Color.RED: 0>
+Color["RED"]
+# <Color.RED: 0>
+
+```
 
 ## Advantages of using enums
 
