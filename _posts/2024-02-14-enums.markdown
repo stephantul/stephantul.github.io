@@ -64,7 +64,7 @@ Note the call to `.value` in the query itself. This is because we don't want to 
 
 As you can see, a programmer that has no knowledge of the code base will have a much easier time to discover the meaning of the argument called `dataset_type`, and can also easily determine the values this type can take. This makes refactors and changes in the code much less error-prone, and much easier.
 
-## `name` and `value`
+# `name` and `value`
 
 `Enum` members have two properties, a `name` and `value`. The `name` of a member is always unique, and always has the type `str`, while the `value` can have any type, and and also needs to be unique. Although uniqueness can be enforced using the [`unique` decorator](https://docs.python.org/3/library/enum.html#enum.unique), any duplicate values get removed on Enum creation anyway, which is weird to me. The following showcases what I mean:
 
@@ -94,7 +94,7 @@ Color["RED"]
 
 ```
 
-## Advantages of using enums
+# Advantages of using enums
 
 Enumerations allow you to statically type check you code really nicely using `mypy`. It thus gives quite strong, or a lot stronger, correctness guarantees compared to using string or integer values directly.
 
