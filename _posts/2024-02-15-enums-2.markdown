@@ -1,0 +1,237 @@
+---
+layout: post
+title:  "Enums with superclasses"
+date:   2024-02-12-00:00:00 +0000
+categories: python
+---
+
+In the previous post, I wrote about enumerations, and how they can be really handy in refactoring code. One thing I didn't touch upon in that post is typed enumerations. As we saw in the previous post, an enumeration can have arbitrary values associated with a member. We need to call `value` to get the actual value. This can lead to overly verbose code. Take a logger for example:
+
+```python
+from enum import Enum
+
+class LoggingLevel(Enum):
+    INFO = 10
+    WARNING = 20
+    DEBUG = 30
+    ERROR = 40
+```
+
+These levels obviously represent an ordinal variable: if we set the logging level to 20 or higher, we will see messages with the type `WARNING` and with the type `INFO`. Implementing this, however, is quite cumbersome, because we keep having to refer to the `.value` of each level.
+
+One option is to also assign an additional `type` to the `Enum`:
+
+```python
+from enum import Enum
+
+class LoggingLevel(int, Enum):
+    INFO = 10
+    WARNING = 20
+    DEBUG = 30
+    ERROR = 40
+```
+
+By adding `int` as a type, we can directly use the logging levels as integers. This allows us to do the following:
+
+```python
+desired_level = 33
+
+[level for level in LoggingLevel if level <= desired_level]
+```
+
+Similarly, it also allows us to directly sort enumerations by value, print them as integers, add them to other integers, and anything you would be able to do with a regular `int`. Note that this can be very useful for strings as well. The Python standard library has standard types for string enums ([StrEnum](https://docs.python.org/3/library/enum.html#enum.StrEnum)) and int enums ([IntEnum](https://docs.python.org/3/library/enum.html#enum.IntEnum)).
+
+# How this works
+
+First, note that [there can only be one](https://en.wikipedia.org/wiki/Highlander_(film)) extra superclass, and the superclass always needs to come before the `Enum` type ("before" here is ambiguous, as the resolution order of superclasses is from back to front. I mean to say that the superclass that defines your values needs to be put _before_ `Enum` within the brackets.) The inner workings of this are quite complicated, but let's dive in.
+
+First, note that the subtype you assign to your enumeration of choice is used to _convert_ the actual values you write in your code, and does not constrain you to actually values of that specific type. That is, you can write this:
+
+```python
+from enum import Enum
+
+class MyEnum(str, Enum):
+    CAT = 1
+    DOG = "dog"
+    CLOWN = object()
+
+```
+
+The values assigned to these enum members are all passed to the initializer of the superclass your enumeration derives from. As we can see, they have all become strings:
+
+```python
+[x.value for x in MyEnum]
+['1', 'dog', '<object object at 0x1022e7d00>']
+```
+
+Thus, creating an enumeration with an additional superclass does not mean that the values you pass in are _required_ to be of that superclass, they just need to be able to be passed to the initializer of that type.
+
+Note that collisions between values after conversion will remove duplicates, because values need to be unique, so please be careful:
+
+```python
+from enum import Enum
+
+class MyEnum(int, Enum):
+    CAT = 1
+    DOG = 1.0
+    CLOWN = 0.333
+
+print(list(MyEnum))
+[<MyEnum.cat: 1>, <MyEnum.clown: 0>]  # NOTE: oh my
+```
+
+You can improve the situation somewhat by using the `@unique` decorator.
+
+```python
+from enum import Enum, unique
+
+@unique
+class MyEnum(int, Enum):
+    CAT = 1
+    DOG = 1.0
+    CLOWN = 0.333
+
+# Fails: ValueError: duplicate values found in <enum 'MyEnum'>: dog -> cat
+```
+
+# Enums with custom types
+
+This is where things get really difficult! One use case in which I again, really like to use enums, is by storing multiple sources of information in a single value.
+
+For example, consider an OpenAI model specification:
+
+```python
+from enum import Enum
+
+
+class OpenAIModel(Enum):
+    GPT35 = "gpt-3.5-turbo"
+    GPT4 = "gpt-4"
+
+```
+
+This is nice, and works! It allows us to map model enums to identifiers used by OpenAI itself. However, these models also have other characteristics: they have specific tokenizers, and have a maximum length, in tokens. For example, this limit is 8192 for `gpt-4`, and 16000 for `gpt-3.5-turbo` (see [here](https://openai.com/pricing)). What happens often, in practice, is that we create additional specs somewhere else that map from the enumeration members to these secondary characteristics:
+
+```python
+model_lengths: dict[OpenAIModel, int] = {OpenAIModel.GPT35: 16000, OpenAIModel.GPT4: 8192}
+model_tokenizer: dict[OpenAIModel, str] = {OpenAIModel.GPT35: "cl100k_base", OpenAIModel.GPT4: "cl100k_base"}
+```
+
+(p.s.: I know you can get the tokenizer name from `tiktoken`, but there's a good reason not to! Can you think of the reason?)
+
+If you know me, you probably know that I would love to turn this into a `dataclass`:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class GPTConfig:
+    length: int
+    identifier: str
+    tokenizer: str
+
+```
+
+We can now turn our enumeration into the following:
+
+```python
+from enum import Enum
+
+class OpenAIModel(Enum):
+    GPT35 = GPTConfig(length=16000, identifier="gpt-3.5-turbo", tokenizer="cl100k_base")
+    GPT4 = GPTConfig(length=8192, identifier="gpt-4", tokenizer="cl100k_base")
+
+```
+
+And... This works! We can now do things like:
+
+```python
+class OAIApiCaller:
+
+    @classmethod
+    def from_model(cls: type[OAIApiCaller], model: OpenAIModel) -> OAIApiCaller:
+        # Do some useful stuff.
+        # get the tokenizer, etc.
+        return cls(...)
+
+```
+
+Real nice! The astute reader, however, will have noticed that we actually didn't use the `OpenAIModel` as a superclass in the enumeration definition. Recall that the superclass of the enumeration is used to convert the values to the appropriate type. Simplistically, something like this:
+
+```python
+for item in enumeration:
+    item.value = enumeration.supertype(item.value)
+
+```
+
+So, if we would have chosen `OpenAIModel` as the supertype in our enumeration, we would, in fact, have done this.
+
+```python
+GPT35.value = GPTConfig(GPTConfig(length=16000, identifier="gpt-3.5-turbo", tokenizer="cl100k_base"))
+
+```
+
+This obviously doesn't work, and crashes using the really uninformative error:
+
+```
+TypeError: GPTConfig.__init__() missing 2 required positional arguments: 'model_identifier' and 'model_tokenizer'
+```
+
+This threw me for a loop, but in hindsight is quite obvious: the `GPTConfig` we assigned as a value to the enumeration member is used as the first argument in the initializer of `GPTConfig`, which doesn't work. 
+
+A really ugly workaround would be to just pass tuples, which corresponds to initializing using `*args`. This is ugly, don't do that.
+
+```python
+from enum import Enum
+     
+    class OpenAIModel(GPTConfig, Enum):
+        GPT35 = (16000, "gpt-3.5-turbo", "cl100k_base")
+        GPT4 = (8192, "gpt-4", "cl100k_base")
+
+OpenAIModel.GPT4
+OpenAIModel(length=8192, identifier='gpt-4', tokenizer='cl100k_base')
+```
+
+The real way to tackle this is using a metaclass, although I really question whether this is actually not stretching it beyond the realm of usability and into the realm of "correctness for correctness' sake". Let's dive into how this works! (Note: please strap in, this is going to be ugly.)
+
+```python
+from enum import Enum
+
+class OpenAIModel(GPTConfig, Enum):
+
+    def __new__(cls, *args):
+        obj = object.__new__(cls)
+        # Here, we assign the GPTConfig to the object
+        obj._value_ = args[0]
+
+        return obj
+
+    def __init__(self, config: GPTConfig) -> None:
+        self.tokenizer = config.tokenizer
+        self.identifier = config.identifier
+        self.tokenizer = config.tokenizer
+        # Or, although a bit more opaque, you could iterate over everything or something.
+    
+    GPT35 = GPTConfig(length=16000, identifier="gpt-3.5-turbo", tokenizer="cl100k_base")
+    GPT4 = GPTConfig(length=8192, identifier="gpt-4", tokenizer="cl100k_base")
+
+```
+
+What I think is happening here is that in `__new__`, we first create the object itself, and assign the `GPTConfig` itself as a `_value_`, which is a special variable used in the internal enum machinery. Afterwards, this `_value_`, is passed to the initializer of the `OpenAIModel` class, which can then be used to assign the correct fields.
+
+And, this works! We can now directly do stuff like:
+
+```python
+model = OpenAIModel.GPT35
+print(model.model_length)
+# 8192
+
+sorted(OpenAIModel, key=lambda x: x.model_length, reverse=True)
+isinstance(OpenAIModel, GPTConfig)
+# True
+
+```
+
+And also pass the enumeration members directly to functions that want to receive a `GPTConfig`. Ultimately, though, I am quite conflicted about this usage pattern. Very few Python programmers know that `__new__` exists, and instead think that `__init__` is the constructor. Coupled with the fact that making changes to `GPTConfig` also necessitates making changes to the `OpenAIModel` initializer makes me hesitant to recommend this option in practice. Ultimately, though, it might be the most correct option.
+
+Phew! That was a wrap again! I really enjoyed digging into how complicated such a small thing as an enumeration can be, and how "correctness" isn't necessarily better than just stretching definitions a tiny bit.
