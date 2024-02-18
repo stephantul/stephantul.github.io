@@ -1,0 +1,119 @@
+---
+layout: post
+title:  "TypeVars and Unions in python"
+date:   2024-02-28-00:00:00 +0000
+categories: python typing unions
+---
+
+This post will be about unions, `TypeVar`s, and about unions of types with a relevant common subtype (i.e., not `object`). 
+
+First, let's pretend we only have three types: `str`, `int`, and `float`. I'll define a function, and then show why some typing options work, and some don't, for a combination of these input arguments. To make everything a bit more interesting, I'll also create my own type, `PositiveInt`, which is an `int` that can only be `>= 0`.
+
+```python
+class PositiveInt(int):
+    # NOTE: this function is intentionally dumb
+    def f(self) -> int:
+        return 0
+
+```
+
+So, first let's start with a simple example: a function that repeats an item multiple times:
+
+```python
+All = int | str | float
+
+def repeat(x: All, n: int) -> list[All]:
+    return [x] * n
+
+repeat(10, 5)
+# [10, 10, 10, 10, 10]
+```
+
+If you check this using `mypy`, it works nicely! But there's actually something wrong here, which we can show using `reveal_type`.
+
+```python
+my_thing = 10
+reveal_type(my_thing)
+# note: Revealed type is "builtins.int"
+result = repeat(my_thing, 5)
+reveal_type(result)
+# note: Revealed type is "builtins.list[Union[builtins.int, builtins.str, builtins.float]]"
+
+```
+
+The revealed type of the first thing is `int`, but the second type has become `list[int | str | float]`! So, even though we just repeated an `int` 5 times and put the result into a list, our return type has been severely mangled. In fact, if we try to use it as an `int` later on, we'll get mypy errors:
+
+```python
+my_thing = 10
+result = repeat(my_thing, 5)
+squared = [x ** 2 for x in result]
+```
+
+This gives us `error: Unsupported operand types for ** ("str" and "int")  [operator]`, which is expected, because `**` is not implemented for `str` at all. 
+
+The solution here is to use what is known as a `TypeVar`. A `TypeVar` is pretty similar to a `Union`, in that it can represent a bunch of specific types, but it has the important caveat that a `TypeVar`, at a specific point in execution, represents one of the types it _can_ represent. A `Union`, as we saw above, always represents _all_ types it can represent. Let's try an example:
+
+```python
+from typing import TypeVar
+
+AllType = TypeVar("AllType", str, int, float)
+
+def repeat(x: AllType, n: int) -> list[AllType]:
+    return [x] * n
+
+my_thing = 10
+reveal_type(my_thing)
+# note: Revealed type is "builtins.int"
+result = repeat(my_thing, 5)
+reveal_type(result)
+# note: Revealed type is "builtins.list[builtins.int]"
+
+```
+
+Nice! The `TypeVar` knows that it got an `int` as an input, and should thus output a `list[int]`.
+
+Let's dive into how a `TypeVar` should be defined a bit more: a `TypeVar` takes a name, and either a single type to which it is _bound_, or two or more _constraints_. In the example above, we used three constraints. In simple terms, a bound type means that any subclass of the bound type is also allowed, while constraints allow you to specify whatever you want, but will coerce any subclasses of a constraint to the closest parent.
+
+We can test this by using a `PositiveInt` with the constraints specified above. As `PositiveInt` is an `int`, it should work if `int` is specified as bound, but not as a constraint. Using the `repeat` function from above:
+
+```python
+p = PositiveInt(10)
+reveal_type(p)
+# note: Revealed type is "PositiveInt"
+result = repeat(p, 10)
+reveal_type(result)
+# note: Revealed type is "builtins.list[builtins.int]"
+[x.f() for x in result]
+# error: "int" has no attribute "f"
+
+```
+
+So, as you can see, the mypy type checker accepts us passing a `PositiveInt`, but turns it into an `int` in the process. It therefore doesn't believe that members of `result` have a function `f`, even though they actually do (at run-time, they are all still `PositiveInts` of course.)
+
+One solution is adding `PositiveInt` as an additional constraint. This, of course, just solves the problem, but does leave a little bit of a bad taste in my mouth: it's patching the problem, not really solving it. Another option is using a `Union` type to bind to the `TypeVar`, which seems wild to me, but actually works.
+
+```python
+from typing import TypeVar
+
+AllTypesIWant = str | int | float
+AllType = TypeVar("AllType", bound=AllTypesIWant)
+
+def repeat(x: AllType, n: int) -> list[AllType]:
+    return [x] * n
+
+p = PositiveInt(10)
+reveal_type(p)
+# note: Revealed type is "PositiveInt"
+result = repeat(p, 10)
+reveal_type(result)
+# note: Revealed type is "builtins.list[PositiveInt]"
+[x.f() for x in result]
+# No error!
+
+o = object()
+result = repeat(o, 10)
+# Error: we are not allowed to put `object` into this function.
+# Nice!
+```
+
+So this works! We got the best of both worlds: a set of types that can be bound to the `TypeVar`, which correctly deals with subtypes.

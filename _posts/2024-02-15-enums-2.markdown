@@ -43,7 +43,7 @@ Similarly, it also allows us to directly sort enumerations by value, print them 
 
 # How this works
 
-First, note that [there can only be one](https://en.wikipedia.org/wiki/Highlander_(film)) extra superclass, and the superclass always needs to come before the `Enum` type ("before" here is ambiguous, as the method resolution order of superclasses is from back to front. I mean to say that the superclass that defines your values needs to be put _before_ `Enum` within the brackets.) The inner workings of this are quite complicated, but let's dive in.
+First, note that [there can only be one](https://en.wikipedia.org/wiki/Highlander_(film)) extra superclass, and the superclass always needs to come before the `Enum` type ("before" here is ambiguous, as the method resolution order of superclasses is from last to first. I mean to say that the superclass that defines your values needs to be put _before_ `Enum` within the brackets.) The inner workings of this are quite complicated, but let's dive in.
 
 First, note that the subtype you assign to your enumeration of choice is used to _convert_ the actual values you write in your code, and does not constrain you to actually specify values of that specific type. That is, you can write this:
 
@@ -143,7 +143,7 @@ class OpenAIModel(Enum):
 
 ```
 
-And... This also works! We can now do things like:
+This also works! We can now do things like:
 
 ```python
 class OAIApiCaller:
