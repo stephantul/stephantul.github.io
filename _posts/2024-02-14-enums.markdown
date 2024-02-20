@@ -112,7 +112,7 @@ get_data(dataset_type: DatasetType,
          dataset_split: DatasetSplit)
 ```
 
-Another advantage is that using enumerations (or `TypeVar`s, for that matter), force you to not create circular dependencies in your code. By using strings directly, it is possible, and very easy, in fact, to pass these strings around, up and down your program, and then pass it back out again. If you ever want to replace this string by an enumeration, you will be burned, and will have to probably refactor extensively.
+Another advantage is that using enumerations (or `NewType`s, for that matter), force you to not create circular dependencies in your code. By using strings directly, it is possible, and very easy, in fact, to pass these strings around, up and down your program, and then pass it back out again. If you ever want to replace this string by an enumeration, you will be burned, and will have to probably refactor extensively.
 
 A final advantage, and counterpoint to the above, is that enumerations don't force you to use them everywhere. Once a circular dependency is uncovered, you can just start using whatever `.value` you have, and start passing that around. It's not pretty, very ugly, in fact, but it greatly eases the burned of refactors. 
 
