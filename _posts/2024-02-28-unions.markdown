@@ -41,7 +41,7 @@ reveal_type(result)
 
 ```
 
-The revealed type of the first thing is `int`, but the second type has become `list[int | str | float]`! So, even though we just repeated an `int` 5 times and put the result into a list, our return type has been severely mangled. In fact, if we try to use it as an `int` later on, we'll get mypy errors:
+The revealed type of the input argument is `int`, but the return type has become `list[int | str | float]`! So, even though we just repeated an `int` 5 times and put the result into a list, our return type has been severely mangled. In fact, if we try to use it as an `int` later on, we'll get mypy errors:
 
 ```python
 my_thing = 10
@@ -51,7 +51,7 @@ squared = [x ** 2 for x in result]
 
 This gives us `error: Unsupported operand types for ** ("str" and "int")  [operator]`, which is expected, because `**` is not implemented for `str` at all. 
 
-The solution here is to use what is known as a `TypeVar`. A `TypeVar` is pretty similar to a `Union`, in that it can represent a bunch of specific types, but it has the important caveat that a `TypeVar`, at a specific point in execution, represents one of the types it _can_ represent. A `Union`, as we saw above, always represents _all_ types it can represent. Let's try an example:
+The solution here is to use what is known as a `TypeVar`. A `TypeVar` is pretty similar to a `Union`, in that it can represent a bunch of specific types, but it has the important caveat that a `TypeVar`, at a specific point in execution, represents only one of the types it _can_ represent. A `Union`, as we saw above, always represents _all_ types it can represent. Let's try an example:
 
 ```python
 from typing import TypeVar
@@ -72,7 +72,7 @@ reveal_type(result)
 
 Nice! The `TypeVar` knows that it got an `int` as an input, and should thus output a `list[int]`.
 
-Let's dive into how a `TypeVar` should be defined a bit more: a `TypeVar` takes a name, and either a single type to which it is _bound_, or two or more _constraints_. In the example above, we used three constraints. In simple terms, a bound type means that any subclass of the bound type is also allowed, while constraints allow you to specify whatever you want, but will coerce any subclasses of a constraint to the closest parent.
+Let's dive into how a `TypeVar` should be defined a bit more: a `TypeVar` takes a name, which should always be exactly equal to its variable name, and either a single type to which it is _bound_, or two or more _constraints_. In the example above, we used three constraints. In simple terms, a bound type means that any subclass of the bound type is also allowed, while constraints allow you to specify whatever you want, but will coerce any subclasses of a constraint to the closest parent.
 
 We can test this by using a `PositiveInt` with the constraints specified above. As `PositiveInt` is an `int`, it should work if `int` is specified as bound, but not as a constraint. Using the `repeat` function from above:
 
@@ -88,9 +88,9 @@ reveal_type(result)
 
 ```
 
-So, as you can see, the mypy type checker accepts us passing a `PositiveInt`, but turns it into an `int` in the process. It therefore doesn't believe that members of `result` have a function `f`, even though they actually do (at run-time, they are all still `PositiveInts` of course.)
+So, as you can see, the mypy type checker accepts us passing a `PositiveInt`, but turns it into an `int` in the process. It therefore doesn't believe that members of `result` have a function `f`, even though they actually do (at run-time, they are all still `PositiveInt`s of course.)
 
-One solution is adding `PositiveInt` as an additional constraint. This, of course, just solves the problem, but does leave a little bit of a bad taste in my mouth: it's patching the problem, not really solving it. Another option is using a `Union` type to bind to the `TypeVar`, which seems wild to me, but actually works.
+One solution is adding `PositiveInt` as an additional constraint. This, of course, would solve the problem, but does leave a little bit of a bad taste in my mouth: it's patching the problem, not really solving it. Another option is using a `Union` type to bind to the `TypeVar`, which seems wild to me, but actually works.
 
 ```python
 from typing import TypeVar
@@ -117,3 +117,38 @@ result = repeat(o, 10)
 ```
 
 So this works! We got the best of both worlds: a set of types that can be bound to the `TypeVar`, which correctly deals with subtypes.
+
+# Some caveats on the use of `TypeVar`
+
+A `TypeVar` as an input argument to a function only makes sense if it is only used in the output. So if you find yourself writing something like the following:
+
+```python
+def my_function(x: AllType) -> str:
+    return str(x)
+
+```
+
+You might be better off using a `Union` instead.
+
+A `TypeVar` is a nice way to type classmethods, which can be useful in alternative constructors, among other things:
+
+```python
+from __future__ import annotations
+
+from typing import Any, TypeVar
+
+
+T_ = TypeVar("T_", bound=MyClass)
+
+
+class MyClass:
+
+    @classmethod
+    def load_from_json(cls: type[T_], json_data: dict[str, Any]) -> T_:
+        return cls(**json_data)
+
+```
+
+If we were to type this classmethod using `MyClass` directly, we would run into trouble if we were ever to subclass `MyClass` somewhere. Since Python >= 3.11, `typing.Self` exists for exactly this purpose, making this pattern a bit redundant.
+
+I think it is very easy to over-use `TypeVar`. Because `TypeVar`s work in any context in which a `Union` also works, it is easy to get carried away, and use them gratuitously throughout your codebase. But, in my opinion, `TypeVar`s are quite difficult to parse and use directly. So, as always, try to find out the minimal use case for whatever you are doing, and only use things when they are absolutely necessary.

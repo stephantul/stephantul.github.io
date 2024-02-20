@@ -220,7 +220,7 @@ class OpenAIModel(GPTConfig, Enum):
 
 What is happening here is that in `__new__`, we first create the object itself, and assign the `GPTConfig` itself as a `_value_`, which is a special variable used in the internal enum machinery. Afterwards, this `_value_`, is passed to the initializer of the `OpenAIModel` class, which can then be used to assign the correct fields.
 
-And, this works! We can now directly do stuff like:
+This, again, works! We can now directly do stuff like:
 
 ```python
 model = OpenAIModel.GPT35
