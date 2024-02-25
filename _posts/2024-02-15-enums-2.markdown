@@ -209,7 +209,7 @@ class OpenAIModel(GPTConfig, Enum):
     def __init__(self, config: GPTConfig) -> None:
         self.tokenizer = config.tokenizer
         self.identifier = config.identifier
-        self.tokenizer = config.tokenizer
+        self.length = config.length
         # Or, although a bit more opaque, you could iterate over every field using `__getattr__` or something. 
         # Please don't 🙏🙏🙏
     
