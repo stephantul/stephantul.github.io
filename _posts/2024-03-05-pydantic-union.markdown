@@ -208,4 +208,8 @@ Model2.model_validate({"a": None})
 
 The reasoning behind this is probaly that `str | None` means that we either specify a string, or don't specify anything (i.e., the field is optional). `None` is also a singleton value in python, which makes it easy to work with and check for.
 
+# A leaky abstraction
+
+This is an example of of a [leaky abstraction](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/). Basically, it is possible to use `pydantic` for years, and just use them while not caring about precedence in unions, or even knowing that there is precedence. This is exactly what happened to me, and prompted me to write this puzzle. 
+
 And that's it! I hope you enjoyed this puzzle and learned something useful.
