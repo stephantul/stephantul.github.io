@@ -50,7 +50,7 @@ We expected both of them to be parsed as lists of dictionaries, but that's not w
 
 # Solution
 
-Now, the solution! But, I wouldn't be me if I first tried to explain what was going on. As seen above, `pydantic` models allow you to specify union types as types for your attributes. As `pydantic` also allows you to automatically parse incoming data, this presents a little bit of an issue, because it could be that a given incoming value is valid for all subtypes of whatever union type you have.
+Now, the solution! But, of course, I wouldn't be me if I first tried to explain what was going on. As seen above, `pydantic` models allow you to specify union types as types for your attributes. As `pydantic` also allows you to automatically parse incoming data, this presents a little bit of an issue, because it could be that a given incoming value is valid for all subtypes of whatever union type you have.
 
 Here's an example:
 
@@ -72,7 +72,7 @@ MyModel.model_validate({"x": 10})
 
 ```
 
-This is, again, weird! Somehow, despite us using an integer, and one of the types literally being an integer, this integer gets parsed into a string. By now it might be obvious what is happening: for a given union type, pydantic processes every subtype of the union from left to right, and simply uses the first type fits. This algorithm is shown below in extremely ugly pseudo-code:
+This is, again, weird! Somehow, despite us using an integer, and one of the types literally being an integer, this integer gets parsed into a string. By now it might be obvious what is happening: for a given union type, pydantic processes every subtype of the union from left to right, and simply uses the first type that works. This algorithm is shown below in extremely roguish pseudo-code:
 
 ```python
 def parse_data_with_union(data: Any, union: list[type]):
@@ -86,9 +86,9 @@ def parse_data_with_union(data: Any, union: list[type]):
 
 ```
 
-I foolishly assumed that, for a given union, pydantic would try all options, and pick the best one, using type hierarchies or something. 
+I foolishly assumed that, for a given union, pydantic would try all options, and pick the best one, using type hierarchies, or some validity metric.
 
-So, to be overly verbose, in the example above, the model first tries to coerce the data to `str`, and only if this fails, will it try to parse it as `int`. Because any `int` can also be turned into a `str`, we never actually parse anything as an `int`. The solution here is therefore obvious: reorder your types! 
+So, to perhaps be overly verbose, in the example above, the model first tries to coerce the data to `str`, and only if this fails, will it try to parse it as `int`. Because any `int` can also be turned into a `str`, we never actually parse anything as an `int`. The solution here is therefore obvious. Simply reorder your types:
 
 ```python
 from pydantic import BaseModel
@@ -123,7 +123,7 @@ dict([("a", "b")])
 
 ```
 
-What is interesting, to me, is that this is an extremely subtle bug: this model could be used in a production API or queue for years, and work correctly for lists of dictionaries with fewer than or more than 2 keys. But if we somehow changed our datamodel, far in the future, so that dictionaries with exactly 2 keys were ingested, we would suddenly find ourselves with a misbehaving pydantic model: a model that parses the data, but produces an incorrect result. None of this is, of course, the fault of the pydantic developers. 
+What is interesting, to me, is that this behavior leads to an extremely subtle bug: this model could be used in a production API or queue for years, and work correctly for lists of dictionaries with fewer than or more than 2 keys. But if we somehow changed our datamodel, far in the future, so that dictionaries with exactly 2 keys were ingested, we would suddenly find ourselves with a misbehaving pydantic model: a model that parses the data, but produces an incorrect result. 
 
 # Similar issues
 
