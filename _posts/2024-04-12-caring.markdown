@@ -1,0 +1,7 @@
+---
+layout: post
+title:  "To care for others, you must first take care of yourself"
+date:   2024-03-02-00:00:00 +0000
+categories: culture refactoring
+---
+
