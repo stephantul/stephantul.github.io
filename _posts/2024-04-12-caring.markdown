@@ -5,3 +5,8 @@ date:   2024-03-02-00:00:00 +0000
 categories: culture refactoring
 ---
 
+A familiar utterance, uttered in a startup, somewhere: "We only do make what the customer needs". A variation: "Customer success is our only north star". Another: "We work for the customer. Any work not benefitting the customer is lost".
+
+If you have spent time near a startup environment, I'm sure you've heard sentences like these uttered before, and for good reason. Customers, and their satisfaction with your product, are what ultimately drives growth and allows startups or other companies to keep on existing, fulfilling their mission of ~making their shareholders a lot of money~ democratizing the future of $THING.
+
+I think that these statements about customers are interesting for a few reasons, but mostly because they imply that it is not worth spending time on things that do not directly, and _measurably_, benefit the customer. The statement "We only work for the customer" can therefore be used as a kind of invocation, a [power word kill](https://www.dndbeyond.com/spells/power-word-kill), on anything that the customer doesn't directly see.
