@@ -1,0 +1,124 @@
+---
+layout: post
+title:  "NewType in python"
+date:   2024-04-08-00:00:00 +0000
+categories: python typing
+---
+
+New week, new post! This post is about `NewType`, an underused construct in Python, in my opinion, and a good way to show the difference between _typingtime_ and _runtime_. 
+
+In short, a `NewType` is a type you can create, but which only exists for `mypy` and other type checkers. In other words, a `NewType` does not exist during runtime, and only matters when type checking. Here's an example:
+
+```python
+from typing import NewType
+
+PhoneNumber = NewType("PhoneNumber", str)
+my_number = PhoneNumber("04 1234 5678")
+
+reveal_type(my_number)
+print(f"My type is: {type(my_number)}")
+```
+
+First, let's dive into how a `NewType` is defined. A `NewType` takes 2 arguments. Just as was the case with a `TypeVar`, the first argument has to be the same string as the one you assign the `NewType` to. The second argument is a single type, which is the type the `NewType` will get at runtime.
+
+If we type check this code, it will give use the following result:
+
+```
+note: Revealed type is "PhoneNumber"
+```
+
+but when actually running the code, we get the following result:
+
+```
+My type is: <class 'str'>
+```
+
+This is interesting! So, like I said before, a `NewType` is its own type when type checking, but not during runtime. Hence, defining a `NewType` does not change anything about your code. In fact, if you don't ever type check your code, the defined `NewType`s are invisible (except for the fact that they also signal intent.)
+
+# Uses for `NewType`
+
+If `NewType` is functionally inert, why use it? In this section I'll briefly discuss some use-cases and one anti-use-case.
+
+## Guard rails
+
+As written before in the great blog by Jakub Beránek, [Writing Python like it's Rust](https://kobzol.github.io/rust/python/2023/05/20/writing-python-like-its-rust.html), you can use `NewType` to guard against switching up arguments:
+
+```python
+from typing import NewType
+
+FirstName = NewType("FirstName", str)
+LastName = NewType("LastName", str)
+
+
+def get_person_id_from_db(first_name: FirstName, last_name: LastName) -> str:
+    ...
+
+```
+
+As you can see, using `NewType` here makes it impossible to accidentally switch up first names and last names when calling this function. As an anecdote: I once completely missed that Python's `re.sub` implementation has the following argument order:
+
+* pattern: the pattern to look for
+* repl: the thing to replace pattern with
+* string: the string in which to replace pattern with repl
+
+I accidentally switched up the "repl" and "string" arguments, which meant that I was replacing all strings with whatever value "repl" had. Because I was just passing in really small strings in which I was replacing digits, I didn't actually see what was happening. Having a `NewType`-based implementation here makes this impossible.
+
+Similarly, consider the fact that `numpy.save` and `json.dump` don't have the same argument order. In `numpy.save`, the file is the first argument, and the thing you want to save the second. In `json.dump`, however, the thing you want to save comes before the file path. Regardless of whichever you think is more logical, it is easy to do it wrong if you work in codebases in which you use both.
+
+## Clarifying intent
+
+Even if it is not possible to mix up argument types, simply because the arguments all have different, incompatible, types, it can still be useful to involve `NewType`s to clarify what the semantic content of the arguments is. I especially think this is useful when using return types. Consider the following:
+
+```python
+def get_customer_id(first_name: str, last_name: str) -> str:
+    ...
+
+
+def get_customer_information(customer_id: str) -> tuple[str, str]:
+    ...
+
+```
+
+And now consider the following:
+
+```python
+from typing import NewType
+
+FirstName = NewType("FirstName", str)
+LastName = NewType("LastName", str)
+CustomerId = NewType("CustomerId", str)
+
+
+def get_customer_id(first_name: FirstName, last_name: LastName) -> CustomerId:
+    ...
+
+
+def get_customer_information(customer_id: CustomerId) -> tuple[FirstName, LastName]:
+    ...
+
+```
+
+While this is a bit of a convoluted example (I would normally not return a `tuple` of strings, but a `dataclass`), I think it drives home that these methods are each other's dual, in a way that a regularly typed codebase wouldn't.
+
+## Downsides
+
+A big downside of using `NewType` is cognitive overhead: if the types are defined far away from the place where they are used, it might be difficult to understand that what we are actually using `NewType` in the first place. Unsuspecting programmers might be misled, and think that the types need to be converted to be used, which can lead to redundant `cast`, uses of `Any`, etc.
+
+One way to circumvent this issue is to be very strict about only defining `NewType`s in the same file as where they are used. If you use the same `NewType` in multiple places, you are probably better off just redefining it to reduce the surface of interaction between different parts of your codebase. Converting between `NewType`s is practically free anyway:
+
+```python
+from codebase.part1 import PhoneNumber
+from codebase.part2 import PhoneNumber as OtherPhoneNumber
+
+
+def call_number(number: PhoneNumber) -> None:
+    ...
+
+
+number = OtherPhoneNumber("04 1234 5678")
+
+call_number(PhoneNumber(number))
+
+```
+
+While this looks messy, the alternative is even messier: it would require you to tie together two disparate parts of your codebase for a type that is functionally inert. Typing is useful, but it should not lead you to create dependencies between otherwise independent pieces of code, which seems to me like putting the cart before the horse.
