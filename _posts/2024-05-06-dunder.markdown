@@ -1,0 +1,82 @@
+---
+layout: post
+title:  "GTDunder is not implemented for Any"
+date:   2024-05-06-00:00:00 +0000
+categories: python typing
+---
+
+I recently ran mypy on our entire codebase, and ran into the following error:
+
+```
+GTDunder is not implemented for Any
+```
+
+mypy pointed towards a line containing a `sorted` call, like the following:
+
+
+```python
+sorted(documents, key=lambda x: x['word_count'])
+```
+
+Imagine "documents" being a list of dictionaries. Each dictionary has a key `word_count`, which contains an integer. I was sure of this, and I was also sure this code actually worked.
+In this short note, I'll explain what causes this error, and how you can make it go away. To properly explain what is happening, we'll first have to dive into dunder methods.
+
+# Dunder methods
+
+In Python, _dunder methods_ (or dunders for short) are functions whose name are pre- and post-fixed by two underscores. Examples of dunders you might have seen are `__init__`, `__add__`, `__len__`, `__repr__` or `__iter__`. While the functionality and purpose of every dunder is completely different, they share a common theme: they are never called directly. Instead, dunders implement functionality that you want to be executed when a specific operator is used with an object.
+
+For example, the following things all call dunder methods from their specific implementations. 
+
+```python
+str([1, 2, 3])
+[1, 2, 3].__str__()
+
+len([1, 2, 3])
+[1, 2, 3].__len__()
+
+[1, 2, 3] + [4, 5, 6]
+[1, 2, 3].__add__([4, 5, 6])
+
+# Calls list.__iter__
+iter([1, 2, 3])
+for x in [1, 2, 3]:
+    ...
+
+```
+
+Note that some of these functions take a single argument, others take multiple ones. The way this works is that the first argument, as always, is an implicit `self`. So `list.__len__()` takes no arguments, because it implicitly uses `self`.
+
+After this, I think you get the gist: dunders are powerful tools for adding functionality to classes while still using familiar python operators such as `len`, `+`, and so on.
+
+Now that we have (hopefully) slightly demystified what the word dunder actually means, we can start decoding what the above error message means. As it turns out, there is a dunder called `__gt__`, which determines the behavior of the `>` operator.
+
+```python
+x = 10
+y = 15
+x > y
+# is equal to
+x.__gt__(y)
+
+```
+
+`GTDunder` is the name mypy assigns to `__gt__`. It would be less confusing if the error message just had read `__gt__ is not implemented for Any`, but whatever. So, what is happening under the hood is that `sorted` uses `>` or `__gt__` to sort your items. 
+
+Let's return to the statement that led to mypy complaints:
+
+```python
+sorted(documents, key=lambda x: x['word_count'])
+```
+
+What is happening here is that the effective type of `documents` is something like `list[dict[str, Any]]`. The lambda key function takes a value from a dictionary, which we typed as `Any`. As `Any` doesn't implement `__gt__`, mypy throws the error above. 
+
+## The solution 
+
+The annoying part about this blog post is that there is no easy way to fix this issue. The author of the code (*ahem*, me), should have used a more strongly typed alternative, such as a structured object, pydantic BaseModel, or dataclass. As a quick hack, you can `cast` the item to whatever type you want it to be.
+
+```python
+from typing import cast
+
+sorted(documents, key=lambda x: cast(x['word_count'], int))
+```
+
+Or you can always just `# type: ignore` your way to mypy bliss.
