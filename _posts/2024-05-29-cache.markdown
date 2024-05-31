@@ -5,7 +5,7 @@ date:   2024-05-29-00:00:00 +0000
 categories: python typing
 ---
 
-Caching or [memoization](https://en.wikipedia.org/wiki/Memoization) a useful way to speed up repeated calls to expensive, [pure](https://en.wikipedia.org/wiki/Pure_function), functions. Instead of re-calculating the result of a function on each call, we simply return the result of the previous call with the same parameters from a cache.
+Caching, or [memoization](https://en.wikipedia.org/wiki/Memoization), is a useful way to speed up repeated calls to expensive, [pure](https://en.wikipedia.org/wiki/Pure_function), functions. When calling a function, we save the output, using the parameters of the function as a key to the cache. Then, instead of re-calculating the result of a function on each call, we simply return the value that was stored in the cache.
 
 ```python
 from functools import cache
@@ -26,7 +26,7 @@ In this post, I'll show you how to remedy this issue, while also conceding that 
 
 ## Typing a caching function
 
-In terms of typing, the `cache` decorator can take anything as an input argument (In practice, your input arguments need to be hashable, but there is easy way to represent this in typing (no, not `Hashable`)). To illustrate what I mean, here is what a simple caching decorator looks like:
+In terms of typing, the `cache` decorator can take anything as an input argument (In practice, your input arguments need to be hashable, but there is easy way to represent this in typing (no, not `Hashable`)). To illustrate what I mean, here is what a simple caching decorator could look like:
 
 ```python
 from typing import Callable, Any
@@ -39,9 +39,10 @@ def cache(function: Callable) -> Callable[..., Any]:
         return function(*args, **kwargs)
 
     return cached_function
+
 ```
 
-Recall that a decorator is actually nothing more than a function applied to a function, so in the example below `square` and `square_2` are equivalent.
+Recall that a decorator is actually nothing more than a function applied to a function, so in the example below `square` and `square_2` are equivalent:
 
 ```python
 
@@ -49,13 +50,13 @@ Recall that a decorator is actually nothing more than a function applied to a fu
 def square(x: int) -> int:
     return x ** 2
 
-def _square() -> int:
+def _square(x: int) -> int:
     return x ** 2
 
 square_2 = cache(_square)
 ```
 
-So, we simply apply `cache` to a function, which returns `cached_function`. The inner caching function, as you can see, has to have `*args` and `**kwargs` as its only arguments. Thus, if we want to get type hints, we can't. We can pass anything to `my_func`, and `mypy` will never complain. It doesn't even know how many arguments `foo` has.
+So, we simply apply `cache` to a function, which returns `cached_function`. The inner caching function, as you can see, has to have `*args` and `**kwargs` as its only arguments. Thus, any type hints that we had on our _original_ function, in effect, disappear. We can pass anything to `my_func`, and `mypy` will never complain. It doesn't even know how many arguments `square` has.
 
 ```python
 square(3, 5, 12)  # Passes mypy
@@ -67,6 +68,8 @@ Another issue is that, at least for VSCode, any hints you might have gotten duri
 
 ```python
 result = square(3)
+reveal_type(square)
+# note: Revealed type is "functools._lru_cache_wrapper[builtins.int]
 reveal_type(result)
 # note: Revealed type is "builtins.str"
 
@@ -74,9 +77,9 @@ reveal_type(result)
 
 ## First solutions
 
-First, a fair warning: the solutions I'll present below are all quite verbose, and should not be considered if you don't like writing code just to conform to `mypy`. The context in which I used the solutions below was a piece of code which was quite difficult to test because of some build process, so I was willing to write some extra code to get a better  of correctness before starting the build step. If you have really short feedback loops, you might get very little value out of this.
+First, a fair warning: the solutions I'll present below are all quite verbose, and should not be considered if you don't like writing code just to conform to `mypy`. The context in which I used the solutions below was a piece of code which was quite difficult to test because of a really long build process, so I was willing to write some extra code to get a better sense of correctness before starting the build step. If you have really short feedback loops, you might get very little value out of this.
 
-A simple first solution is just to type the resulting function. This only works if you don't use `cache` as a decorator.
+A simple first solution is just to type the resulting function. This only works if you don't use `cache` as a decorator, but just apply it to a function.
 
 ```python
 from functools import cache
@@ -93,12 +96,12 @@ repeat_string(15, 5)  # Incorrect
 
 ```
 
-So, we can see that our function correctly detects our arguments, which a big step up from what we had before. We can now safely use cached functions. One issue, however, is that the typing on our function does not have a notion of keyword arguments. This has two consequences:
+So, we can see that our function correctly detects our arguments, which a big step up from what we had before: we can now safely use cached functions. One issue, however, is that the typing on our function does not have a notion of keyword arguments. This has two consequences:
 
 1. We don't see any argument names while typing in our IDE (i.e., the box that pops over your function when you are typing the definition.)
-2. Mypy will complain if you use keyword arguments
+2. Mypy will complain if you use keyword arguments.
 
-I can't show the former, but I can show the latter, so:
+I can't show the former, but I _can_ show the latter, so:
 
 ```python
 repeat_string(x="dog", y=3)  
@@ -107,11 +110,11 @@ repeat_string(x="dog", y=3)
 
 ```
 
-Again, note that this actually works, but just doesn't pass mypy. We're deep in the astral realm of typing, in which things work but aren't correct.
+Again, note that this actually works, but just doesn't pass mypy. We're deep in the astral realm of typing, in which things work but aren't astrally aligned.
 
 The reason using `Callable` is insufficient is because callable arguments are anonymous, and can thus only represent positional arguments. An improvement would be to use what is known as a [`Protocol`](https://docs.python.org/3/library/typing.html#protocols). A `Protocol` is exactly meant to do what a plain `Callable` can't do: it can represent a function with keyword arguments, and even `*args` and `**kwargs`.
 
-Here's what the `Protocol` for the function above would look like:
+Here's what the `Protocol` for the function above could look like:
 
 ```python
 from typing import Protocol
@@ -131,7 +134,7 @@ This passes mypy and gives you nice hints in your editor.
 
 ## Does a general solution exist?
 
-As it turns out, there is a general solution for this issue: a [`ParamSpec`](https://peps.python.org/pep-0612/), i.e., a Parameter Specification Variable. The best way to think of this is that a `ParamSpec` is like a `TypeVar`, but for function arguments. The nice thing is that `ParamSpec` even works for variadic (i.e., variable in length) functions. Unfortunately for us, using a `ParamSpec` is not available to replace the built-in `cache`, because a `ParamSpec` needs to be inserted into the function signature of the callable. So, unlike the solution above, you won't be able to apply this to the `functools.cache` function directly without redefining something.
+As it turns out, there is a general solution for this issue: a [`ParamSpec`](https://peps.python.org/pep-0612/), i.e., a Parameter Specification Variable. The best way to think of this is that a `ParamSpec` is like a `TypeVar`, but for function arguments. The nice thing is that `ParamSpec` even works for variadic (i.e., variable in length) functions. Unfortunately for us, using a `ParamSpec` is not available to replace the built-in `cache`, because a `ParamSpec` needs to be inserted into the function signature of the callable. So, unlike the solution above, you won't be able to apply this to `functools.cache` directly without redefining something.
 
 Nevertheless, here is how you could do it for your own decorators, using a dummy `cache` as an example:
 
