@@ -1,0 +1,100 @@
+---
+layout: post
+title:  "String casing in python"
+date:   2024-09-01-00:00:00 +0000
+categories: python unicode
+---
+
+Below are two ways to check if a string is lower-cased in Python.
+
+```python
+x = "Dog"
+# Method A
+x.lower() == x
+# Method B
+x.islower()
+
+```
+
+I use method A, I guess it's an idiom I picked up when learning Python. In fact, I didn't even know B existed until a couple of days ago (shame on me!). Upon learning of the existence of B, I replaced A with B across a codebase I happened to be working on. But then, all of a sudden, one of my unit tests started failing 😱.
+
+So, what was going on? As it turns out, the methods, even though they seem similar, represent a completely different way of thinking about what it means for a string to be lower- or uppercase.
+
+# Preliminaries
+
+First, let's establish that, for a given string, it is lowercase if all characters in the string are lowercase. That is, for the sake of our argument below, it doesn't really matter whether we are talking about words (strings of len >= 1) or characters (string of len 1), the reasoning stays the same.
+
+# Interlude
+
+Did you know letter casing is named after the way in which letters were stored? The capitals were usually stored above their regular counterparts. See [here](https://en.m.wikipedia.org/wiki/Letter_case).
+
+# Natural letters
+
+For people who were taught a language in the [Latin Script](https://en.m.wikipedia.org/wiki/Latin_script), which is the collection of letters in which you are reading this very article, the distinction between lower- and uppercase is a natural one. Every letter has a variant, which is its Capital letter, i.e., "A" belongs to "a", they sound the same, are used in the same words, etc. 
+
+If you look at the sentence before, you might have noticed that I described the uppercase version of the letter as a _variant_, which, by analogy, implies that the lowercase letter is the canonical (or "normal") version of the letter. I firmly believe that this is something that we are implicitly taught: lowercase letters are what we think of as the "natural" version of a letter. 
+
+Besides my handwavy argument, I think you can see it in the way we write our code: if we want to ignore letter casing (or normalize), we always lowercase, never and uppercase. writing in all lowercase is fine (cool, even), but WRITING IN ALL UPPERCASE IS SHOUTING.
+
+A corrolary of the above, which is really the crux of the issue, is that if you consider a lowercase character to be the "natural" variant of a character, then even characters _without an uppercase variant_ should be called lowercased.
+
+And this, dear readers, is exactly the difference between methods A and B above. `str.islower()` returns `False` if there is no upper case version of the letter. `x == x.lower()` will return `True`, even if there is no uppercase variant, because `x.lower()` and `x.upper()` will happily return the unmodified string even without these things existing.
+
+So, where I first assumed that both methods above had the same assumptions, they actually don't at all. The algorithm behind `islower()` is a bit like the following:
+
+```python
+def islower(x: str) -> bool:
+    if x.upper() == x.lower():
+        return False
+    return x.lower() == x
+
+```
+
+In other words, if the uppercase and lowercase version of the character have the same codepoint, then it doesn't make sense to consider the string to be either lower- or uppercase. It is neither.
+
+`islower` thus challenges the assumption that I implicitly carried with me, and which I have because I was taught in the Latin script. A character _can_ be neither lower nor uppercase, or it _can_ be both (law of excluded middle or law of non-contradiction, pick one (or both)). Look at the following code:
+
+```python
+assert not x.isupper() != x.islower()
+```
+
+This does not hold for all strings. Isn't that strange? It is to me!
+
+Besides challenging my assumptions, this makes `islower` far less useful than I want it to be. I usually want to use `islower` to tell me whether all words in a set are not uppercased. I do this to determine whether I can safely lowercase all incoming strings and still find all words in that string in my vocabulary. Using `islower` for this purpose is simply wrong.
+
+By the way: if you think we need to go out of ASCII to see this effect, you are wrong. `0` doesn't have a lower-case variant:
+
+```python
+assert "0".upper() == "0".lower()
+# Doesn't raise
+```
+
+In fact, of all 128 ASCII characters, only 52 (quelle surprise!) distinguish between upper- and lowercase. Of the first 100k unicode codepoints, only 2859 (!) distinguish between upper- and lowercase.
+
+# Conclusion
+
+I think this is a typical example of an Anglocentric bias in my own thinking, and also perhaps in the way we code our letters in computer systems. Clearly, the vast majority of writing systems in the world do not have a concept of casing, or don't need one.
+
+That was the post! I hoped you enjoyed reading it!
+
+# Addendum: speed test
+
+Just for fun, here's some speed tests. I assumed that `islower()` would always be faster. I make random strings of lengths 10, 100, 1000 and 10000, and check using both methods.
+
+```python
+from typing import Callable
+
+def test_method(callable: Callable[[str], bool], strings: list[str]):
+    [callable(string) for string in strings]
+
+for x in [10, 100, 1000, 10_000]:
+    strings = s = "".join([chr(randint(0, 128)) for x in range(x)])
+    strings_upper = [x.upper() for x in strings]
+    strings_lower = [x.lower() for x in strings]
+
+    %timeit test_method(str.islower, strings)
+    %timeit test_method(lambda x: x == x.lower(), strings)
+
+```
+
+As it turns out, `islower` is indeed always faster than the method in which we explicitly lower.
