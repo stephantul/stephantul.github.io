@@ -34,7 +34,7 @@ For people who were taught a language in the [Latin Script](https://en.m.wikiped
 
 If you look at the sentence before, you might have noticed that I described the uppercase version of the letter as a _variant_, which, by analogy, implies that the lowercase letter is the canonical (or "normal") version of the letter. I firmly believe that this is something that we are implicitly taught: lowercase letters are what we think of as the "natural" version of a letter. 
 
-Besides my handwavy argument, I think you can see it in the way we write our code: if we want to ignore letter casing (or normalize), we always lowercase, never and uppercase. writing in all lowercase is fine (cool, even), but WRITING IN ALL UPPERCASE IS SHOUTING.
+Besides my handwavy argument, I think you can see it in the way we write our code: if we want to ignore letter casing (or normalize), we always lowercase, never uppercase. writing in all lowercase is fine (cool, even), but WRITING IN ALL UPPERCASE IS SHOUTING.
 
 A corrolary of the above, which is really the crux of the issue, is that if you consider a lowercase character to be the "natural" variant of a character, then even characters _without an uppercase variant_ should be called lowercased.
 
@@ -52,17 +52,18 @@ def islower(x: str) -> bool:
 
 In other words, if the uppercase and lowercase version of the character have the same codepoint, then it doesn't make sense to consider the string to be either lower- or uppercase. It is neither.
 
-`islower` thus challenges the assumption that I implicitly carried with me, and which I have because I was taught in the Latin script. A character _can_ be neither lower nor uppercase, or it _can_ be both (law of excluded middle or law of non-contradiction, pick one (or both)). Look at the following code:
+`islower` thus challenges the assumption that I implicitly have, and which I have because I was taught in the Latin script. A character _can_ be neither lower nor uppercase, or it _can_ be both (law of excluded middle or law of non-contradiction, pick one (or both)). Look at the following code:
 
 ```python
-assert not x.isupper() != x.islower()
+assert not x.isupper() == x.islower()
+
 ```
 
 This does not hold for all strings. Isn't that strange? It is to me!
 
-Besides challenging my assumptions, this makes `islower` far less useful than I want it to be. I usually want to use `islower` to tell me whether all words in a set are not uppercased. I do this to determine whether I can safely lowercase all incoming strings and still find all words in that string in my vocabulary. Using `islower` for this purpose is simply wrong.
+Besides challenging my assumptions, this makes `islower` far less useful than I want it to be. I usually want to use `islower` to tell me whether all words in a vocabulary (for an NLP model) are not uppercased. I do this to determine whether I can safely lowercase all incoming strings and still find all words in that string in my vocabulary. Using `islower` for this purpose is simply wrong.
 
-By the way: if you think we need to go out of ASCII to see this effect, you are wrong. `0` doesn't have a lower-case variant:
+By the way: if you think we need to go out of ASCII to see this happen, you are wrong. `0` doesn't have a lower-case variant:
 
 ```python
 assert "0".upper() == "0".lower()
