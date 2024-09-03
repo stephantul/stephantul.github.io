@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "String casing in python"
-date:   2024-09-01-00:00:00 +0000
+date:   2024-09-03-00:00:00 +0000
 categories: python unicode
 ---
 
@@ -50,7 +50,7 @@ def islower(x: str) -> bool:
 
 ```
 
-In other words, if the uppercase and lowercase version of the character have the same codepoint, then it doesn't make sense to consider the string to be either lower- or uppercase. It is neither.
+In other words, if the uppercase and lowercase version of the character have the same codepoint, then it doesn't make sense to consider the string to be either lower- or uppercase. It is neither. Note that the `if` statement is a stand-in for a missing `has_case` function, which is absent from `string`.
 
 `islower` thus challenges the assumption that I implicitly have, and which I have because I was taught in the Latin script. A character _can_ be neither lower nor uppercase, or _both_ (law of excluded middle or law of non-contradiction, pick one (or both)). Look at the following code:
 
@@ -74,7 +74,7 @@ In fact, of all 128 ASCII characters, only 52 (quelle surprise!) distinguish bet
 
 # Conclusion
 
-I think this is a typical example of an Anglocentric bias in my own thinking, and also perhaps in the way we code our letters in computer systems. Clearly, the vast majority of writing systems in the world do not have a concept of casing, or don't need one.
+I think this is a typical example of an Anglocentric bias in my own thinking, and also perhaps in the way we code our letters in computer systems. Clearly, the vast majority of writing systems in the world do not have a concept of casing, or don't need one. As a bonus, see [here](https://chatgpt.com/share/fedd4787-dd63-416f-a4b8-27bde923cb9a) for an amusing conversation with chatgpt where it makes exactly the same mistake I made.
 
 That was the post! I hoped you enjoyed reading it!
 
