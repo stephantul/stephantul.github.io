@@ -56,7 +56,7 @@ mapping = create_char_map()
 
 string = "ãģĬåķıãģĦåĲĪãĤıãģĽãģıãģłãģķãģĦ"
 remapped = bytes([mapping[char] for char in string])
-decoded_string = string.decode("utf-8")
+decoded_string = remapped.decode("utf-8")
 
 expected = "お問い合わせください"
 assert expected == decoded_string
