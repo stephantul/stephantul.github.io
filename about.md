@@ -3,7 +3,7 @@ layout: page
 permalink: /about/
 ---
 
-Hi! 👋, I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](stephan.tul+github@gmail.com).
+Hi! 👋, I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](mailto:stephan.tul+github@gmail.com).
 
 ## Personal
 
@@ -17,9 +17,11 @@ Hi! 👋, I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to 
 
 ## Jobs
 
-I am currently working as a Senior NLP/Machine Learning Engineer at [Metamaze](https://www.metamaze.eu). I work on a lot of projects related to generative AI, mostly related to the core business of Metamaze, which is automated document processing.
+Right now, I work at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. I am tech lead on the Intent Recognition pipeline, which is the classifier that runs on any query being entered into Ecosia search.
 
-Before that, I worked as a Data Scientist at [Dataprovider.com](https://www.dataprovider.com). I work on a variety of AI projects, mostly to do with Information Retrieval-like tasks.
+Before that, I worked as a Senior NLP/Machine Learning Engineer at [Metamaze](https://www.metamaze.eu). I work on a lot of projects related to generative AI, mostly related to the core business of Metamaze, which is automated document processing.
+
+Some time ago, I worked as a Data Scientist at [Dataprovider.com](https://www.dataprovider.com). I work on a variety of AI projects, mostly to do with Information Retrieval-like tasks.
 
 Even longer ago, a machine learning engineer at [Slimmer A.I.](https://www.slimmer.ai). I specifically focused on  analyzing scientific text within the publishing process.
 
