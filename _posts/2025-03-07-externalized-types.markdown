@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Exposing string types for your users' happiness"
-date:   2024-07-03-00:00:00 +0000
+date:   2025-03-07-00:00:00 +0000
 categories: python typing
 ---
 
