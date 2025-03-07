@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Exposing string types for your users' happiness"
+title:  "Exposing string types to maximize user happiness"
 date:   2025-03-07-00:00:00 +0000
 categories: python typing
 ---
