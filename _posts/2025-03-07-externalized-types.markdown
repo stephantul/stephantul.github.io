@@ -39,6 +39,24 @@ The string members are important! When moving to an `Enum`, `language` will get 
 language: Language | str
 ```
 
+Addendum: note that you can also use a `StrEnum` or an `Enum` with `auto`, like so:
+
+```python
+from enum import StrEnum, auto
+
+# All members are _also_ strings.
+class Language(StrEnum):
+    EN = "en"
+    FR = "fr"
+
+# All members are lowercase versions of their identifiers.
+class Language(StrEnum):
+    EN = auto()
+    FR = auto()
+```
+
+This was suggested by [Mathieu Morey](https://www.linkedin.com/in/mathieu-morey-4364945/).
+
 And in the tokenizer code, you would have something like this:
 
 ```python
