@@ -78,14 +78,13 @@ def score_sentences(sentences: str | list[str], return_integers: bool = False) -
 
 So this function has the following behavior. It returns a single float, or integer if `return_integers` is `True`, if a single string is passed, and a list of floats or integers if a list of strings is passed. Note that is is a _BAD_ function. It uses a [flag argument](https://martinfowler.com/bliki/FlagArgument.html)! As above, this function should also be turned into two different functions.
 
-So this is where it gets super-gnarly, because as it turns out, you can't overload functions on values of arguments, only on their types! So there's no way to say: "if this is `True`, return `X`, otherwise return `Y`". As it turns out though, there is a way to fix this, which is by turning specific values into types using `Literal`. I am so sorry for this by the way, never do this. So we turned our specific values of the boolean `True` and `False` into their own types, and used the union of these two types as our boolean type.
+So this is where it gets super-gnarly, because as it turns out, you can't overload functions on values of arguments, only on their types! So there's no way to say: "if this is `True`, return `X`, otherwise return `Y`". As it turns out though, there is a way to fix this, which is by turning specific values into types using `Literal`. This allows us to turn values of the boolean `True` and `False` into their own types. The type checker is smart enough to surmise that `True | False` covers the `bool` type.
 
 ```python
 from typing import overload, Literal
 
 TrueType = Literal[True]
 FalseType = Literal[False]
-BoolType = TrueType | FalseType
 
 
 @overload
@@ -107,7 +106,7 @@ def score_sentences(
 
 
 def score_sentences(
-    sentences: str | list[str], return_integers: BoolType
+    sentences: str | list[str], return_integers: bool
 ) -> int | float | list[int] | list[float]: ...
 
 
