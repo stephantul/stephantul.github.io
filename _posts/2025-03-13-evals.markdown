@@ -1,0 +1,136 @@
+---
+layout: post
+title:  "Rethinking evaluation and relative performance"
+date:   2025-03-13-00:00:00 +0000
+categories: python ml
+---
+
+Here's a pop quiz: classifier `A` scores 90% accuracy on some benchmark. Classifier `B` scores 80%. How much better is `A`?
+
+The answer is that `A` is twice as good! not 10% better. `A` makes half as many errors as the first one. yet, often you will see people describe classifiers as being 10% better or something, while describing an accuracy difference of 10%.
+
+Two classifiers are deployed. `A` has an accuracy of 20%, `B` has an accuracy of 25%. How much better is `A` than `B`? The answer is that `A` makes 6.25% fewer mistakes than `B`. Should you prefer `A` over `B`? Of course, it's just better. But it's not 10% better.
+
+Consider cross-task comparisons. We have two models, `A` and `B`, and two tasks. The table below shows their performance, together with a baseline.
+
+| name                                                        |      acc. task 1 |  acc. task 2 |
+|:------------------------------------------------------------|---------:|-------:|
+| A                 | 0.98 |  0.8          |
+| B                        | 0.95  | 0.4    |
+| baseline                 | 0.92 | 0.2    |
+
+What is the average performance of the models on the task? Does it make sense to even compute the average? This post is about these things, and more.
+
+# Relative evaluation
+
+First, we should not think of classifiers things that should get high accuracy, but _low error_. This is what our grandparents did! In ye olden days, classifiers used to be benchmarked on test _error_, which is the inverse of accuracy (i.e., literally 1 - accuracy). Thinking in _error_ makes it much easier to reason about relative performance of classifiers. If test error is 0, your model never makes a mistake. If test error is 0.1, your model makes a mistake 10% of the time. A model that makes a mistake 20% of the time is twice as bad! Not 10% worse.
+
+Second, I am advocating to compare models _relative_ to one another. Not hust their absolute score. So, when deploying a new model, think about how much the error is reduced relatively to the model that was already deployed, and set your expectations accordingly. Going from 4% error rate to 2% error rate (50% reduction) is not the same as going from 80% to 78% error rate (2.5% reduction). The former halves the number of mistakes visible to your users, while the latter is a drop in the bucket.
+
+However, evaluating models in a relative sense also breaks down very quickly: consider classifier `A`, with an error rate of 2% (98% accuracy), and classifier `B`, with an error rate of 1% (99% accuracy). `B` is twice as good as `A`, so `B` scores 0.5 relatively to `A`. If they had 40% and 20% error, `N` would also get a relative score of 0.5. So, it seems that relative scoring also suffers from the same issues as comparing absolute scores. Going from 80% to 40% error rate is amazing for your users, going from 2% to 1% is good, but much less noticeable, yet both classifiers get a relative score of 0.5. Clearly, this does not really work as well, as you'll still need the actual scores in additional to the relative scores.
+
+So, let this be my first set of recommendations:
+
+1. always report relative increases in performance with respect to the error, not just raw scores.
+2. don't report increases in percentage points as relative increases. So don't report a model that goes from 72% accuracy to 80% accuracy as being 8% better.
+
+An additional hurdle is that you run into issues when comparing more than one model. You will need to pick a single model as your reference model. Below, I argue that this model should be the _baseline_.
+
+# Relative increases, lower bounds, and baselines
+
+One reason the skew above appears is because we consider the entire interval between 0 and 100% test error to be available, but in almost all tasks, it actually isn't. Almost no task has an error floor of 0% and ceiling of 100%. It is hard to find a lower bound on error, but finding an upper bound is easy, and can be computed using a baseline.
+
+In modern ML, the term baseline has become synonymous with "thing that I can easily beat so I include it to look good", but it actually should mean "thing that is trivial to conmpute, to assess how difficult the problem actually is". For example, there are problems that are so skewed (e.g., toxicity detection), that just always predicting the same class gets you a really high accuracy. Similarly, if you have a binary problem, and you know the distribution of classes, you can always get at least 50% error on average. For specific domains, you could also use small models: in NLP, it is very common to train TF-IDF + logistic regression classifiers, and use these as baselines. These usually already massively improve over a statistical baseline, and should be preferred if possible.
+
+Uncontroversially, anything that scores below or at baseline level is bad and should be discarded. Hence, any performance gains should be computed _relative to the baseline signal_. This recontextualizes the performance of your classifier with reference to the difficulty of the problem, and creates a meaningful contrast for classifiers that _do_ score above baseline level.
+
+I am thus advocating that we perfom the following transformation to any scores we get from our models:
+
+```python
+def transform_score(error: float, baseline_error: float) -> float:
+    return error / baseline_error
+```
+
+This transforms the interval between `baseline` and 0.0 into a new interval, which is meaningful with reference to your baseline. So, for example, if your baseline is 50% error, 50% error becomes the new 100% error, because it is nonsensical to ever deploy something worse than the baseline. This means that any relative increase in performance between models will be recontextualized through the baseline signal.
+
+To put this super clearly: in this definition, the expected utility of a baseline is 0. If you score at baseline level, you get 0 accuracy, or maximum error. Even more succinctly, the actual error interval for classifiers isn't [0, 100], but [0, baseline].
+
+Now reconsider the classifiers above: `A`, which has a 2% test error, and `B`, which has 1% error. Now imagine that we have 2 scenarios, one in which the baseline is 2.5% error, and one in which the baseline is 50% error. In the first case, we would get a relative error of 0.4 and 0.8, while in the second, we would get relative error of 0.02 and 0.04. So, even though the relative error between the models is the same, `A` stays twice as good as `B`, you recontextualize the models with reference to a baseline.
+
+So here's my additional recommendation:
+
+3. report the original scores, the relative increase, and the relative increase over a baseline model.
+
+So, for the scenario above, we would get:
+
+| name                                                        |        accuracy |  relative |
+|:------------------------------------------------------------|---------:|--------:|
+| A                 | 0.98 |  0.8          |
+| B                        | 0.98  | 0.4    |
+| baseline                 | 0.975 | 1.0    |
+
+As you can see, the numbers for classifiers `A` and `B` looked super impressive above, but look less impressive now. This is good, because scoring a little bit above baseline shouldn't be very impressive.
+
+# What about upper bounds?
+
+Upper bounds on task performance are incredibly difficult to compute, because of a variety of reasons, but mostly because ultimately, forcing models or annotators to assign a single label to an instance leads to noisy labels for unclear instances.
+
+One thing I can think of is trying to overfit a baseline to the training set, and seeing which instances still do not get classified correctly, but this is just me grasping at straws. It also depends on a huge set of other factors, like if the baseline can solve the task, etc. etc. etc. Probably people have worked on this. I don't know.
+
+# Advantages
+
+Now, ok! You came this far, but why would you follow my advice? Here's some reasons:
+
+1. It forces you to consider a baseline, and to think about a lower bound of performance on your specific task. This is important, so do it!
+
+2. The scores of models are scores _relative_ to the baseline. So if a model scores 0.5, it has half the error of the baseline. This is useful to know, and makes your scores much easier to interpret with reference to a previous model.
+
+3. You can compare scores _across_ tasks. For example, consider a benchmark like [MTEB](https://huggingface.co/spaces/mteb/leaderboard). This benchmark contains tasks on which every model scores 90, and the spread is super close, and tasks on which every model scores 30, and in which there is a huge spread. By recontextualizing the scores with reference to a specific baseline, it becomes a lot more meaningful to average across datasets. See below for an example of this.
+
+# Example
+
+Here's an example that shows how recalculating with reference to a baseline makes interpretation of scores a lot clearer.
+
+In [model2vec](https://github.com/MinishLab/model2vec), we recently introduced a training mechanism, which allows you to finetune a model directly on some data. This always results in higher scores, and also scores that approach, e.g., setfit scores. To show this, we calculated performance on 14 datasets, using a logistic regression classifier on top of tf-idf features as a baseline.
+
+This were the original scores, averaged over 14 datasets:
+
+| name                                                        |        accuracy |
+|:------------------------------------------------------------|---------:|
+| model2vec logreg                 | 0.788942 |
+| model2vec finetuned                        | 0.79501  |
+| setfit snowflake-xs                 | 0.811352 |
+| setfit minilm-l6             | 0.828778 |
+| tfidf_                                                      | 0.733752 |
+
+
+This looks nice, all scores are pretty good! Do note that some datasets are super easy (cough cough enron spam), while others are pretty difficult. Now, let's transform it to error first:
+
+| name                                                        |        error |
+|:------------------------------------------------------------|---------:|
+| model2vec logreg                 | 0.211058 |
+| model2vec finetuned                        | 0.20499  |
+| setfit snowflake-xs                 | 0.188648 |
+| setfit minilm-l6              | 0.171222 |
+| tfidf_                                                      | 0.266248 |
+
+This allows us to compare relative improvements much more easily.
+However, if we recontextualize the models according to the tf-idf baseline, we get the following scores:
+
+| name                                                        |        error relative to baseline |
+|:------------------------------------------------------------|---------:|
+| model2vec logreg                 | 0.775395 |
+| model2vec finetuned                      | 0.723254 |
+| setfit snowflake-xs                | 0.622073 |
+| setfit minilm-l6             | 0.57056  |
+| tfidf_                                                      | 1        |
+
+Here we see much better how the models perform. None of the models perform twice as good as the tf-idf baseline on average, although it is very clear that there is a much larger performance gap between setfit and the tf-idf baseline than you would previously think.
+
+The plots below show the same data, but per dataset. The X axis is speed, the Y axis is performance. The colors denote model architecture. Each dot denotes the score of a model on a single dataset. The left plot denotes the original score, while the right one denotes the scores relative to the baseline. Note how it becomes much easier to see the relations between the individual models.
+
+![image info](../images/evals/o.png)
+
+# Conclusion
+
+In conclusion: I think having relative evaluations helps a lot in contextualizing model performance, perhaps more so for laypeople than for experts.
