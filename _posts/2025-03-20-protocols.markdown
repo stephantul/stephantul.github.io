@@ -100,6 +100,17 @@ Note that these errors can be quite subtle. For example, consider that, maybe, w
 
 Second, and I think this is a small objection, is that it simply takes a bit of time to write the `Protocol`. I don't think this is actually a valid objection. If you allow me the slippery slope argument: if you think writing code for consistent correct types is too much work, then why write types at all?
 
+# Alternatives
+
+A nice alternative is to accept that the tokenizer returns an untyped thing, and to just wrap it in another function.
+
+```python
+def string_to_ids(string: str, tokenizer: Tokenizer) -> list[int]:
+    return cast(list[int], tokenizer.encode(string).ids)
+```
+
+This also has the effect of encapsulating the untyped code, and has the added advantage of also abstracting away from the specific function used. So if that is also your goal, you could consider doing this instead. It does require a cast to work, so that's an unfortunate side effect.
+
 # Conclusion
 
 Writing well-typed code makes you faster in the short and in the long run, and reduces the probability of catastrophic failure. I think using a `Protocol` to provide types makes you much more confident about what you are using these tools for.
