@@ -7,31 +7,31 @@ categories: python typing
 
 Working with external untyped code in a typed code base can be challenging, you'll get lots of `Any` or `Unknown`, which might propagate through your codebase. This can force you to reach for `typing.cast`, or `# type: ignore` statements, which kind of defeats the purpose of using static typing in the first place.
 
-One easy way to deal with this is by leveraging a [`Protocol`](https://mypy.readthedocs.io/en/stable/protocols.html). I've discussed these before in the context of caching, see [here](https://stephantul.github.io/python/typing/2024/05/31/cache/). The gist of it is that a `Protocol` allows you to define a "structure" to be used in place of the thing that is actually used. Anything that implements all functions that the protocol implements can be used in the place where te protocol is used.
+One easy way to deal with this is by leveraging a [`Protocol`](https://mypy.readthedocs.io/en/stable/protocols.html). I've discussed these before in the context of caching, see [here](https://stephantul.github.io/python/typing/2024/05/31/cache/). The gist of it is that a `Protocol` allows you to define a "structure" to be used in place of the thing that is actually used. Anything that matches the implementation of that `Protocol` can be used in place of (implements) the protocol.
 
-One of the most well-known protocols is the `Iterator`. See the example below:
+One of the most well-known protocols is the `Iterator`. First, let's look at a familiar example:
 
 ```python
-def prefix_strings(strings: list[str], prefix: str) -> list[str]:
-    return [f"{prefix}{s}" for s in strings]
+def prefix_strings(items: list[str], prefix: str) -> list[str]:
+    return [f"{prefix}{s}" for s in items]
 ```
 
-This code _works_ with tuples, sets, dicts, whatever. But it is typed as if it only works with lists. This is much better:
+This code _works_ with tuples, sets, dicts, whatever. But it is typed as if it only works with lists. This is better:
 
 ```python
 from typing import Iterator
 
-def prefix_strings(strings: Iterator[str], prefix: str) -> list[str]:
-    return [f"{prefix}{s}" for s in strings]
+def prefix_strings(items: Iterator[str], prefix: str) -> list[str]:
+    return [f"{prefix}{s}" for s in items]
 ```
 
-The `Iterator` protocol tells us that the thing you are passing in can be iterated over, but nothing else. This is fine! We're just iterating over it, so we don't need any other functionality.
+The `Iterator` protocol only tells us that `items` can be iterated over, but doesn't make any other assumptions This is fine! We're just iterating over it, so we don't need any other functionality.
 
-You use `Protocol` when you want to not be tied to a specific implementation, and don't want to restrict yourself to a `TypeVar` with union types. As you can probably surmise from the example above, using a `Protocol` matches how we often use duck typing in python.
+To recap: you use `Protocol` when you want to accept all objects that implement specific functions, and don't want to restrict yourself to a `TypeVar` with union types. As you can probably surmise from the example above, using a `Protocol` matches how we often use duck typing in python.
 
 # Unbehaved code
 
-Code that is untyped often makes it really difficult to get typing to work. As an example, let's look at the [`tokenizers`](https://github.com/huggingface/tokenizers) library from Hugging Face. The python bindings in tokenizers are, unfortunately, untyped. So every time you tokenize something, you'll have to manually provide types, or live with `Any`. Compounding this, is that `Tokenizer.encode`, which is the function you'll most often use, does not return a python primitive, but another structured object, which is untyped as well.
+Code that is untyped often makes it really difficult to get typing to work. As an example, let's look at the [`tokenizers`](https://github.com/huggingface/tokenizers) library from Hugging Face. The python bindings in tokenizers are, unfortunately, untyped. So every time you tokenize something, you'll have to manually provide types, or live with `Any`. Compounding this, is that `Tokenizer.encode`, which is the function you'll most often use, does not return a python primitive, but another structured object (`Encoding`) which is untyped as well.
 
 Here's an example:
 
@@ -65,7 +65,7 @@ reveal_type(ids)
 
 This still makes `mypy` type both variables as `Any`. Even if it got the first one correct, it would still trip over the second one, because it would not know the type of `Encoding.ids` is `list[int]`.
 
-A way out is to use a minimal `Protocol`.
+Here's how to solve this using a minimal `Protocol`.
 
 ```python
 from typing import Protocol
@@ -84,7 +84,7 @@ tokenizer: TokenizerProtocol = Tokenizer.from_pretrained("bert-base-uncased")
 
 tokens = tokenizer.encode("dog")
 reveal_type(tokens)
-# note: Revealed type is "Encoding"
+# note: Revealed type is "EncodingProtocol"
 ids = tokens.ids
 reveal_type(ids)
 # note: Revealed type is "builtins.list[builtins.int]"
