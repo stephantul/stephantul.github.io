@@ -77,7 +77,7 @@ class EncodingProtocol(Protocol):
 
 class TokenizerProtocol(Protocol):
 
-    def encode(self, text: str | list[str], 
+    def encode(self, text: str, 
                *args: Any, 
                **kwargs: Any) -> EncodingProtocol:
         ...
