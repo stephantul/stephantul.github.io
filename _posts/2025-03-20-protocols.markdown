@@ -77,7 +77,9 @@ class EncodingProtocol(Protocol):
 
 class TokenizerProtocol(Protocol):
 
-    def encode(self, text: str | list[str], *args: Any, **kwargs: Any) -> EncodingProtocol:
+    def encode(self, text: str | list[str], 
+               *args: Any, 
+               **kwargs: Any) -> EncodingProtocol:
         ...
 
 tokenizer: TokenizerProtocol = Tokenizer.from_pretrained("bert-base-uncased")
