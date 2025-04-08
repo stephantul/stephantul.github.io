@@ -10,13 +10,13 @@ Sometimes I see something like this:
 ```python
 from typing import Any, Sequence
 
-def frombulize(numbers: Sequence[int], **kwargs: Any) -> list[int] | list[float]
-    as_float = kwargs.pop("as_float", False)
+def frombulize(items: Sequence[str], **kwargs: Any) -> list[str]
+    prepend = kwargs.pop("prepend", "")
 
-    if as_float:
-        return [float(x) for x in numbers]
+    if prepend:
+        return [f"{prepend}{x}" for x in items]
 
-    return numbers
+    return items
 ```
 
 Using `kwargs.get` in this way is weird, and should be avoided most of the time. This blog post is about how and why to avoid this pattern.
@@ -28,11 +28,11 @@ Using `kwargs.get` in this way is weird, and should be avoided most of the time.
 As an example, the following calls to `frombulize` are all valid:
 
 ```python
-frombulize(numbers=[0, 1], what=10, clown=3)
-frombulize(numbers=[0, 1], as_float=False)
+frombulize(items=["dog", "cat"], what=10, clown=3)
+frombulize(items=["dog", "cat"], prepend="dog")
 ```
 
-Note, however, that, even though `numbers` was specified as a keyword argument, it doesn't enter `**kwargs`. Only keywords that are otherwise unspecified in the function signature get put into the mapping. See here:
+Note, however, that, even though `items` was specified as a keyword argument, it doesn't enter `**kwargs`. Only keywords that are otherwise unspecified in the function signature get put into the mapping. See here:
 
 ```python
 def frombulize(a: int, **kwargs):
@@ -54,28 +54,32 @@ Because of the above, the function can equivalently be written as:
 ```python
 from typing import Any, Sequence
 
-def frombulize(numbers: Sequence[int], as_float: bool = False, **kwargs: Any) -> list[int] | list[float]
-    if as_float:
-        return [float(x) for x in numbers]
+def frombulize(items: Sequence[str], 
+               prepend: str = "", 
+               **kwargs: Any) -> list[str]
+    if prepend:
+        return [f"{prepend}{x}" for x in items]
 
-    return numbers
+    return items
 
 ```
 
-Literally nothing changes about this function, except that it became much clearer. Besides this, there is another reason to not directly use `**kwargs`. Note that in the first definition of the function above, we used `kwargs.pop`. We do this, because we want to avoid that functions that are called by this function that also take `**kwargs` accidentally get passed the `as_float` keyword. But, as noted above, this is exactly what specifying the keyword does: by specifying the keyword, we no longer add `as_float` to `**kwargs`, and thus don't pass it on to any other function.
+Literally nothing changes about this function, except that it became much clearer. Besides this, there is another reason to not directly use `**kwargs`. Note that in the first definition of the function above, we used `kwargs.pop`. We do this, because we want to avoid that functions that are called by this function that also take `**kwargs` accidentally get passed the `prepend` keyword. But, as noted above, this is exactly what specifying the keyword does: by specifying the keyword, we no longer add `prepend` to `**kwargs`, and thus don't pass it on to any other function.
 
 If you do want to pass it on to another function, just add it to the function signature of the function below:
 
 ```python
 from typing import Any, Sequence
 
-def frombulize(numbers: Sequence[int], as_float: bool = False, **kwargs: Any) -> list[int] | list[float]
-    if as_float:
-        return [float(x) for x in numbers]
+def frombulize(items: Sequence[str], 
+               prepend: str = "", 
+               **kwargs: Any) -> list[str]
+    if prepend:
+        return [f"{prepend}{x}" for x in items]
+    
+    items = my_other_func(prepend=prepend, **kwargs)
 
-    my_func(as_float=as_float, **kwargs)
-
-    return numbers
+    return items
 ```
 
 This has exactly the same functionality.
