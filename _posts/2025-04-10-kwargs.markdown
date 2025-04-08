@@ -1,0 +1,83 @@
+---
+layout: post
+title:  "kwargs.get is probably a code smell"
+date:   2025-03-28-00:00:00 +0000
+categories: python typing
+---
+
+Sometimes I see something like this:
+
+```python
+from typing import Any, Sequence
+
+def frombulize(numbers: Sequence[int], **kwargs: Any) -> list[int] | list[float]
+    as_float = kwargs.pop("as_float", False)
+
+    if as_float:
+        return [float(x) for x in numbers]
+
+    return numbers
+```
+
+Using `kwargs.get` in this way is weird, and should be avoided most of the time. This blog post is about how and why to avoid this pattern.
+
+## What is `**kwargs`?
+
+`**kwargs` is a mapping from arbitrary keywords to arbitrary values which is unpacked (hence the `**`). It allows us to pass in arbitrary values with arbitrary keywords into our functions, which can make them much more flexible. This flexibility, however, comes at a cost, because we can no longer infer anything about the content of `**kwargs`.
+
+As an example, the following calls to `frombulize` are all valid:
+
+```python
+frombulize(numbers=[0, 1], what=10, clown=3)
+frombulize(numbers=[0, 1], as_float=False)
+```
+
+Note, however, that, even though `numbers` was specified as a keyword argument, it doesn't enter `**kwargs`. Only keywords that are otherwise unspecified in the function signature get put into the mapping. See here:
+
+```python
+def frombulize(a: int, **kwargs):
+    print(kwargs)
+
+frombulize(a=3, b=4)
+# prints {'b': 4}
+kwargs = {"a": 3, "b": 4}
+frombulize(**kwargs)
+# prints {'b': 4}
+```
+
+So: `**kwargs` allows you to pass any keyword argument to a function, but only arguments that weren't specified explicitly in the function signature get put into `**kwargs`.
+
+## Working with `**kwargs`
+
+Because of the above, the function can equivalently be written as:
+
+```python
+from typing import Any, Sequence
+
+def frombulize(numbers: Sequence[int], as_float: bool = False, **kwargs: Any) -> list[int] | list[float]
+    if as_float:
+        return [float(x) for x in numbers]
+
+    return numbers
+
+```
+
+Literally nothing changes about this function, except that it became much clearer. Besides this, there is another reason to not directly use `**kwargs`. Note that in the first definition of the function above, we used `kwargs.pop`. We do this, because we want to avoid that functions that are called by this function that also take `**kwargs` accidentally get passed the `as_float` keyword. But, as noted above, this is exactly what specifying the keyword does: by specifying the keyword, we no longer add `as_float` to `**kwargs`, and thus don't pass it on to any other function.
+
+If you do want to pass it on to another function, just add it to the function signature of the function below:
+
+```python
+from typing import Any, Sequence
+
+def frombulize(numbers: Sequence[int], as_float: bool = False, **kwargs: Any) -> list[int] | list[float]
+    if as_float:
+        return [float(x) for x in numbers]
+
+    my_func(as_float=as_float, **kwargs)
+
+    return numbers
+```
+
+This has exactly the same functionality.
+
+While I think using `**kwargs.pop` has its uses, I think it is probably overused, and difficult to work with. One real reason to use it, is if your classes have a variable function that is called, and you need to pass parameters on to this function.
