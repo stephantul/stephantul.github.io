@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "kwargs.get is probably a code smell"
+title:  "kwargs.pop is probably a code smell"
 date:   2025-03-28-00:00:00 +0000
 categories: python typing
 ---
@@ -19,7 +19,7 @@ def frombulize(items: Sequence[str], **kwargs: Any) -> list[str]
     return items
 ```
 
-Using `kwargs.get` in this way is weird, and should be avoided most of the time. This blog post is about how and why to avoid this pattern.
+Using `kwargs.pop` in this way is weird, and should be avoided most of the time. This blog post is about how and why to avoid this pattern.
 
 ## What is `**kwargs`?
 
