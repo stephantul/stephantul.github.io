@@ -84,4 +84,4 @@ def frombulize(items: Sequence[str],
 
 This has exactly the same functionality.
 
-While I think using `**kwargs.pop` has its uses, I think it is probably overused, and difficult to work with. One real reason to use it, is if your classes have a variable function that is called, and you need to pass parameters on to this function.
+While I think using `kwargs.pop` has its uses, I think it is probably overused, and difficult to work with. One real reason to use it, is if your classes have a variable function that is called, and you need to pass parameters on to this function.
