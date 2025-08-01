@@ -1,0 +1,120 @@
+---
+layout: post
+title:  "Tokenizer decasing"
+date:   2025-08-01-00:00:00 +0000
+categories: tokenization casing
+---
+
+In this post I will talk about something I call tokenizer _de_casing. _decasing_ is very similar to putting a lowercase normalizer in front a of a tokenizer, but works better.
+
+# Cased vs Uncased
+
+Most modern tokenizers are _cased_; they will create different segmentations for words with (leading) uppercased tokens. For example, the [`intfloat/multilingual-e5-base`](https://huggingface.co/intfloat/multilingual-e5-base) tokenizer will get you the following segmentations:
+
+```python
+from tokenizers import Tokenizer
+
+tok = Tokenizer.from_pretrained("intfloat/multilingual-e5-base")
+print(tok.encode("Amsterdam", add_special_tokens=False).tokens)
+# ['▁Amsterdam']
+print(tok.encode("amsterdam", add_special_tokens=False).tokens)
+# ['▁am', 'ster', 'dam']
+
+```
+
+As you can see, you not only get completely different tokens when tokenizing `Amsterdam` and `amsterdam`, but the lowercase tokenized version is also much less efficient. `Amsterdam` suddenly takes up 3 tokens instead of 1. Note that the representations of `amsterdam` and `Amsterdam` share 0 input tokens. Hence, any similarity between the uppercase and lowercase variants of these strings need to be learned by the model. Yet another way to put this: there is no _a priori_ way for the model to tell that these strings actually refer to the same concept. So, if you, say have to teach the model to recognize cities, the model will need to learn a lot of things multiple times. 
+
+_uncased_ tokenizers do not care about the distinction: they were trained on lowercase text, and turn any input string into a lowercased version. Let's use `bert-base-uncased` as an example:
+
+```python
+from tokenizers import Tokenizer
+
+tok = Tokenizer.from_pretrained("bert-base-uncased")
+print(tok.encode("Amsterdam", add_special_tokens=False).tokens)
+# ['amsterdam']
+print(tok.encode("amsterdam", add_special_tokens=False).tokens)
+# ['amsterdam']
+```
+
+This looks cool! But unfortunately, many tokenizers are inherently cased. _decasing_ is the process of turning a _cased_ tokenizer into an _uncased_ one.
+
+# Why uncase
+
+So why would we ever decase a tokenizer? Here's some observations:
+
+1. Many pretrained models use cased tokenizers (e.g., [ModernBert](https://huggingface.co/answerdotai/ModernBERT-base)).
+2. Users rarely use case consistently.
+3. If we lowercase our text before putting it into the model, we lose all uppercase tokens.
+
+For reference, about 12% of all tokens in the `multilingual-e5` tokenizer have at least one cased letter, and about 25% of tokens in the `modernbert` tokenizer are cased. So throwing out these tokens would be pretty wasteful. Hence, decasing!
+
+# The actual decasing
+
+The decasing procedure is really simple: we open the tokenizer internals and lowercase all internal tokens. If the tokenizer is a BPE tokenizer, you should also lowercase the merges, and create new merges for new tokens that need them. Don't lowercase any special tokens. For any token, if the lowercase version already exists, replace the cased one with an anonymous placeholder. 
+
+Then, insert a lowercasing Normalizer, which lowercases all input strings.
+
+And that's it! Now your tokenizer will use 100% of the vocabulary. For example:
+
+```python
+from tokenizers import Tokenizer
+
+tok = Tokenizer.from_pretrained("multilingual-e5-base_uncased")
+print(tok.encode("Amsterdam", add_special_tokens=False).tokens)
+# ['▁amsterdam']
+print(tok.encode("amsterdam", add_special_tokens=False).tokens)
+# ['▁amsterdam']
+
+```
+
+(Note that while this sounds really simple, it's actually pretty annoying, and took me a lot of thinky to get right)
+
+You can find the code [here](https://github.com/stephantul/tokenizer-decasing). This code is simple, it exposes a simple function that decases your tokenizer. Use it and conquer all tokens.
+
+# How well does this work?
+
+Using the above code, I ran some preliminary experiments with two models:
+
+1. [`intfloat/multilingual-e5-small`](https://huggingface.co/intfloat/multilingual-e5-small)
+2. [`nomic-ai/modernbert-embed-base`](https://huggingface.co/nomic-ai/modernbert-embed-base)
+
+I used `nanobeir` and the English `Clustering` subset of the [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard). I used these subsets specifically because they test the inherent similarity learned by the models in a large variety of domains.
+
+## Nanobeir results
+
+The scores are NDCG@10, averaged over all datasets.
+
+|          | Modernbert | e5     |
+|----------|------------|--------|
+| Original |  57.68     | 55.4   |  
+| Lowered  |  56.01     | 56.2   |  
+| Decased  |  56.13     | 56.5   |
+
+In all cases, the decased version outperformed the lowercased one, but with very small margins. So if your users prefer lowercased input, decasing seems to beat lowercasing. But there's not a lot of reason to prefer this over the cased version. An interesting alternate reading, however, is that this actually is working quite well out of the box: lowercasing changes the distribution of tokens, so a performance drop is to be expected. That this drop is so small might be a good sign for further fine-tuning.
+
+## Clustering results
+
+The scores here are the V-measure.
+
+|          | Modernbert | e5 |
+|----------|------------|----|
+| Original | 50.8       | 43.1   |
+| Lowered  | 50.0       | 43.8   |
+| Decased  | 50.0       | 42.7   |
+
+Strangely, the clustering results show a different pattern. For Modernbert, decasing does not seem to help at all. For e5, the pattern is even weirder: lowercasing outperforms the original cased model, but decasing is worse than either. A closer look at the results shows that this result is entirely caused by a single dataset, on which lowercasing improves scores by a whopping 20 points (!). Leaving out this dataset shows the same pattern as before.
+
+## Discussion
+
+While the differences are very small, we can often see an increase in performance when decasing compared to naively lowercasing. So we can conclude that if your task, user or domain does not care about casing, it can pay off to decase instead of naively lowercasing. Decasing and lowercasing are not always beneficial, however, compared to using the cased model, and depends on the specific model, task, and dataset. But, luckily for us, it is very cheap to try both.
+
+# Future work
+
+There's many other ways to improve performance of tokenizers, including:
+
+1. Finetuning after decasing
+2. Switching to another tokenizer model during inference (see: [Greedy tokenization paper](https://arxiv.org/abs/2403.01289))
+3. Improving the pretokenizer to return appropriate tokens after punctuation.
+4. Removing the prefix space if a byte pretokenizer is used.
+
+In the coming weeks, I'll be tackling some of these topics. I think there's a lot of leverage in improving tokenizers, so I hope some of these manipulations will show better peformance than the one I just showed you.
