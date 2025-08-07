@@ -24,6 +24,11 @@ html * {
     -moz-osx-font-smoothing: grayscale;
 }
 
+del {
+  text-decoration: line-through;
+  text-decoration-thickness: 5px;
+}
+
 *,
 *:after,
 *:before {
@@ -180,6 +185,10 @@ body {
 
 a {
     @extend .default-anchor;
+}
+
+.strikethrough {
+  text-decoration: line-through solid 10px;
 }
 
 header.main-header,
@@ -503,7 +512,6 @@ pre {
     @include MQ(M) {
         font-size: 14px !important;
     }
-    line-height: 1.4;
 }
 .gist code {
     padding: 0;
