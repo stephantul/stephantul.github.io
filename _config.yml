@@ -33,6 +33,7 @@ harmony:
 
 # Conversion / Build settings
 markdown: kramdown
+highlighter: rouge
 
 # Permalinks
 permalink: pretty

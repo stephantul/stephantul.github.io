@@ -1,0 +1,88 @@
+
+.highlight {
+  background-color: #fff;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+/* Token styles */
+.highlight .c,    // Comment
+.highlight .c1,
+.highlight .cm,
+.highlight .cs {
+  color: #a04f7c;
+  font-style: italic;
+}
+
+.highlight .k,    // Keywords
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt {
+  color: #ff2e88;
+  font-weight: bold;
+}
+
+.highlight .nf,   // Function name
+.highlight .nc {
+  color: #d63384;
+}
+
+.highlight .nb,   // Built-ins
+.highlight .bp {
+  color: #9d4edd;
+}
+
+.highlight .s,    // Strings
+.highlight .s1,
+.highlight .s2,
+.highlight .sb,
+.highlight .sh,
+.highlight .si,
+.highlight .sx {
+  color: #d0006f;
+}
+
+.highlight .m,    // Numbers
+.highlight .mi,
+.highlight .mf,
+.highlight .mh {
+  color: #ff70b0;
+}
+
+.highlight .o,    // Operators
+.highlight .ow {
+  color: #e60073;
+  font-weight: bold;
+}
+
+.highlight .p {   // Punctuation
+  color: #333;
+}
+
+.highlight .err { // Errors
+  color: #fff;
+  background-color: #d7263d;
+  font-weight: bold;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+/* Optional: tighter spacing for <pre> */
+.highlight pre {
+  margin: 0;
+  padding: 0;
+  background: none;
+  line-height: 1.4;
+}
+
+.highlight code {
+  font-family: Menlo, Monaco, "Courier New", monospace;
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}

@@ -13,6 +13,9 @@
 // Import layout mixin
 @import "partials/layout";
 
+// Import rouge
+@import "partials/rouge-theme";
+
 /* --------------------------------
 
  Primary style
@@ -487,12 +490,12 @@ pre {
 }
 
 .highlight {
-    margin-bottom: 1em;
-    margin-top: 1em;
-    background-color: inherit;
-    pre {
-        margin-bottom: 0;
-    }
+  margin: 0 0 1em 0; /* bottom space, no top */
+}
+
+.highlight pre {
+  margin: 0;
+  padding: 1em;
 }
 
 /* Gist via GitHub Pages */
@@ -658,13 +661,4 @@ td,
 th {
     padding: 0.25em 0.5em;
     border: 1px solid black;
-}
-
-.hljs,
-.hljs-subst {
-    color: black;
-}
-
-.hljs {
-    background-color: white;
 }
