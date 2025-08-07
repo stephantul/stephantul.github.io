@@ -3,6 +3,8 @@ layout: post
 title:  "Using itertools.product with dictionaries"
 date:   2019-07-21-00:00:00 +0530
 categories: python
+redirect_from:
+- python/2019/07/20/product-dict/
 ---
 
 In a [previous post](https://stephantul.github.io/python/2019/07/20/product/), I talked about using `itertools.product` with lists.

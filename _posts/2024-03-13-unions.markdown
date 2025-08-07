@@ -3,6 +3,8 @@ layout: post
 title:  "TypeVars and Unions in python"
 date:   2024-03-13-00:00:00 +0000
 categories: python typing unions
+redirect_from:
+- python/typing/unions/2024/03/13/unions/
 ---
 
 This post will be about `Union`s, `TypeVar`s, and unions of types with a relevant common subtype (i.e., not `object`). I'll show how union types are often incorrectly used, and how using a `TypeVar` can solve some of these problems. So, having said that, let's dive in!

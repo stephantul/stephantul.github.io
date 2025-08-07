@@ -3,6 +3,8 @@ layout: post
 title:  "Recursively dealing with trees"
 date:   2019-07-11 00:00:00 +0530
 categories: trees
+redirect_from:
+- trees/2019/07/10/treerec/
 ---
 For a project, I wanted to do some work on composition over trees.
 A typical way to process a tree is to build a recursive function, i.e., a function that calls itself.

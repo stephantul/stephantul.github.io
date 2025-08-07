@@ -3,6 +3,8 @@ layout: post
 title:  "String casing in python"
 date:   2024-09-03-00:00:00 +0000
 categories: python unicode
+redirect_from:
+- python/unicode/2024/09/03/casing/
 ---
 
 Below are two ways to check if a string is lower-cased in Python.

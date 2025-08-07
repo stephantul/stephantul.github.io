@@ -3,6 +3,8 @@ layout: post
 title:  "Correctly typing cached functions"
 date:   2024-05-31-00:00:00 +0000
 categories: python typing
+redirect_from:
+- python/typing/2024/05/31/cache/
 ---
 
 Caching, or [memoization](https://en.wikipedia.org/wiki/Memoization), is a useful way to speed up repeated calls to expensive, [pure](https://en.wikipedia.org/wiki/Pure_function), functions. When calling a function, we save the output, using the parameters of the function as a key to the cache. Then, instead of re-calculating the result of a function on each call, we simply return the value that was stored in the cache.

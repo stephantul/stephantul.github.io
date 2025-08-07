@@ -3,6 +3,8 @@ layout: post
 title:  "Using itertools.product instead of nested for loops"
 date:   2019-07-21-00:00:00 +0530
 categories: python
+redirect_from:
+- python/2019/07/20/product/
 ---
 
 In many programming situations, you will often have to compare each item in a list to each other item in a list, creating the well-known nested for-loop.

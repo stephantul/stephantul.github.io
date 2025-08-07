@@ -3,6 +3,8 @@ layout: post
 title:  "Enums and refactoring"
 date:   2024-02-22-00:00:00 +0000
 categories: python
+redirect_from:
+- python/2024/02/22/enums/
 ---
 
 Enumerations are types that take a set of pre-defined options, called _members_ which are also assigned values. Usually, enumerations members are, as the name implies, simply mapped to a integer values, but any arbitrary value might work. Here's an example of an enumeration in Python for colors:

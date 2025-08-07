@@ -3,6 +3,8 @@ layout: post
 title:  "kwargs.pop is probably a code smell"
 date:   2025-03-28-00:00:00 +0000
 categories: python typing
+redirect_from:
+- python/typing/2025/03/28/kwargs/
 ---
 
 Sometimes I see something like this:

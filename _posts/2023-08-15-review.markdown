@@ -3,6 +3,8 @@ layout: post
 title:  "The burden of proof for code reviews"
 date:   2023-08-15-00:00:00 +0000
 categories: engineering culture
+redirect_from:
+- engineering/culture/2023/08/15/review/
 ---
 
 This post is about code reviews, and how they can go wrong. A code review is an activity where another team member, who may or may not have been involved in the project or the code, looks at the code, and tries to spot errors or inconsistencies. 

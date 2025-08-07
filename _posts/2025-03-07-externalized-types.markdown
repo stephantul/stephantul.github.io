@@ -3,6 +3,8 @@ layout: post
 title:  "Exposing string types to maximize user happiness"
 date:   2025-03-07-00:00:00 +0000
 categories: python typing
+redirect_from:
+- python/typing/2025/03/07/externalized-types/
 ---
 
 Regular users of my blog will know that I am opposed to what is known as [stringly typing](https://wiki.c2.com/?StringlyTyped): using strings in place of more strongly typed identifiers. As an example, consider a language-specific tokenizer:

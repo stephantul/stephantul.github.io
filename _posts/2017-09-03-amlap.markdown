@@ -3,6 +3,8 @@ layout: post
 title:  "Poster: A Self-Organizing Model of the Bilingual Reading System"
 date:   2017-09-03 18:23:10 +0530
 categories: dynamics
+redirect_from:
+- dynamics/2017/09/03/amlap/
 ---
 
 At [AMLAP 2017](http://wp.lancs.ac.uk/amlap2017/), I gave a poster presentation on our model of word reading, which is currently christened Global Space (GS).

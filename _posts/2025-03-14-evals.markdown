@@ -3,6 +3,8 @@ layout: post
 title:  "Rethinking evaluation and relative performance"
 date:   2025-03-14-00:00:00 +0000
 categories: python ml
+redirect_from:
+- python/ml/2025/03/14/evals/
 ---
 
 Here's a pop quiz: classifier `A` scores 90% accuracy on some benchmark. Classifier `B` scores 80%. How much better is `A`?

@@ -3,6 +3,8 @@ layout: post
 title:  "Correctly typing recursive hierarchies in Python"
 date:   2024-02-05-00:00:00 +0000
 categories: python mypy types
+redirect_from:
+- python/mypy/types/2024/02/05/hierarchy/
 ---
 
 I recently tried to create a recursive type in Python using mypy. Recursive types naturally occur when processing nested collections of arbitrary depth, such as lists or dictionaries. For me, this most often happens when processing JSON data in the wild.

@@ -3,6 +3,8 @@ layout: post
 title:  "Tokenizer decasing"
 date:   2025-08-01-00:00:00 +0000
 categories: tokenization casing
+redirect_from:
+- tokenization/casing/2025/08/01/uncasing/
 ---
 
 In this post I will talk about something I call tokenizer _de_casing. _decasing_ is very similar to putting a lowercase normalizer in front a of a tokenizer, but works better.

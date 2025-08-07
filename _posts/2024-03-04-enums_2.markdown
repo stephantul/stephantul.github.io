@@ -3,6 +3,8 @@ layout: post
 title:  "Enums with superclasses"
 date:   2024-03-04-00:00:00 +0000
 categories: python
+redirect_from:
+- python/2024/03/04/enums_2/
 ---
 
 In the previous post, I wrote about enumerations, and how they can be really handy when refactoring code. One thing I didn't touch upon in that post is typed enumerations, which are enumerations that also have a type. As we saw in the previous post, an enumeration member is an association between a `name` and a `value`. But this means we need to call `.value` to get the actual value of an enumeration member. This can lead to overly verbose code. Take a logger for example:

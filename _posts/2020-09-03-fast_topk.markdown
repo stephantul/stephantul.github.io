@@ -3,6 +3,8 @@ layout: post
 title:  "Fast way to find the rank of an item in pytorch"
 date:   2020-09-18-00:00:00 +0000
 categories: python pytorch
+redirect_from: 
+- python/pytorch/2020/09/18/fast_topk/
 ---
 
 I recently read an interesting paper by [Gehrmann et al.](https://arxiv.org/pdf/1906.04043) in which the _rank_ of the predictions of a language model is used as a feature vector to distinguish machine-generated from regular text. In implementing this method in pytorch, I ran into an interesting problem that I solved in a really slow way, and subsequently made faster. This blog post shows you how not to do it, and how you can make it faster.

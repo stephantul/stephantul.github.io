@@ -36,7 +36,14 @@ markdown: kramdown
 highlighter: rouge
 
 # Permalinks
-permalink: pretty
+# permalink: pretty
+permalink: /blog/:title/
+
+plugins:
+  - jekyll-redirect-from
+
+whitelist:
+  - jekyll-redirect-from
 
 exclude:
   - CNAME

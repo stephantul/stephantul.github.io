@@ -3,6 +3,8 @@ layout: post
 title:  "Talk: Lexical representations in theories of word reading"
 date:   2017-04-06 18:23:10 +0530
 categories: reading
+redirect_from:
+    - reading/2017/04/06/bilingualism/
 ---
 
 I recently gave a talk about lexical representations at a  [CoNGA](http://www.neocortex.be) meeting, which is a monthly meeting of a group of philosophers, neuroscientists, and computational linguists.

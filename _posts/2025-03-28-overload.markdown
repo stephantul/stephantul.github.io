@@ -3,6 +3,8 @@ layout: post
 title:  "Using overload to handle tagged union return types"
 date:   2025-03-28-00:00:00 +0000
 categories: python typing
+redirect_from:
+- python/typing/2025/03/28/overload/
 ---
 
 Here's a function with an idiom I've seen a lot (probably copied from [`sentence-transformers`](https://github.com/UKPLab/sentence-transformers)):

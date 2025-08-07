@@ -3,6 +3,8 @@ layout: post
 title:  "Getting spacy to only split on spaces"
 date:   2019-05-02 00:00:00 +0530
 categories: spacy
+redirect_from:
+- spacy/2019/05/01/tokenizationspacy/
 ---
 [spacy](https://spacy.io) is a fast and easy-to-use python package which can be used to quickly parse, tokenize, tag, and chunk with high accuracy across a variety of languages.
 I attempted to apply spacy to a NER task for which I had pre-tokenized data with gold standard BIO tags.

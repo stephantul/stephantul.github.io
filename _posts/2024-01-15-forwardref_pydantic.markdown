@@ -3,6 +3,8 @@ layout: post
 title:  "Solving a ForwardRef error in pydantic"
 date:   2024-01-15-00:00:00 +0000
 categories: python pydantic
+redirect_from:
+- python/pydantic/2024/01/15/forwardref_pydantic/
 ---
 
 I recently ran into the following error when initializing a Pydantic `BaseModel`:

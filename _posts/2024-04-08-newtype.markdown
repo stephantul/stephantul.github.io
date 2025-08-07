@@ -3,6 +3,8 @@ layout: post
 title:  "NewType in python"
 date:   2024-04-08-00:00:00 +0000
 categories: python typing
+redirect_from:
+- python/typing/2024/04/08/newtype/
 ---
 
 New week, new post! This post is about `NewType`, an underused construct in Python, in my opinion, and a good way to show the difference between _typingtime_ and _runtime_. 

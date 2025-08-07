@@ -2,7 +2,9 @@
 layout: post
 title:  "Parsing a spacy json to a tree"
 date:   2019-07-14 00:00:00 +0530
-categories: trees, spacy
+categories: trees spacy
+redirect_from:
+- trees,/spacy/2019/07/13/spacytree/
 ---
 In a [previous post](https://stephantul.github.io/trees/2019/07/10/treerec/), I discussed some easy functions to recursively deal with trees, which often comes up in NLP when trying to deal with parse trees.
 

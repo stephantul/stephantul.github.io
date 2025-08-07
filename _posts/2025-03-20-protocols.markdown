@@ -3,6 +3,8 @@ layout: post
 title:  "Protocols to make untyped code behave"
 date:   2025-03-20-00:00:00 +0000
 categories: python typing
+redirect_from:
+- python/typing/2025/03/20/protocols/
 ---
 
 Working with external untyped code in a typed code base can be challenging, you'll get lots of `Any` or `Unknown`, which might propagate through your codebase. This can force you to reach for `typing.cast`, or `# type: ignore` statements, which kind of defeats the purpose of using static typing in the first place.
