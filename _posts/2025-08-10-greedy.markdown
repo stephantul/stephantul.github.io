@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "Turning any tokenizer into a greedy one"
+date:   2025-08-10-00:00:00 +0000
+categories: tokenization 
+---
+
+I recently re-read [Greed is All You Need: An Evaluation of Tokenizer Inference Methods](https://arxiv.org/abs/2403.01289). In this paper, the authors show that switching out inference methods for tokenizers can improve performance on various tasks.
+
+In this post, I talk about how this could be interesting, introduce an implementation to switch out inference methods for a HF tokenizer, and present the results on some experiments.
+
+# Preliminaries
+
+A tokenizer is, simply put, a program that, given a vocabulary of tokens `V`, can segment text into a sequence of tokens. These tokens are suitable for input into neural networks, because each token is actually just an index to an embedding table.
+
+Crucially, the vocabulary `V` can be automatically learned from a large corpus of text. There are many algorithms for doing so, but the most well-known are `WordPiece`, `UnigramLM`, and `Byte Pair Encoding (BPE)`. I won't dive into the details of those algorithms here. What is important is that each of these methods does not only differ in what kind of vocabulary `V` they learn, but also how they actually segment text. For example, the `WordPiece` algorithm just takes the longest possible prefix at any position (a greedy algorithm), while `BPE`'s segmentation is governed by a separate merge table.
+
+# The experiment
+
+The main contribution by the aforementioned paper is showing that switching out the inference algorithm after training actually works well. That is, if you have a vocabulary `V` learned by a `BPE` tokenizer, you can segment text using that same vocabulary and, e.g., the `WordPiece` inference algorithm. This improves performance, especially when switching to a _greedy_ algorithm. This is not what I would have expected by the way, since you are changing the distributions.
+
+To see what this looks like, here's the standard and greedy segmentations for two phrases, using the [`ModernBERT`](https://huggingface.co/answerdotai/ModernBERT-base) tokenizer.
+
+```
+string: "hellooo phonenumber"
+normal: ['hell', 'ooo', 'Ġphon', 'en', 'umber']
+greedy: ['hello', 'oo', 'Ġphone', 'number']
+
+string: " unilaterally"
+normal: ['Ġun', 'il', 'aterally']
+greedy: ['Ġunilateral', 'ly']
+```
+
+As you can see, the greedy tokenizer matches our intuitions about language much more closely: `hellooo` is not related to `hell`, and `unilaterally` does not use the prefix `un` (it should be `uni`). This is in line with what the authors of the aforementioned paper found: when examining performance on morphological tasks, switching to a greedy algorithm made performance go up.
+
+# Implementation
+
+I implemented greedy tokenization by simply switching out the tokenizer model from whatever it was to a `WordPiece` implementation. This is easy in my package [tokenizer-datamodels](https://github.com/stephantul/tokenizer-datamodels).
+
+```python
+from tokenizerdatamodels import TokenizerModel
+
+# This is a pydantic model.
+datamodel = TokenizerModel.from_pretrained("answerdotai/ModernBERT-base")
+# This is a HF tokenizer, you can just use it.
+greedy = datamodel.make_model_greedy().to_tokenizer()
+
+greedy.encode("hello phonenumber")
+```
+
+`tokenizer-datamodels`, as the name implies, is just a collection of models that can be used to parse and edit a `tokenizer.json`, which is the Hugging Face tokenizers construct that contains all information about a tokenizer. It has many of these tiny features, and I'll be adding more soon, so check it out if that sounds interesting.
+
+# Experiments
+
+As mentioned above, greedy works well on intrinsic tasks. But does it actually improve performance on downstream tasks? To find out, I ran two models, [`multilingual-e5-base`](https://huggingface.co/intfloat/multilingual-e5-base) and [`modernbert-embed-base`](https://huggingface.co/nomic-ai/modernbert-embed-base) on [NanoBEIR](https://huggingface.co/collections/zeta-alpha-ai/nanobeir-66e1a0af21dfd93e620cd9f6). This is very similar to the setup in [my previous blog post about decasing](https://stephantul.github.io/blog/uncasing/).
+
+|          | ModernBERT | e5     |
+|----------|------------|--------|
+| Original |  57.68     | 57.27   |  
+| Greedy   |  55.20     | 55.90   |  
+
+So, interestingly, switching to a greedy tokenizer completely tanks the scores of the models: it is literally worse on all datasets in NanoBEIR for both models. While we could consider this to be in direct opposition to the results in the paper, I don't think this is the case.
+
+# Discussion
+
+To see why, recall that the results from the paper were based on the tokenization itself; no downstream models were trained. In these experiments, we instead change the tokenizer of a model _without retraining it_. Now, to see why this is bad, we should realize that tokens don't have any intrinsic meaning to a model; the model does not know that "hell" is not a good prefix for the word "helloooo", and "hello" is a better one. To the model, these are just indices to an embedding table. So changing the segmentation of words can't realistically help the model, because we are changing the underlying token distribution feeding into the model without telling the model about it. 
+
+My hypothesis: _pre-training_ an encoder model with a greedy tokenizer leads to better results than training one with a regular BPE tokenizer. Having tokens that more closely follow morphology is probably good for model performance: the model has to learn fewer exceptions, and can rely more on surface form. 
+
+Related hypotheses: if you have trillions of tokens, is that still relevant? Aren't all possible segmentations covered and memorizable? Even if following morphology is better, does it only impact training time, or is the resulting model actually  better? Many interesting questions, and things I am eager to explore.
