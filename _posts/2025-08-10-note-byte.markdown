@@ -1,0 +1,60 @@
+---
+layout: post
+title:  "Rethinking the ByteLevel Pretokenizer: Separate Normalization from Splitting"
+date:   2025-08-12-00:00:00 +0000
+categories: tokenization 
+---
+
+This is a short note to dissuade you from using a `ByteLevel` pretokenizer in your tokenizers. The `ByteLevel` pretokenizer, as implemented in [Hugging Face tokenizers](https://github.com/huggingface/tokenizers) does three things:
+
+1. Possibly inserts a space in front of your string (if `add_prefix_space` is True (default))
+2. Encodes your string into a byte encoding
+3. Tokenizes using a regex that is specific to English (if `use_regex` is True (default))
+
+Here's an example:
+
+```python
+from tokenizers.pretokenizers import ByteLevel
+
+b = ByteLevel()
+b.pre_tokenize_str("hello, こんにちは")
+# A list of three tokens.
+# [('Ġhello', (0, 5)), (',', (5, 6)), ('ĠãģĵãĤĵãģ«ãģ¡ãģ¯', (6, 12))]
+# The tokenizer inserted a space before "hello"
+# It converted to bytes
+# And then split.
+```
+
+In the tokenizers package, there's a distinction between a *normalizer* and a *pretokenizer*. A *normalizer* simply changes your string, but doesn't split it. For example, if your tokenizer lowercases your input, you'll use a [`Lowercase`](https://huggingface.co/docs/tokenizers/api/normalizers#tokenizers.normalizers.Lowercase) normalizer. A *pretokenizer* splits your string into "words", which can then get decomposed into actual tokens. A "word", in this definition, is a boundary across which you can never find a subword token. For example, if your pretokenizer splits on "-", the string "bench-maxx" will be split into ["bench", "-", "maxx"]. Even if your vocabulary contains a token like "h-m", it will never be found.
+
+In this framework, it makes sense to express steps 1. and 2. above as normalizations, and decouple them from the splitting. This also makes sense from a multilingual point of view: the pretokenization regex used by the Hugging Face pretokenizer is outdated and only works for English. This regex is: 
+
+```python
+"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"
+```
+
+As you can see, it contains common contractions, which only work for English. In fact, applying this to other languages might destroy their tokenization.
+
+Luckily for us, Hugging Face tokenizers contains an equivalent transformation using normalizers and a regex splitter. Unfortunately for us, however, we need to change the regex above because otherwise it splits on various byte tokens.
+
+```python
+from tokenizers import Regex
+from tokenizers.normalizers import ByteLevel as ByteLevelNormalization, Prepend, Sequence
+from tokenizers.pre_tokenizers import Split, ByteLevel
+
+normalizer = Sequence([Prepend(" "), ByteLevelNormalization()])
+
+# Change it to split only on ASCII punctuation
+pattern = r"'s|'t|'re|'ve|'m|'ll|'d|Ġ?(?:[\p{L}&&[^Ġ]]|[\p{P}\p{S}&&[^\x00-\x7F]])+|Ġ?\p{N}+|Ġ?[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E]+"
+pretokenizer = Split(Regex(pattern), behavior="isolated")
+
+b = ByteLevel()
+
+s = "hello, ごきげんよう?" 
+
+print(pretokenizer.pre_tokenize_str(normalizer.normalize_str(s)))
+print(b.pre_tokenize_str(s))
+
+```
+
+And that's a wrap! You can now safely add or remove whatever you want to the regex defined above, split however you like, and it will work. One downside of this approach is that writing and interpreting a regex for bytes is quite difficult. 
