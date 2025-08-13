@@ -7,35 +7,41 @@
     <meta name="description" content="{% if page.meta_description %}{{ page.meta_description }}{% else %}{{ site.harmony.meta_description }}{% endif %}" />
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
-    <!-- Preconnects for Google Fonts (drop these if you self-host fonts) -->
+    <!-- Critical base (prevents layout jump before main.css) -->
+    <style>
+      html { box-sizing: border-box; }
+      *,*::before,*::after { box-sizing: inherit; }
+      body { margin: 0; line-height: 1.5; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+      .wc-container { max-width: 64rem; margin-inline: auto; padding-inline: 1rem; }
+      .main-header { padding-block: 1.5rem; }
+      .main-header .wc-container { min-height: 96px; } /* tune to your header */
+      .wc-container img { display:block; height:auto; } /* prevent image inline-gap */
+    </style>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"></noscript>
 
-    <!-- Non-blocking Google Fonts load (preload → flip) -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap">
-    </noscript>
+    <!-- Apply Varela only after it's ready (avoids mid-paint swap jump on body) -->
+    <style>
+      .wf-ready body { font-family: "Varela Round", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+    </style>
+    <script>
+      document.fonts && document.fonts.ready.then(function () {
+        document.documentElement.classList.add('wf-ready');
+      });
+    </script>
 
-    <!-- Your site CSS (non-blocking via preload → flip). 
-         IMPORTANT: remove any other <link rel="stylesheet" for main.css -->
-    <link
-      rel="preload"
-      as="style"
-      href="{{ site.baseurl }}/assets/css/main.css"
-      onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-      <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
-    </noscript>
+    <!-- Site CSS: non-blocking -->
+    <link rel="preload" as="style" href="{{ site.baseurl }}/assets/css/main.css"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css"></noscript>
 
-    <!-- Defer scripts so they don’t hold first paint -->
+    <!-- Defer scripts -->
     <script defer src="{{ site.baseurl }}/assets/js/modernizr.js"></script>
-
-    <!-- Old IE shims and X-UA-Compatible removed (obsolete & add overhead) -->
   </head>
   <body class="{{ site.harmony.basetheme }}">
     <header class="main-header">
@@ -45,9 +51,7 @@
         {% include header-links.html %}
       </div>
     </header>
-
     {{ content }}
-
     <footer class="main-footer">
       <p class="wc-container disclaimer">
         {% include footer.html %}
