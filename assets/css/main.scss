@@ -245,6 +245,10 @@ header.main-header {
             @include font-size(18px);
         }
     }
+    .site-description {
+    font-size: 1.375rem;
+}
+
 }
 
 footer.main-footer {
@@ -497,6 +501,7 @@ pre {
   margin: 0;
   padding: 1em;
 }
+
 
 /* Gist via GitHub Pages */
 .gist .gist-file {
