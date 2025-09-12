@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "Note: alternative to regex splitting in byte tokenizers"
+date:   2025-08-12-00:00:00 +0000
+categories: tokenization 
+---
+
+In a [previous note](_posts/2025-08-10-note-byte.markdown), I discussed an alternative for setting `split` to true in a `ByteLevel` pretokenizer. I suggested using a `ByteLevel` _normalizer_ first, and then splitting using a complicated regex in "byte space". However, this turned out to not work very well: there are certain character classes in an original Regex, such as `\s`, that are very difficult to convert to a pattern in byte space.
+
+I was wondering about how others did this, and discovered that you can stack multiple pretokenizers by first using a `Split` pretokenizer with a regex, and then using a `ByteLevel` pretokenizer with `split` set to False. This is, e.g., what [`Qwen/Qwen3-Embedding-0.6B`](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) uses. Doing it this way is correct and achieves my original proposal: a way to split using a regex of your own design, with Byte normalization.
+
+Here's what that looks like:
+
+```python
+from tokenizers import Regex
+from tokenizers.pre_tokenizers import Split, ByteLevel, Sequence
+
+pattern = r"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"
+split = Split(Regex(pattern), behavior="isolated")
+byte = ByteLevel(use_regex=False, add_prefix_space=False)
+pretokenizer = Sequence([split, byte])
+
+original = ByteLevel(use_regex=True, add_prefix_space=False)
+
+s = "hello, ご　「きげんよう?」？”" 
+
+print(pretokenizer.pre_tokenize_str(s))
+print(original.pre_tokenize_str(s))
+```
+
+This allows you to freely change your regex without any difficulties. One thing to note is that `add_prefix_space` needs to be unset for this to be totally equivalent. If not, you will need to add a `Prepend` normalizer.
