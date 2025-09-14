@@ -16,7 +16,9 @@ Hello! I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my 
 
 ## Jobs
 
-Right now, I work at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. I am tech lead on the Intent Recognition pipeline, which is the classifier that runs on any query being entered into Ecosia search.
+Right now, I work as a principal ML engineer at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. I am tech lead on the Intent Recognition pipeline, which is the classifier that runs on any query being entered into Ecosia search.
+
+I used to be one of the founding members of [minish](https://github.com/MinishLab), and created [model2vec](https://github.com/MinishLab/model2vec), [semhash](https://github.com/MinishLab/semhash) and the [potion models](https://huggingface.co/collections/minishlab/potion-6721e0abd4ea41881417f062).
 
 Before that, I worked as a Senior NLP/Machine Learning Engineer at [Metamaze](https://www.metamaze.eu). I worked on a lot of projects related to generative AI, mostly related to the core business of Metamaze, which is automated document processing.
 
