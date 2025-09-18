@@ -3,7 +3,7 @@ layout: page
 permalink: /about/
 ---
 
-Hello! I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](mailto:stephan.tul+github@gmail.com).
+Hello! I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](mailto:stephan.tul+github@gmail.com). None of the stuff I write is generated, although I do use models for writing checks/hints.
 
 ## Personal
 
@@ -18,9 +18,9 @@ Hello! I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my 
 
 Right now, I work as a principal ML engineer at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. I am tech lead on the Intent Recognition pipeline, which is the classifier that runs on any query being entered into Ecosia search.
 
-I am one of the founders of [minish](https://github.com/MinishLab), and created [model2vec](https://github.com/MinishLab/model2vec), [semhash](https://github.com/MinishLab/semhash) and the [potion models](https://huggingface.co/collections/minishlab/potion-6721e0abd4ea41881417f062).
+I am one of the founders of [minish](https://github.com/MinishLab), and created [model2vec](https://github.com/MinishLab/model2vec), [semhash](https://github.com/MinishLab/semhash) and the [potion models](https://huggingface.co/collections/minishlab/potion-6721e0abd4ea41881417f062). I quit Minish in september 2025.
 
-Before that, I worked as a Senior NLP/Machine Learning Engineer at [Metamaze](https://www.metamaze.eu). I worked on a lot of projects related to generative AI, mostly related to the core business of Metamaze, which is automated document processing.
+Before working at Ecosia, I worked as a Senior NLP/Machine Learning Engineer at [Metamaze](https://www.metamaze.eu). I worked on a lot of projects related to generative AI, mostly related to the core business of Metamaze, which is automated document processing.
 
 Some time ago, I worked as a Data Scientist at [Dataprovider.com](https://www.dataprovider.com). I worked on a variety of AI projects, mostly to do with Information Retrieval-like tasks.
 
