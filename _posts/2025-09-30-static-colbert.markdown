@@ -120,6 +120,8 @@ assert np.isclose(b, c)
 
 ```
 
+### Footnotes
+
 [^1]: This is typically alleviated through query expansion techniques. SPLADE is also notable in that it automatically performs query/term expansion within the model, in addition to scoring terms that are present.
 
 [^2]: These dense models are specifically trained to be late interaction models, but their cores are just pre-trained transformers, like the ones we use for dense retrieval. For training details, see [the colbert paper](https://arxiv.org/abs/2004.12832) and [the colbertv2 paper](https://arxiv.org/abs/2112.01488). You can use [PyLate](https://github.com/lightonai/pylate) to train, it's easy!
