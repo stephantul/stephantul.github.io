@@ -34,6 +34,8 @@ So, for each query token, we first calculate the similarity ([^4]) to each docum
 
 The reason late interaction models work is not just because of `maxsim`, but also because the underlying models are _trained_ to maximize the similarity between a query token and a related document token. These models are _contextualized_, which means that the model produces different vectors for tokens in different contexts. Static models, on the other hand, always produce the same vector for each token, regardless of the context. This makes static vectors worse, but also much faster. Why and when this is useful is the topic of an upcoming post, but for now let's assume this is a useful property.
 
+### Static late interaction
+
 Now, I will argue that `maxsim`, when applied to a static model, implicitly leads to a sparse model. First, recall that, in a static model, every occurrence of a token always gets the same vector. This also implies that the similarity between two tokens is always exactly the same: if `dog` and `cat` always get the same vector, then `sim(dog, cat)` is always the same value. So, this gives us a nice optimization: we can precompute all possible similarities. For a vocabulary `V` with `t` tokens, this leads to a `t x t`-sized matrix, which we call `W`. Note that `W` is very big! For a vocabulary size of 30k, this already is a 900 million parameter matrix. In practice we can easily make this matrix extremely sparse by pruning any items below a certain threshold ([^5]).
 
 Now, given `W`, `maxsim` reduces to:
