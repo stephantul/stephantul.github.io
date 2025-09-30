@@ -74,6 +74,51 @@ This is all preliminary theoretical work, but which can be very promising. One t
 * Thanks [jonah](https://x.com/drexalt) for proofreading and helpful suggestions about SPLADE.
 * Thanks [Ben](https://x.com/bclavie) for suggesting blogs to link to.
 
+### Appendix: code sample
+
+Here's some code showing the methods are equivalent. We don't precompute the document representations, but in the last function you could just do that.
+
+```python
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+def maxsim(q: list[int], doc: list[int], vecs: np.ndarray) -> float:
+    """Compute the maxsim"""
+    q_x = vecs[q]
+    d_x = vecs[doc]
+    sim = cosine_similarity(q_x, d_x)  # q, d matrix
+    maxes = sim.max(1)  # q vector
+    return maxes.sum()
+
+
+def maxsim_w(q: list[int], doc: list[int], W: np.ndarray) -> float:
+    """Compute the maxsim with W."""
+    vectors = W[doc]  # d, V matriw
+    indexed = vectors[:, q]  # d, q matrix
+    return indexed.max(0).sum()
+
+
+def maxsim_doc(q: list[int], doc_w: np.ndarray) -> float:
+    """Last step, precompute the documents."""
+    return doc_w[q].sum()
+
+random = np.random.RandomState(42)
+vectors = random.randn(1000, 32)
+
+doc = [1, 2, 3, 4, 5]
+query = [10, 11, 12]
+W = cosine_similarity(vectors)
+# Document
+doc_w = W[doc].max(0)
+
+a = maxsim(query, doc, vectors)
+b = maxsim_w(query, doc, W)
+c = maxsim_doc(query, doc_w)
+
+assert np.isclose(a, b)
+assert np.isclose(b, c)
+
+```
 
 [^1]: This is typically alleviated through query expansion techniques. SPLADE is also notable in that it automatically performs query/term expansion within the model, in addition to scoring terms that are present.
 
