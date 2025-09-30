@@ -3,6 +3,14 @@ layout: default
 ---
 
 <div class="page-content wc-container">
+	{% if page.header_image %}
+	<div class="post-header-image">
+		<img src="{{ page.header_image | relative_url }}" alt="Header image">
+		{% if page.header_caption %}
+		<p class="header-caption">{{ page.header_caption }}</p>
+		{% endif %}
+	</div>
+	{% endif %}
 
 	<div class="post">
 		<h3>{{ page.title }}</h3>

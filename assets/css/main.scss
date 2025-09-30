@@ -667,3 +667,8 @@ th {
     padding: 0.25em 0.5em;
     border: 1px solid black;
 }
+
+.post-header-image img {
+  width: 100%;
+  object-fit: cover;
+}

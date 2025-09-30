@@ -33,6 +33,9 @@ harmony:
 
 # Conversion / Build settings
 markdown: kramdown
+kramdown:
+  math_engine: mathjax
+  input: GFM
 highlighter: rouge
 
 # Permalinks

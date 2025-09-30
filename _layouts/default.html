@@ -36,6 +36,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
+    {% if page.math %}{% include mathjax.html %}{% endif %}
     <body class="{{ site.harmony.basetheme }}">
         <header class="main-header">
             <div class="wc-container">
