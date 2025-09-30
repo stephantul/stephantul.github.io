@@ -11,7 +11,7 @@ Late interaction is an interesting paradigm for computing the similarity between
 
 ### Sparse
 
-Sparse retrieval assigns each individual token one or more coefficients, and only scores tokens when they are present in the document. For example, a query like "pet stores" will only return documents that contain those terms. In other words, sparse retrieval does not retrieve semantically related words; it only indexes documents based on the terms that are actually present. Examples of sparse retrieval techniques are [SPLADE](https://arxiv.org/abs/2107.05720), [DeepImpact](https://arxiv.org/abs/2104.12016), [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) and [uniCOIL](https://arxiv.org/abs/2106.14807). Sparse retrieval tends to be precise because it only matches terms exactly, but for the same reason also has trouble bridging the gap between semantically related terms([^1]). In general, sparse retrievers don't do well if there's little to no lexical overlap between queries and documents, or if there's lots of semantic ambiguity.
+Sparse retrieval assigns each individual token one or more coefficients, and only scores tokens when they are present in the document. For example, a query like "pet stores" will only return documents that contain those terms. In other words, sparse retrieval does not retrieve semantically related words; it only indexes documents based on the terms that are actually present. Examples of sparse retrieval techniques are [SPLADE](https://arxiv.org/abs/2107.05720), [DeepImpact](https://arxiv.org/abs/2104.12016), [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) and [uniCOIL](https://arxiv.org/abs/2106.14807). Sparse retrieval tends to be precise because it only matches terms exactly, but for the same reason also has trouble bridging the gap between semantically related terms. ([^1]) In general, sparse retrievers don't do well if there's little to no lexical overlap between queries and documents, or if there's lots of semantic ambiguity.
 
 ### Dense
 
@@ -36,22 +36,22 @@ The reason late interaction models work is not just because of `maxsim`, but als
 
 ### Static late interaction
 
-Now, I will argue that `maxsim`, when applied to a static model, implicitly leads to a sparse model. First, recall that, in a static model, every occurrence of a token always gets the same vector. This also implies that the similarity between two tokens is always exactly the same: if `dog` and `cat` always get the same vector, then `sim(dog, cat)` is always the same value. So, this gives us a nice optimization: we can precompute all possible similarities. For a vocabulary `V` with `t` tokens, this leads to a `t x t`-sized matrix, which we call `W`. Note that `W` is very big! For a vocabulary size of 30k, this already is a 900 million parameter matrix. In practice we can easily make this matrix extremely sparse by pruning any items below a certain threshold ([^5]).
+Now, I will argue that `maxsim`, when applied to a static model, implicitly leads to a sparse model. First, recall that, in a static model, every occurrence of a token always gets the same vector. This also implies that the similarity between two tokens is always exactly the same: if `dog` and `cat` always get the same vector, then `sim(dog, cat)` is always the same value. So, this gives us a nice optimization: we can precompute all possible similarities. For a vocabulary `V` with `t` tokens, this leads to a `t x t`-sized matrix, which we call `W`. Note that `W` is very big! For a vocabulary size of 30k, this already is a 900 million parameter matrix. In practice we can easily make this matrix extremely sparse by pruning any items below a certain threshold. ([^5])
 
 Now, given `W`, `maxsim` reduces to:
 
 $$
 s(Q,D)
-= \sum_{i=1}^{m} \max_{1 \le j \le n} \;W_{ij}
+= \sum_{i=1}^{m} \max_{1 \le j \le n} \;W_{Q_iD_j}
 $$
 
-This formulation means that we only need to store token indices and compute query indices to get the same result as we would have gotten when storing all vectors and computing vectors at query time. [^6] We also still need to store `W`, however. In addition, it is also unclear whether this is actually efficient.
+This formulation means that we only need to store token indices and compute query indices to get the same result as we would have gotten when storing all vectors and computing vectors at query time. ([^6]) We also still need to store `W`, however. In addition, it is also unclear whether this is actually efficient.
 
 Fortunately for us there's yet another shortcut: for each token in document `D`, we can index the _columns_ from `W`, and take the *max*. This leads to a single `V`-sized vector, which we call `Y`. `Y` contains the pre-computed max from the document to each possible token. This effectively precomputes the `max` for each possible token for each document. So, if we do this, the only thing we need to do at query time is index this vector using the query tokens, and take the sum. Because the vectors are pretty sparse, and the sparsity is controllable, this leads to a small memory footprint, and small query-time compute. Here's the equation:
 
 $$
 s(Q,Y)
-= \sum_{i=1}^{m} Y_{i}
+= \sum_{i=1}^{m} Y_{Q_i}
 $$
 
 To repeat: during query time, the only thing we do is index. The index consists of a single matrix, with a number of rows equal to the number of documents, and columns equal to `t`, the vocabulary size. 
