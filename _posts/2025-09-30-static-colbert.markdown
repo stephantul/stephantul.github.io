@@ -2,7 +2,8 @@
 layout: post
 title:  "Static late interaction models"
 date:   2025-09-30-00:00:00 +0000
-categories: static models
+categories: 
+    static models
 header_image: /images/El_Aquelarre.jpg
 math: true
 ---
