@@ -11,7 +11,7 @@ Late interaction is an interesting paradigm for computing the similarity between
 
 ### Sparse
 
-Sparse retrieval assigns each individual token one or more coefficients, and only scores tokens when they are present in the document. For example, a query like "pet stores" will only return documents that contain those terms. In other words, sparse retrieval does not retrieve semantically related words; it only indexes documents based on the terms that are actually present. Examples of sparse retrieval techniques are [SPLADE](https://arxiv.org/abs/2107.05720), [DeepImpact](https://arxiv.org/abs/2104.12016), [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) and [uniCOIL](https://arxiv.org/abs/2106.14807). Sparse retrieval tends to be precise because it only matches terms exactly, but for the same reason also has trouble bridging the gap between semantically related terms. ([^1]) In general, sparse retrievers don't do well if there's little to no lexical overlap between queries and documents, or if there's lots of semantic ambiguity.
+Sparse retrieval assigns each individual token one or more coefficients, and only scores tokens when they are present in the document. For example, a query like "pet stores" will only return documents that contain those terms. In other words, sparse retrieval does not retrieve semantically related words; it only indexes documents based on the terms that are actually present. Examples of sparse retrieval techniques are [SPLADE](https://arxiv.org/abs/2107.05720), [DeepImpact](https://arxiv.org/abs/2104.12016), [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) and [uniCOIL](https://arxiv.org/abs/2106.14807). Sparse retrieval tends to be precise because it matches terms exactly, but for the same reason also has trouble bridging the gap between semantically related terms. ([^1]) In general, sparse retrievers don't do well if there's little to no lexical overlap between queries and documents, or if there's lots of semantic ambiguity.
 
 ### Dense
 
@@ -28,7 +28,7 @@ $$
 
 So, for each query token, we first calculate the similarity ([^4]) to each document token, and then take the max of those similarities. The sum over all of the query tokens is the `maxsim` score.
 
-`maxsim` allows late interaction models to attach scores to specific tokens, like sparse retrieval models, but also allows for a graded similarity between related tokens, like dense models (and unlike sparse models). As such, we can think of late interaction models as a hybrid between dense and sparse models. There's many other aspects to dig into, which I won't cover here, so please read [one](https://medium.com/@varun030403/colbert-a-complete-guide-1552468335ae) [of](https://jina.ai/news/jina-colbert-v2-multilingual-late-interaction-retriever-for-embedding-and-reranking/) [the](https://weaviate.io/blog/late-interaction-overview) [many](https://qdrant.tech/articles/late-interaction-models/) good posts on the subject.
+`maxsim` allows late interaction models to attach scores to specific tokens, like sparse retrieval models, but also allows for a graded similarity between related tokens, like dense models (and unlike sparse models). As such, we can think of late interaction models as a hybrid between dense and sparse models. There's many other aspects to dig into, which I won't cover here, so please read [one](https://medium.com/@varun030403/colbert-a-complete-guide-1552468335ae) [of](https://jina.ai/news/jina-colbert-v2-multilingual-late-interaction-retriever-for-embedding-and-reranking/) [the](https://weaviate.io/blog/late-interaction-overview) [many](https://qdrant.tech/articles/late-interaction-models/) [good](https://www.answer.ai/posts/colbert-pooling.html) posts on the subject.
 
 ### Static models
 
@@ -68,8 +68,13 @@ This explains why I think that just computing the `maxsim` with a static model a
 
 This is all preliminary theoretical work, but which can be very promising. One thing that specifically is interesting is _asymmetric_ static models, i.e., using different static models to encode queries and documents, which is something I am actively working on. It is currently unclear whether training static models as late interaction models is actually useful. I have trained some static models using [PyLate](https://github.com/lightonai/pylate), but this did not lead to good results; training them as regular dense retrievers works much better. More research is needed, as always. Feel free to reach out if you have ideas, I'm always open to talk.
 
+### Acknowledgments
 
-[^1]: This is typically alleviated through query expansion techniques.
+* Thanks [jonah](https://x.com/drexalt) for proofreading and helpful suggestions about SPLADE.
+* Thanks [Ben](https://x.com/bclavie) for suggesting blogs to link to.
+
+
+[^1]: This is typically alleviated through query expansion techniques. SPLADE is also notable in that it automatically performs query/term expansion within the model, in addition to scoring terms that are present.
 
 [^2]: These dense models are specifically trained to be late interaction models, but their cores are just pre-trained transformers, like the ones we use for dense retrieval. For training details, see [the colbert paper](https://arxiv.org/abs/2004.12832) and [the colbertv2 paper](https://arxiv.org/abs/2112.01488). You can use [PyLate](https://github.com/lightonai/pylate) to train, it's easy!
 
