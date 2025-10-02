@@ -55,7 +55,7 @@ s(Q,Y)
 = \sum_{i=1}^{m} Y_{Q_i}
 $$
 
-To repeat: during query time, the only thing we do is index. The index consists of a single matrix, document-term matrix, with the number of rows equal to the number of documents, and numer of tows equal to `t`, the vocabulary size. 
+To repeat: during query time, the only thing we do is index. The index consists of a single document-term matrix, with the number of rows equal to the number of documents, and number of rows equal to `t`, the vocabulary size. 
 
 One question this raises is whether, for a decently-sized corpus, this document-term matrix is actually smaller than `W`. The answer is: no, except for really small numbers of documents. This is caused by the fact that a document vector is the max of a lot of tokens, and there tends to have a lot of non-zero coefficients. So, in practice, if space is an issue, it might actually be better to still use `W`. If speed is a concern, it might be better to bite the bullet, and store the extra coefficients.
 
