@@ -55,7 +55,7 @@ So far so good, I loved PCA. I was a PCA apologist. ([^3])
 
 ### Static models and MRL
 
-Matryoshka Representation Learning (MRL) is a relatively new technique. It was proposed in [a 2022 paper](https://arxiv.org/abs/2205.13147), but as far as I know really rose to prominence once OpenAI included it in their embedding models. 
+Matryoshka Representation Learning (MRL) is a relatively new technique. It was proposed in [a 2022 paper](https://arxiv.org/abs/2205.13147), but as far as I know really rose to prominence once OpenAI included it in their embedding models. See [this blog post by Tom Aarsen](https://huggingface.co/blog/matryoshka) for more information.
 
 The idea behind MRL is that, if you train a network with some kind of loss function that operates on vectors, you can evaluate that loss on many contiguous subspaces of those vectors in a single forward pass. This works as follows: you first perform a forward pass to obtain the vectors, and then, for a set of dimensions `D`, you evaluate the loss at that specific dimension. For example, if our vector is 256-dimensional, and our dimensions `D` are 32, 64, 128 and 256, we will evaluate the loss four times for each forward pass. This has a few important consequences:
 
