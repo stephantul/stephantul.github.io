@@ -657,15 +657,21 @@ p.post-meta {
 
 ----------------------------------- */
 table {
-    margin: 1em 0;
-    width: 100%;
-    border: 1px solid black;
-    border-collapse: collapse;
+  margin: 1.5em 0;
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden; /* keeps rounded corners clean */
 }
-td,
+
 th {
-    padding: 0.25em 0.5em;
-    border: 1px solid black;
+  background-color: #000000;
+  color: white;
+  text-align: left;
+}
+
+td, th {
+  padding: 0.75em 1em;
+  border: 2px solid #000000;
 }
 
 .post-header-image img {
