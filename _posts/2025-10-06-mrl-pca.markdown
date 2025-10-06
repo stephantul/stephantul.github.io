@@ -12,7 +12,7 @@ Without reducing dimensionality, static models can be hundreds of MB large. Choo
 
 ### Static models and PCA
 
-First, let's talk about static models and PCA. Static models are just embedding tables indexed by a tokenizer. Just like good old word embeddings, but better. One determining factor in the performance of a static model is that the embedding space does not model irrelevant or redundant information; because no downstream exists to process or ignore information, the embedding space needs to handle all of this.
+First, let's talk about static models and PCA. Static models are just embedding tables indexed by a tokenizer. Just like good old word embeddings, but better. One determining factor in the performance of a static model is that the embedding space does not model irrelevant or redundant information; because no downstream task exists to process or ignore information, the embedding space needs to handle all of this.
 
 So now, on to PCA. PCA finds an orthonormal basis of vectors (principal components) such that each successive component captures as much of the remaining variance as possible. ([^2]) Transformed embeddings are then expressed as linear combinations of these components. As it turns out, in addition to being used for reducing dimensionality, PCA also has the property of making the individual dimensions of your embedding space _uncorrelated_; i.e., a space for which the expected cosine similarity is close to 0. The expected cosine being close to 0 is caused by all dimensions being centered around 0, and also uncorrelated with other dimensions.
 
