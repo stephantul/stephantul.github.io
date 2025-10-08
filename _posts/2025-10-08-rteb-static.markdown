@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Evaluating static models on RTEB"
-date:   2025-10-06-00:00:00 +0000
+date:   2025-10-08-00:00:00 +0000
 categories: 
     - static models
 header_image: /images/soup.jpg
