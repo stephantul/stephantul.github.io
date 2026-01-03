@@ -23,10 +23,7 @@
         />
 
         <!-- Harmony styles -->
-        <link
-            rel="stylesheet"
-            href="{{ '/assets/css/main.css' | relative_url }}"
-        />
+        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css" />
 
         <!-- Modernizr js -->
         <script async src="{{ site.baseurl }}/assets/js/modernizr.js"></script>
@@ -53,7 +50,7 @@
         <link
             rel="preload"
             as="style"
-            href="assets/css/main.css"
+            href="{{ site.baseurl }}/assets/css/main.css""
             onload="
                 this.onload = null;
                 this.rel = 'stylesheet';
