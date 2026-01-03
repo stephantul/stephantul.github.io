@@ -1,11 +1,12 @@
-
 .highlight {
-  background-color: #fff;
-  padding: 1em;
-  border-radius: 6px;
-  overflow-x: auto;
-  font-size: 0.9em;
-  line-height: 1.5;
+    background-color: #fff;
+    padding: 1.2em 2em 1.2em 2.5em;
+    border-left: 8px solid #ff2e88;
+    border-bottom: 8px solid #ff2e88;
+    border-radius: 0;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.5;
 }
 
 /* Token styles */
@@ -13,8 +14,8 @@
 .highlight .c1,
 .highlight .cm,
 .highlight .cs {
-  color: #a04f7c;
-  font-style: italic;
+    color: #a04f7c;
+    font-style: italic;
 }
 
 .highlight .k,    // Keywords
@@ -22,18 +23,18 @@
 .highlight .kp,
 .highlight .kr,
 .highlight .kt {
-  color: #ff2e88;
-  font-weight: bold;
+    color: #ff2e88;
+    font-weight: bold;
 }
 
 .highlight .nf,   // Function name
 .highlight .nc {
-  color: #d63384;
+    color: #d63384;
 }
 
 .highlight .nb,   // Built-ins
 .highlight .bp {
-  color: #9d4edd;
+    color: #9d4edd;
 }
 
 .highlight .s,    // Strings
@@ -43,46 +44,58 @@
 .highlight .sh,
 .highlight .si,
 .highlight .sx {
-  color: #d0006f;
+    color: #d0006f;
 }
 
 .highlight .m,    // Numbers
 .highlight .mi,
 .highlight .mf,
 .highlight .mh {
-  color: #ff70b0;
+    color: #ff70b0;
 }
 
 .highlight .o,    // Operators
 .highlight .ow {
-  color: #e60073;
-  font-weight: bold;
+    color: #e60073;
+    font-weight: bold;
 }
 
-.highlight .p {   // Punctuation
-  color: #333;
+.highlight .p {
+    // Punctuation
+    color: #333;
 }
 
-.highlight .err { // Errors
-  color: #fff;
-  background-color: #d7263d;
-  font-weight: bold;
-  padding: 0.1em 0.3em;
-  border-radius: 4px;
+.highlight .err {
+    // Errors
+    color: #fff;
+    background-color: #d7263d;
+    font-weight: bold;
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
 }
 
 /* Optional: tighter spacing for <pre> */
 .highlight pre {
-  margin: 0;
-  padding: 0;
-  background: none;
-  line-height: 1.4;
+    margin: 0;
+    padding: 0;
+    background: none;
+    line-height: 1.4;
+    border: none;
 }
 
-.highlight code {
-  font-family: Menlo, Monaco, "Courier New", monospace;
-  background: none;
-  padding: 0;
-  color: inherit;
-  font-size: inherit;
+.highlight code,
+.highlight pre code {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+    background: none !important;
+    padding: 0 !important;
+    color: inherit;
+    font-size: inherit;
+    border-radius: 0 !important;
+}
+
+/* Additional specificity to override inline code styling */
+pre code {
+    border-radius: 0 !important;
+    background: none !important;
+    padding: 0 !important;
 }

@@ -2,12 +2,12 @@
 url: "https://stephantul.github.io"
 baseurl: ""
 title: "Stéphan Tulkens"
-description: "NLP Person /// token addict"
+description: "NLP Person"
 
 # Harmony theme configuration
 harmony:
   name: Stéphan Tulkens
-  description: NLP Person /// token addict
+  description: NLP Person
   meta_description: "Stéphan Tulkens' Blog"
   basetheme: theme-base-01
   author:
