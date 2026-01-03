@@ -5,11 +5,7 @@ date:   2025-08-12-00:00:00 +0000
 categories: tokenization 
 ---
 
-# NOTE 
-
-This note is wrong! This was shown to me by [Sasuke___420](https://x.com/sasuke___420/). As it turns out, the regex does not work the same as the original one, specifically for non-ascii spaces. Upon further reflection, I don't think you should really use this.
-
-# Original note
+*This note is wrong! This was revealed to me by [Sasuke___420](https://x.com/sasuke___420/). As it turns out, the regex does not work the same as the original one, specifically for non-ascii spaces. Upon further reflection, I don't think you should really use this.*
 
 This is a short note to dissuade you from using a `ByteLevel` pretokenizer in your tokenizers. The `ByteLevel` pretokenizer, as implemented in [Hugging Face tokenizers](https://github.com/huggingface/tokenizers) does three things:
 
@@ -63,4 +59,4 @@ print(b.pre_tokenize_str(s))
 
 ```
 
-And that's a wrap! You can now safely add or remove whatever you want to the regex defined above, split however you like, and it will work. One downside of this approach is that writing and interpreting a regex for bytes is quite difficult. 
+And that's a wrap! You can now safely add or remove whatever you want to the regex defined above, split however you like, and it will work. One downside of this approach is that writing and interpreting a regex for bytes is quite difficult.
