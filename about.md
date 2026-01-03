@@ -31,4 +31,4 @@ If you think any of these topics sound interesting, feel free to [reach out](mai
 * I love closely listening to music, across all genres.
 * I love reading, mostly science fiction. Jeff Vandermeer and China Miéville are probably my favorite authors.
 * I work remotely, and, with the exception of some brief excursions into local coffee places, spend most of my time at home
-* I love coffee, pickles and hummus
+* I love coffee, pickles, and hummus
