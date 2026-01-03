@@ -9,15 +9,14 @@ Hello! I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my 
 ## Personal
 
 * I live in Antwerp, but I used to live in the far north of the Netherlands, in Groningen.
-* I am the father of twins, a boy and a girl, they're 3 years old now. Having twins is super tough, I like to think I did a lot of tough things in my life, but really, nothing compares to raising two strong-willed children of the same age.
+* I am the father of twins, a boy and a girl. Having twins is super tough, I like to think I did a lot of tough things in my life, but really, nothing compares to raising two strong-willed children of the same age.
 * I enjoy reading books. My favorite author is Jeff Vandermeer. I really tend to enjoy what people call "weird fiction".
 * I am an avid music listener. I really like focused listening to new music, and the act of conciously listening to a new album or piece of music. I tend to "overlisten" to a single album.
 * I studied philosophy (BA), software engineering (BA), and (computational) linguistics (MA & PhD).
-* I believe doing nothing sometimes is super useful. Try doing more nothing!
 
 ## Jobs
 
-Right now, I work as a principal ML engineer at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. I am tech lead on the Intent Recognition pipeline, which is the classifier that runs on any query being entered into Ecosia search.
+Right now, I work as a principal ML engineer at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. I work on a lot of stuff, including an agentic AI codebase written in Typescript, and an intent recognition pipeline written in Python.
 
 I am one of the founders of [minish](https://github.com/MinishLab), and created [model2vec](https://github.com/MinishLab/model2vec), [semhash](https://github.com/MinishLab/semhash) and the [potion models](https://huggingface.co/collections/minishlab/potion-6721e0abd4ea41881417f062). I quit Minish in september 2025.
 
