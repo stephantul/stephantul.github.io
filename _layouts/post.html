@@ -3,47 +3,55 @@ layout: default
 ---
 
 <div class="page-content wc-container">
-	{% if page.header_image %}
-	<div class="post-header-image">
-		<img src="{{ page.header_image | relative_url }}" alt="Header image">
-		{% if page.header_caption %}
-		<p class="header-caption">{{ page.header_caption }}</p>
-		{% endif %}
-	</div>
-	{% endif %}
+    {% if page.header_image %}
+    <div class="post-header-image">
+        <img src="{{ page.header_image | relative_url }}" alt="Header image" />
+        {% if page.header_caption %}
+        <p class="header-caption">{{ page.header_caption }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
 
-	<div class="post">
-		<h3>{{ page.title }}</h3>
-		<p class="post-meta">
-			{% if page.categories.size > 0 %}
-      <span class="categories">
-      {{ page.categories | array_to_sentence_string }}
-      </span> |
-	    {% endif %}
-	    <span class="post-date">
-    	{{ page.date | date: "%b %-d, %Y" }}
-	    </span>
-		</p>
-		<div class="post">
-			{{ content }}
-		</div>
-	</div>
+    <div class="post">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <p class="post-meta">
+            {% if page.categories.size > 0 %}
+            <span class="categories">
+                {{ page.categories | array_to_sentence_string }}
+            </span>
+            | {% endif %}
+            <span class="post-date">
+                {{ page.date | date: "%b %-d, %Y" }}
+            </span>
+        </p>
+        <div class="post">{{ content }}</div>
+    </div>
 
-	<div class="post-footer">
-		<div class="column-1">
-			{% if page.previous %}
-				<a href="{{page.previous.url | prepend: site.baseurl | prepend: site.url }}">&lt;&lt; Older</a>
-			{% else %}
-				<span>&lt;&lt; Older</span>
-			{% endif %}
-		</div>
-		<div class="column-2"><a href="{{ '/' | prepend: site.baseurl | prepend: site.url }} ">Home</a></div>
-		<div class="column-3">
-			{% if page.next %}
-				<a href="{{ page.next.url | prepend: site.baseurl | prepend: site.url }}">Newer &gt;&gt;</a>
-			{% else %}
-				<span>Newer &gt;&gt;</span>
-			{% endif %}
-		</div>
-	</div>
+    <div class="post-footer">
+        <div class="column-1">
+            {% if page.previous %}
+            <a
+                href="{{page.previous.url | prepend: site.baseurl | prepend: site.url }}"
+                >&lt;&lt; Older</a
+            >
+            {% else %}
+            <span>&lt;&lt; Older</span>
+            {% endif %}
+        </div>
+        <div class="column-2">
+            <a href="{{ '/' | prepend: site.baseurl | prepend: site.url }} "
+                >Home</a
+            >
+        </div>
+        <div class="column-3">
+            {% if page.next %}
+            <a
+                href="{{ page.next.url | prepend: site.baseurl | prepend: site.url }}"
+                >Newer &gt;&gt;</a
+            >
+            {% else %}
+            <span>Newer &gt;&gt;</span>
+            {% endif %}
+        </div>
+    </div>
 </div>

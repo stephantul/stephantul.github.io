@@ -1,6 +1,7 @@
 ---
 layout: page
 permalink: /about/
+title: About
 ---
 
 Hello! I'm Stéphan. I am a Machine Learning engineer/NLP Person. Welcome to my personal website. I hope you enjoy reading it. If you have any questions or comments, feel free to reach out through my social channels, or via [e-mail](mailto:stephan.tul+github@gmail.com). None of the stuff I write is generated, although I do use models for writing checks/hints.

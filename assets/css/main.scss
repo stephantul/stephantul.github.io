@@ -28,8 +28,8 @@ html * {
 }
 
 del {
-  text-decoration: line-through;
-  text-decoration-thickness: 5px;
+    text-decoration: line-through;
+    text-decoration-thickness: 5px;
 }
 
 *,
@@ -191,7 +191,7 @@ a {
 }
 
 .strikethrough {
-  text-decoration: line-through solid 10px;
+    text-decoration: line-through solid 10px;
 }
 
 header.main-header,
@@ -210,10 +210,25 @@ header.main-header {
         border-bottom-color: transparent;
     }
 
-    h1 {
+    h1,
+    .site-title {
         text-align: left;
         font-weight: bolder;
     }
+
+    .site-title {
+        // inherit H1 typography
+        @include font-size(20px);
+        @include MQ(M) {
+            @include font-size(36px);
+        }
+    }
+
+    .site-title a {
+        color: inherit;
+        text-decoration: none;
+    }
+
     h5 {
         text-align: left;
     }
@@ -246,9 +261,8 @@ header.main-header {
         }
     }
     .site-description {
-    font-size: 1.375rem;
-}
-
+        font-size: 1.375rem;
+    }
 }
 
 footer.main-footer {
@@ -494,14 +508,13 @@ pre {
 }
 
 .highlight {
-  margin: 0 0 1em 0; /* bottom space, no top */
+    margin: 0 0 1em 0; /* bottom space, no top */
 }
 
 .highlight pre {
-  margin: 0;
-  padding: 1em;
+    margin: 0;
+    padding: 1em;
 }
-
 
 /* Gist via GitHub Pages */
 .gist .gist-file {
@@ -657,24 +670,25 @@ p.post-meta {
 
 ----------------------------------- */
 table {
-  margin: 1.5em 0;
-  width: 100%;
-  border-collapse: collapse;
-  overflow: hidden; /* keeps rounded corners clean */
+    margin: 1.5em 0;
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden; /* keeps rounded corners clean */
 }
 
 th {
-  background-color: #000000;
-  color: white;
-  text-align: left;
+    background-color: #000000;
+    color: white;
+    text-align: left;
 }
 
-td, th {
-  padding: 0.75em 1em;
-  border: 2px solid #000000;
+td,
+th {
+    padding: 0.75em 1em;
+    border: 2px solid #000000;
 }
 
 .post-header-image img {
-  width: 100%;
-  object-fit: cover;
+    width: 100%;
+    object-fit: cover;
 }

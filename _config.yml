@@ -1,35 +1,41 @@
 # Harmony Jekyll theme general configurations
-
-# Base URL
+url: "https://stephantul.github.io"
 baseurl: ""
+title: "Stéphan Tulkens"
+description: "NLP Person /// token addict"
 
-# Site live URL
-url: http://stephantul.github.io
-
-# Localhost
-# url: http://127.0.0.1:4000
-
-# Harmony theme configuration. Please change accordingly.
+# Harmony theme configuration
 harmony:
   name: Stéphan Tulkens
-  # Little description about your site
   description: NLP Person /// token addict
-  # 'meta_description:' Write an awesome description for your new site here.
-  # It will appear in your document head meta (for Google search results) and
-  # in your feed.xml site description.
-  meta_description: > #
-   Stéphan Tulkens' Blog
-  basetheme: theme-base-01 # pre defined thmes are darken, blue-water, redish.
-  author: # Author details
+  meta_description: "Stéphan Tulkens' Blog"
+  basetheme: theme-base-01
+  author:
     name: Stéphan Tulkens
     email: stephantul@gmail.com
-    url: http://stephantul.github.io
+    url: "https://stephantul.github.io"
 
-  # Google Analytics key, leave blank to ignore
   google_analytics_key:
-
-  # Toggle disclaimer in footer
   show_disclaimer: false
+
+# Author (used by jekyll-seo-tag)
+author:
+  name: Stéphan Tulkens
+  email: stephantul@gmail.com
+  url: "https://stephantul.github.io"
+
+# Social identity (used for JSON-LD + OG)
+social:
+  name: "Stéphan Tulkens"
+  links:
+    - "https://github.com/stephantul"
+    - "https://twitter.com/tulkenss"
+    - "https://www.linkedin.com/in/stephantulkens/"
+    - "https://scholar.google.com/citations?user=pvoqmHQAAAAJ"
+
+# Twitter card metadata
+twitter:
+  username: tulkenss
 
 # Conversion / Build settings
 markdown: kramdown
@@ -39,11 +45,13 @@ kramdown:
 highlighter: rouge
 
 # Permalinks
-# permalink: pretty
 permalink: /blog/:title/
 
+# Plugins (GitHub Pages safe)
 plugins:
   - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-seo-tag
 
 whitelist:
   - jekyll-redirect-from
@@ -59,5 +67,5 @@ exclude:
 
 # Sass conversion configs
 sass:
-    sass_dir: assets/css/_sass
-    style: :compressed
+  sass_dir: assets/css/_sass
+  style: compressed
