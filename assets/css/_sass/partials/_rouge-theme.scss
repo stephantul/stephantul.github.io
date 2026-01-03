@@ -7,6 +7,7 @@
     overflow-x: auto;
     font-size: 0.9em;
     line-height: 1.5;
+    color: #333;
 }
 
 /* Token styles */
@@ -37,13 +38,20 @@
     color: #9d4edd;
 }
 
+.highlight .n {
+    // Names/variables
+    color: #333;
+}
+
 .highlight .s,    // Strings
 .highlight .s1,
 .highlight .s2,
 .highlight .sb,
 .highlight .sh,
 .highlight .si,
-.highlight .sx {
+.highlight .sx,
+.highlight .se {
+    // String escape
     color: #d0006f;
 }
 
@@ -74,6 +82,38 @@
     border-radius: 4px;
 }
 
+/* Support for .token classes (in case JavaScript transforms Rouge classes) */
+.highlight .token.comment {
+    color: #a04f7c;
+    font-style: italic;
+}
+
+.highlight .token.keyword,
+.highlight .token.operator {
+    color: #ff2e88;
+    font-weight: bold;
+}
+
+.highlight .token.function {
+    color: #d63384;
+}
+
+.highlight .token.builtin {
+    color: #9d4edd;
+}
+
+.highlight .token.string {
+    color: #d0006f;
+}
+
+.highlight .token.number {
+    color: #ff70b0;
+}
+
+.highlight .token.punctuation {
+    color: #333;
+}
+
 /* Optional: tighter spacing for <pre> */
 .highlight pre {
     margin: 0;
@@ -88,9 +128,9 @@
     font-family: Menlo, Monaco, "Courier New", monospace;
     background: none !important;
     padding: 0 !important;
-    color: inherit;
     font-size: inherit;
     border-radius: 0 !important;
+    color: #333;
 }
 
 /* Additional specificity to override inline code styling */
