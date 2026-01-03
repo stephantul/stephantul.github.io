@@ -26,14 +26,6 @@ layout: default
             </p>
 
             <p>{{ post.excerpt }}</p>
-            <p>
-                <a
-                    href="{{ post.url | relative_url }}"
-                    aria-label="Read more: {{ post.title | escape }}"
-                >
-                    Read more
-                </a>
-            </p>
         </div>
         {% endfor %}
     </div>
