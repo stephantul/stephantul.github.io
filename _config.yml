@@ -24,6 +24,8 @@ author:
   email: stephantul@gmail.com
   url: "https://stephantul.github.io"
 
+lang: en
+
 # Social identity (used for JSON-LD + OG)
 social:
   name: "Stéphan Tulkens"

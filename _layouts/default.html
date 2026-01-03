@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -21,9 +21,9 @@
         <!-- Harmony styles -->
         <link
             rel="stylesheet"
-            type="text/css"
-            href="{{ site.baseurl }}/assets/css/main.css"
+            href="{{ '/assets/css/main.css' | relative_url }}"
         />
+
         <!-- Modernizr js -->
         <script async src="{{ site.baseurl }}/assets/js/modernizr.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,7 +55,6 @@
                 this.rel = 'stylesheet';
             "
         />
-        <noscript><link rel="stylesheet" href="/css/main.css" /></noscript>
         <!-- IE Fixes -->
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -75,7 +74,9 @@
                 {% include header-links.html %}
             </div>
         </header>
-        {{ content }}
+        <main id="main-content" class="page-content" role="main">
+            {{ content | replace: ' role="doc-endnote"', '' }}
+        </main>
         <footer class="main-footer">
             <p class="wc-container disclaimer">{% include footer.html %}</p>
         </footer>

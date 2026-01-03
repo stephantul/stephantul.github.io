@@ -24,7 +24,9 @@ layout: default
                 {{ page.date | date: "%b %-d, %Y" }}
             </span>
         </p>
-        <div class="post">{{ content }}</div>
+        <div class="post">
+            {{ content | replace: ' role="doc-endnote"', '' }}
+        </div>
     </div>
 
     <div class="post-footer">
