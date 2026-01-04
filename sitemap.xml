@@ -4,19 +4,52 @@ permalink: /sitemap.xml
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{% for page in site.pages %}
-  {% if page.url and page.sitemap != false %}
+
+{%- assign excluded_exact = "/sitemap.xml,/feed.xml,/atom.xml,/rss.xml,/redirects.json,/404.html" | split: "," -%}
+
+{%- comment -%} Pages {%- endcomment -%}
+{%- for page in site.pages -%}
+  {%- assign u = page.url | default: "" -%}
+
+  {%- assign is_excluded_exact = false -%}
+  {%- if excluded_exact contains u -%}
+    {%- assign is_excluded_exact = true -%}
+  {%- endif -%}
+
+  {%- assign is_asset = false -%}
+  {%- if u contains "/assets/" -%}
+    {%- assign is_asset = true -%}
+  {%- endif -%}
+
+  {%- assign has_bad_ext = false -%}
+  {%- if u contains ".css" or u contains ".js" or u contains ".map" or u contains ".json" or u contains ".txt" or u contains ".xml" -%}
+    {%- assign has_bad_ext = true -%}
+  {%- endif -%}
+
+  {%- if u != ""
+    and page.sitemap != false
+    and page.noindex != true
+    and is_excluded_exact == false
+    and is_asset == false
+    and has_bad_ext == false
+  -%}
   <url>
-    <loc>{{ page.url | absolute_url }}</loc>
+    <loc>{{ u | absolute_url }}</loc>
+    {%- if page.date -%}
+    <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
+    {%- endif -%}
   </url>
-  {% endif %}
-{% endfor %}
-{% for post in site.posts %}
-  {% if post.url and post.sitemap != false %}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Posts {%- endcomment -%}
+{%- for post in site.posts -%}
+  {%- if post.url and post.sitemap != false and post.noindex != true -%}
   <url>
     <loc>{{ post.url | absolute_url }}</loc>
     <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
   </url>
-  {% endif %}
-{% endfor %}
+  {%- endif -%}
+{%- endfor -%}
+
 </urlset>
