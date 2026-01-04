@@ -1,24 +1,48 @@
 ---
 layout: null
+permalink: /sitemap.xml
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{% for page in site.pages %}
-  {% if page.url and page.sitemap != false %}
+
+  {%- comment -%}
+  Pages
+  - include only indexable pages
+  - provide lastmod only when you have an explicit date (front matter)
+  {%- endcomment -%}
+  {%- for page in site.pages -%}
+    {%- if page.url
+      and page.sitemap != false
+      and page.noindex != true
+      and page.url != "/404.html"
+      and page.url != "/feed.xml"
+      and page.url != "/atom.xml"
+      and page.url != "/rss.xml"
+    -%}
   <url>
-    <loc>{{ page.url | absolute_url | strip }}</loc>
-    {% if page.last_modified_at %}
-    <lastmod>{{ page.last_modified_at | date_to_xmlschema }}</lastmod>
-    {% endif %}
+    <loc>{{ page.url | absolute_url }}</loc>
+    {%- if page.date -%}
+    <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
+    {%- endif -%}
   </url>
-  {% endif %}
-{% endfor %}
-{% for post in site.posts %}
-  {% if post.url and post.sitemap != false %}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- comment -%}
+  Posts
+  - always include (unless opted out)
+  - lastmod uses publish date (best available without a last-mod plugin)
+  {%- endcomment -%}
+  {%- for post in site.posts -%}
+    {%- if post.url
+      and post.sitemap != false
+      and post.noindex != true
+    -%}
   <url>
-    <loc>{{ post.url | absolute_url | strip }}</loc>
+    <loc>{{ post.url | absolute_url }}</loc>
     <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
   </url>
-  {% endif %}
-{% endfor %}
+    {%- endif -%}
+  {%- endfor -%}
+
 </urlset>

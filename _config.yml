@@ -52,7 +52,6 @@ permalink: /blog/:title/
 # Plugins (GitHub Pages safe)
 plugins:
   - jekyll-redirect-from
-  - jekyll-sitemap
   - jekyll-seo-tag
 
 whitelist:
