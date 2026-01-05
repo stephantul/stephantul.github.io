@@ -9,7 +9,7 @@ redirect_from:
 
 Working with external untyped code in a typed code base can be challenging, you'll get lots of `Any` or `Unknown`, which might propagate through your codebase. This can force you to reach for `typing.cast`, or `# type: ignore` statements, which kind of defeats the purpose of using static typing in the first place.
 
-One easy way to deal with this is by leveraging a [`Protocol`](https://mypy.readthedocs.io/en/stable/protocols.html). I've discussed these before in the context of caching, see [here](https://stephantul.github.io/python/typing/2024/05/31/cache/). The gist of it is that a `Protocol` allows you to define a "structure" to be used in place of the thing that is actually used. Anything that matches the implementation of that `Protocol` can be used in place of (implements) the protocol.
+One easy way to deal with this is by leveraging a [`Protocol`](https://mypy.readthedocs.io/en/stable/protocols.html). I've discussed these before in the context of caching, see [here](https://stephantul.github.io/blog/cache). The gist of it is that a `Protocol` allows you to define a "structure" to be used in place of the thing that is actually used. Anything that matches the implementation of that `Protocol` can be used in place of (implements) the protocol.
 
 One of the most well-known protocols is the `Iterator`. First, let's look at a familiar example:
 

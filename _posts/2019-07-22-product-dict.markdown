@@ -7,7 +7,7 @@ redirect_from:
 - python/2019/07/20/product-dict/
 ---
 
-In a [previous post](https://stephantul.github.io/python/2019/07/20/product/), I talked about using `itertools.product` with lists.
+In a [previous post](https://stephantul.github.io/product-dict), I talked about using `itertools.product` with lists.
 In this post, I used a typical ML experiment as an example, and made a comparison with sklearn's `GridSearchCV`.
 It occurred to me that `GridSearchCV` uses dictionaries, while my example only used lists, so in this post I will show you how to build a dictionary iterator using `product`.
 

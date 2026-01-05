@@ -6,7 +6,7 @@ categories: trees spacy
 redirect_from:
 - trees,/spacy/2019/07/13/spacytree/
 ---
-In a [previous post](https://stephantul.github.io/trees/2019/07/10/treerec/), I discussed some easy functions to recursively deal with trees, which often comes up in NLP when trying to deal with parse trees.
+In a [previous post](https://stephantul.github.io/blog/treerec/), I discussed some easy functions to recursively deal with trees, which often comes up in NLP when trying to deal with parse trees.
 
 By far the easiest way to obtain good (for English at least) parse trees is [spacy](https://spacy.io). One thing that surprised me, however, is that spacy only offers a `.to_json` function that turns a parsed sentence into a flat JSON representation, which looks like this:
 
