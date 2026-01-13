@@ -51,11 +51,19 @@ body {
     background: $bg-main;
     font-size: 100%;
 }
-
 .wc-container {
-    width: 90%;
-    max-width: $M;
+    width: 100%;
+    max-width: $L;
     margin: 0 auto;
+    padding-inline: 1rem; // mobile gutter
+
+    @include MQ(M) {
+        padding-inline: 2rem;
+    }
+
+    @include MQ(L) {
+        padding-inline: 0; // optional if you want tight desktop layout
+    }
 
     &::after {
         content: "";
@@ -63,7 +71,6 @@ body {
         clear: both;
     }
 }
-
 /* --------------------------------
    Typography
 -------------------------------- */
