@@ -8,7 +8,7 @@ header_image: /images/cudgels.jpg
 math: true
 ---
 
-Without reducing dimensionality, static models can be hundreds of MB large. Choosing the right dimensionality-reduction technique can shrink them without sacrificing retrieval quality. I was always a huge fan of Principal Component Analysis (PCA) for making static models smaller. For example, PCA is used in [model2vec](https://github.com/MinishLab/model2vec) and was used in an older version of [tokenlearn](https://github.com/MinishLab/model2vec) to post-process models, and is used in the newer version of tokenlearn to reduce the dimension of the teacher models.([^1]) PCA was always on my mind as a good option for reducing dimensions. Recently, however, I started experimenting with Matryoshka Representation Learning (MRL) for reducing dimensions and have found it to be superior, which I found surprising. This blog post thus tries to answer the question: when should you be using PCA and MRL? If one is better than the other, why? I discuss both techniques, why applying dimensionality reduction to static embeddings makes sense, and some options for future work.
+Without reducing dimensionality, static models can be hundreds of MB large. Choosing the right dimensionality-reduction technique can shrink them without sacrificing retrieval quality. I was always a huge fan of Principal Component Analysis (PCA) for making static models smaller. For example, PCA is used in [model2vec](https://github.com/MinishLab/model2vec) and was used in an older version of [tokenlearn](https://github.com/MinishLab/model2vec) to post-process models, and is used in the newer version of tokenlearn to reduce the dimension of the teacher models. PCA was always on my mind as a good option for reducing dimensions. Recently, however, I started experimenting with Matryoshka Representation Learning (MRL) for reducing dimensions and have found it to be superior, which I found surprising. This blog post thus tries to answer the question: when should you be using PCA and MRL? If one is better than the other, why? I discuss both techniques, why applying dimensionality reduction to static embeddings makes sense, and some options for future work.
 
 ### Static models and PCA
 
@@ -51,7 +51,7 @@ So, as you can see, even without reducing dimensionality, we get the expected me
 
 This property of PCA was also surprising to us when we made `model2vec`: we used PCA to just reduce the dimensionality to directly compare to traditional embeddings, such as [GloVe](https://nlp.stanford.edu/projects/glove/), but we saw that even when not reducing dimensionality, performance improved. 
 
-So far so good, I loved PCA. I was a PCA apologist. ([^3])
+So far so good, I loved PCA. I was a PCA apologist. ([^2])
 
 ### Static models and MRL
 
@@ -68,7 +68,7 @@ Note that MRL does not guarantee that dimensions are uncorrelated or have an exp
 
 The MRL paper shows that PCA is worse than MRL; PCA performance degrades more rapidly than MRL performance when the dimensionality is decreased. There's a possibility that this conclusion does not transfer to static models, as we're not applying PCA to the output of a model, but to the model itself, something which is impossible for a regular model. So it could be that, for static models, the fact that the whole model can be optimized by PCA is still better than using MRL.
 
-There's also the caveat that MRL requires a loss function to be optimized, although I think this is easily circumvented in practice. ([^4])
+There's also the caveat that MRL requires a loss function to be optimized, although I think this is easily circumvented in practice. ([^3])
 
 To see what it all means, I trained two static models: one with MRL, and the other without MRL. They were trained using the recipe from [Tom Aarsen's blog about static models](https://huggingface.co/blog/static-embeddings), although I left out the `paq` and `s2orc` datasets. TLDR; it's just supervised finetuning on a whole bunch of retrieval datasets using the `MultipleNegativesRanking` loss (also known as InfoNCE). The models were trained for 1 epoch using a very high learning rate of 0.2, 10% warmup and a linear cooldown. I experimented with other configurations but most of this had no effect.
 
@@ -118,10 +118,8 @@ Practical advice:
 
 ### Footnotes
 
-[^1]: I am no longer a maintainer or owner of these projects, but added the functionality while I was still at Minish.
+[^1]: For a super in-depth treatment of PCA, see [Peter Bloem's excellent notes](https://peterbloem.nl/blog/pca).
 
-[^2]: For a super in-depth treatment of PCA, see [Peter Bloem's excellent notes](https://peterbloem.nl/blog/pca).
+[^2]: An apologist is not someone who apologizes, but I guess they do sometimes apologize. Sorry if this was confusing.
 
-[^3]: An apologist is not someone who apologizes, but I guess they do sometimes apologize. Sorry if this was confusing.
-
-[^4]: PCA is mathematically equivalent to a 1-layer auto-encoder with linear activation function, albeit without the ordered dimensions property of PCA. As such, we can easily rewrite a "PCA" using MRL by training a reconstruction loss with MRL, which would give it the ordered dimensions property. I think there's a lot of interesting low-hanging fruit here, because you can easily modify the loss of the auto-encoder, make the network deeper, etc. 
+[^3]: PCA is mathematically equivalent to a 1-layer auto-encoder with linear activation function, albeit without the ordered dimensions property of PCA. As such, we can easily rewrite a "PCA" using MRL by training a reconstruction loss with MRL, which would give it the ordered dimensions property. I think there's a lot of interesting low-hanging fruit here, because you can easily modify the loss of the auto-encoder, make the network deeper, etc.

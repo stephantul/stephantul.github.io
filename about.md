@@ -10,7 +10,7 @@ Hello! I'm Stéphan. I am a Machine Learning engineer. Welcome to my personal we
 
 I work as a principal ML engineer at [Ecosia](https://www.ecosia.org/), the search engine that plants trees. In this role I do a lot of different things, including logging/alerting, training models, writing typescript code for agentic stuff, product work, etc. I consider myself to be an end-to-end ML engineer; I know how to wrangle data, train models, but also how to put them in production and how to think about getting things into production. I am happiest when I am included in the product side of things; a kind of internal ML consultant.
 
-I am one of the founders of [minish](https://github.com/MinishLab), and created [model2vec](https://github.com/MinishLab/model2vec), [semhash](https://github.com/MinishLab/semhash) and the [potion models](https://huggingface.co/collections/minishlab/potion-6721e0abd4ea41881417f062). I quit Minish in september 2025, I just thought it wasn't that fun any more.
+I am one of the founders of [minish](https://github.com/MinishLab). Together with Thomas, I created [model2vec](https://github.com/MinishLab/model2vec), [semhash](https://github.com/MinishLab/semhash) and the [potion models](https://huggingface.co/collections/minishlab/potion-6721e0abd4ea41881417f062).
 
 Before going into industry, I was a ph.d student at [CLiPS](http://www.clips.ua.ac.be), the Computational Linguistics and Psycholinguistics Research Center at the University of Antwerp in Belgium. My thesis topic was on the psycholinguistics of lexical access and word recognition. I defended my thesis remotely on the 11th of September 2020.
 
