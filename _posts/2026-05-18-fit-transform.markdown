@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Scikit-learn's fit transform paradigm is probably not for you"
-date:   2026-05-18-00:00:00 +0000
+date:   2026-05-17-00:00:00 +0000
 categories: 
     - python
 ---
