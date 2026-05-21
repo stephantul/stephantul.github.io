@@ -2,6 +2,7 @@
 layout: post
 title:  "Make something for someone"
 date:   2026-05-19-00:00:00 +0000
+categories: creation
 ---
 
 I recently listened to the album [Music for Existing](https://martyn.bandcamp.com/album/music-for-existing) by producer [Martyn](https://martyn.bandcamp.com/). I wasn't really familiar with him, and in fact it got algorithmically recommended by me because the album features [Duval Timothy](https://duvaltimothy.co.uk/), whose album [Meeting with a Judas Tree](https://duvaltimothy.bandcamp.com/album/meeting-with-a-judas-tree) I adore.
