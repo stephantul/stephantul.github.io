@@ -18,6 +18,7 @@ To me, this is what it feels like to build open source libraries. The cost of cr
 
 I can also write lines of code for free. I have the same superpowers you do, so if I didn't add some feature to a project I own, there's probably a good reason I didn't add that specific feature. If you're wondering why I didn't add it myself, just ask. Don't build the fence. 
 
+## Footnotes
 
 [^1]: The full quote is: 'IN the matter of reforming things, as distinct from deforming them, there is one plain and simple principle; a principle which will probably be called a paradox. There exists in such a case a certain institution or law; let us say for the sake of simplicity, a fence or gate erected across a road. The more modern type of reformer goes gaily up to it and says, "I don't see the use of this; let us clear it away." To which the more intelligent type of reformer will do well to answer: "If you don't see the use of it, I certainly won't let you clear it away. Go away and think. Then, when you can come back and tell me that you do see the use of it, I may allow you to destroy it."' [[source](https://catholiclibrary.org/library/view?chunk.id=00000011&docId=%2FContemporary-EN%2FXCT.165.html)]
 
