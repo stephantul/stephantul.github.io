@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "From Chesterton's fence to Chesterton's gap"
-date:   2026-05-19-00:00:00 +0000
+date:   2026-06-14-00:00:00 +0000
 ---
 
 The British Writer and Catholic apologist [G. K. Chesterton](https://en.wikipedia.org/wiki/G._K._Chesterton) is, perhaps, most well known to programmers through a paragraph in which he introduces what is now known as "Chesterton's fence". It's a very simple idea: You walk through a field and see a fence which, seemingly, has no purpose. Instead of tearing it down because it seemingly has no use, try to understand or ask why somebody put it there. [^1] That's it!
