@@ -4,7 +4,7 @@ title:  "From Chesterton's fence to Chesterton's gap"
 date:   2026-06-14-00:00:00 +0000
 ---
 
-The British Writer and Catholic apologist [G. K. Chesterton](https://en.wikipedia.org/wiki/G._K._Chesterton) is, perhaps, most well known to programmers through a paragraph in which he introduces what is now known as "Chesterton's fence". It's a very simple idea: You walk through a field and see a fence which, seemingly, has no purpose. Instead of tearing it down because it seemingly has no use, try to understand or ask why somebody put it there. ([^1]) That's it!
+The English Writer and Christian apologist [G. K. Chesterton](https://en.wikipedia.org/wiki/G._K._Chesterton) is, perhaps, most well known to programmers through a paragraph in which he introduces what is now known as "Chesterton's fence". It's a very simple idea: You walk through a field and see a fence which, seemingly, has no purpose. Instead of tearing it down because it seemingly has no use, try to understand or ask why somebody put it there. ([^1]) That's it!
 
 Paraphrasing: if you think somebody built something bad or in a bad way, try to understand why they did it that way before undoing their work. Being burned while ignoring Chesterton's fence is a rite of passage for every programmer: you see a piece of code and think "who the hell wrote this". Then, when rewriting it, you break production, and realize that there was a good reason somebody did the things they did. They weren't stupid after all. Or, you rewrite it and it's actually better, and you now know more about the person who wrote it, and maybe can teach them how to build better together.
 
