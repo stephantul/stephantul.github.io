@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Skeletoken 0.4.0 release"
-date:   2025-08-12-00:00:00 +0000
+date:   2026-08-02-00:00:00 +0000
 categories: tokenization 
 ---
 
