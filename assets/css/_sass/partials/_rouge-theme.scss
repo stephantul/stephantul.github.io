@@ -1,12 +1,12 @@
 .highlight {
     background-color: #ffffff;
     padding: 1.2em 1.4em;
-    border: 1px solid #ecdfe2;
+    border: 1px solid #dbe6f0;
     border-radius: 8px;
     overflow-x: auto;
     font-size: 0.9em;
     line-height: 1.5;
-    color: #241b1e;
+    color: #1c2430;
 }
 
 /* Token styles */
@@ -14,7 +14,7 @@
 .highlight .c1,
 .highlight .cm,
 .highlight .cs {
-    color: #9a8388;
+    color: #7a8699;
     font-style: italic;
 }
 
@@ -23,23 +23,23 @@
 .highlight .kp,
 .highlight .kr,
 .highlight .kt {
-    color: #d6336c;
+    color: #2287dd;
     font-weight: bold;
 }
 
 .highlight .nf,   // Function name
 .highlight .nc {
-    color: #9d174d;
+    color: #0f4c81;
 }
 
 .highlight .nb,   // Built-ins
 .highlight .bp {
-    color: #ad1457;
+    color: #1a9fb0;
 }
 
 .highlight .n {
     // Names/variables
-    color: #241b1e;
+    color: #1c2430;
 }
 
 .highlight .s,    // Strings
@@ -51,25 +51,25 @@
 .highlight .sx,
 .highlight .se {
     // String escape
-    color: #e64980;
+    color: #4fa3d1;
 }
 
 .highlight .m,    // Numbers
 .highlight .mi,
 .highlight .mf,
 .highlight .mh {
-    color: #9c6d7a;
+    color: #4a5fa5;
 }
 
 .highlight .o,    // Operators
 .highlight .ow {
-    color: #d6336c;
+    color: #2287dd;
     font-weight: bold;
 }
 
 .highlight .p {
     // Punctuation
-    color: #241b1e;
+    color: #1c2430;
 }
 
 .highlight .err {
@@ -83,34 +83,34 @@
 
 /* Support for .token classes (in case JavaScript transforms Rouge classes) */
 .highlight .token.comment {
-    color: #9a8388;
+    color: #7a8699;
     font-style: italic;
 }
 
 .highlight .token.keyword,
 .highlight .token.operator {
-    color: #d6336c;
+    color: #2287dd;
     font-weight: bold;
 }
 
 .highlight .token.function {
-    color: #9d174d;
+    color: #0f4c81;
 }
 
 .highlight .token.builtin {
-    color: #ad1457;
+    color: #1a9fb0;
 }
 
 .highlight .token.string {
-    color: #e64980;
+    color: #4fa3d1;
 }
 
 .highlight .token.number {
-    color: #9c6d7a;
+    color: #4a5fa5;
 }
 
 .highlight .token.punctuation {
-    color: #241b1e;
+    color: #1c2430;
 }
 
 /* Optional: tighter spacing for <pre> */
@@ -129,7 +129,7 @@
     padding: 0 !important;
     font-size: inherit;
     border-radius: 0 !important;
-    color: #241b1e;
+    color: #1c2430;
 }
 
 /* Additional specificity to override inline code styling */

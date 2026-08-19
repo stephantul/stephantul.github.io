@@ -20,15 +20,15 @@
    Theme variables
 -------------------------------- */
 
-$bg-main: #fdf5f8;
+$bg-main: #f5f8fb;
 $bg-surface: #ffffff;
-$text-main: #241b1e;
+$text-main: #1c2430;
 $accent: #2287dd;
 $accent-soft: rgba($accent, 0.1);
 $header-bg: $accent;
 $header-bg-light: lighten($accent, 20%);
-$muted: #8f6b78;
-$border: #f0d9e2;
+$muted: #62748a;
+$border: #dbe6f0;
 
 // Category tag palette — index chosen deterministically per label
 $tag-colors: (
@@ -627,7 +627,7 @@ p.post-meta {
     }
 
     span {
-        color: #d9c5ca;
+        color: #b9c7d6;
     }
 }
 
@@ -643,7 +643,7 @@ blockquote {
     background: rgba($accent, 0.07);
     border-left: 4px solid $accent;
     border-radius: 0 12px 12px 0;
-    box-shadow: 0 1px 2px rgba(36, 27, 30, 0.05);
+    box-shadow: 0 1px 2px rgba(28, 36, 48, 0.05);
     font-family: $heading-font;
     font-style: italic;
     @include font-size(19px);
