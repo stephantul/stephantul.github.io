@@ -21,6 +21,11 @@
             rel="canonical"
             href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"
         />
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="{{ site.baseurl }}/favicon.svg"
+        />
 
         <!-- Harmony styles -->
         <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css" />
@@ -33,7 +38,7 @@
         <link
             rel="preload"
             as="style"
-            href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap"
             onload="
                 this.onload = null;
                 this.rel = 'stylesheet';
@@ -43,7 +48,7 @@
         <noscript>
             <link
                 rel="stylesheet"
-                href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+                href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap"
             />
         </noscript>
 
@@ -67,11 +72,20 @@
     {% if page.math %}{% include mathjax.html %}{% endif %}
     <body class="{{ site.harmony.basetheme }}">
         <header class="main-header">
-            <div class="wc-container">
-                <div class="site-title">
-                    <a href="{{ site.baseurl }}/">{{ site.harmony.name }}</a>
+            <div class="wc-container header-inner">
+                <div class="site-branding">
+                    {% assign name_parts = site.harmony.name | split: " " %}
+                    <a class="site-title" href="{{ site.baseurl }}/">
+                        <span class="logo-mark"
+                            >{{ name_parts[0] | slice: 0 }}{{ name_parts[1] |
+                            slice: 0 }}</span
+                        >
+                        {{ site.harmony.name }}
+                    </a>
+                    <p class="site-description">
+                        {{ site.harmony.description }}
+                    </p>
                 </div>
-                <p class="site-description">{{ site.harmony.description }}</p>
                 {% include header-links.html %}
             </div>
         </header>

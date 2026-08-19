@@ -15,16 +15,19 @@ layout: default
     <div class="post">
         <h1 class="post-title">{{ page.title }}</h1>
         <p class="post-meta">
-            {% if page.categories.size > 0 %}
-            <span class="categories">
-                {{ page.categories | array_to_sentence_string }}
-            </span>
-            | {% endif %}
             <span class="post-date">
                 {{ page.date | date: "%b %-d, %Y" }}
             </span>
+            {% if page.categories.size > 0 %}
+            <span class="tags">
+                {% for cat in page.categories %}
+                {% assign tag_idx = cat | size | modulo: 5 %}
+                <span class="tag tag-{{ tag_idx }}">{{ cat }}</span>
+                {% endfor %}
+            </span>
+            {% endif %}
         </p>
-        <div class="post">
+        <div class="post-body">
             {{ content | replace: ' role="doc-endnote"', '' }}
         </div>
     </div>

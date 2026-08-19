@@ -5,7 +5,21 @@ layout: default
 <div id="home" class="page-content wc-container">
     <div class="posts">
         {% for post in site.posts limit:10 %}
-        <div class="post">
+        <div class="post-preview">
+            <p class="post-meta">
+                <span class="post-date">
+                    {{ post.date | date: "%b %-d, %Y" }}
+                </span>
+                {% if post.categories.size > 0 %}
+                <span class="tags">
+                    {% for cat in post.categories %}
+                    {% assign tag_idx = cat | size | modulo: 5 %}
+                    <span class="tag tag-{{ tag_idx }}">{{ cat }}</span>
+                    {% endfor %}
+                </span>
+                {% endif %}
+            </p>
+
             <h3 class="post-title">
                 <a
                     href="{{ post.url | prepend: site.baseurl | prepend: site.url }}"
@@ -14,26 +28,13 @@ layout: default
                 </a>
             </h3>
 
-            <p class="post-meta">
-                {% if post.categories.size > 0 %}
-                <span class="categories">
-                    {{ post.categories | array_to_sentence_string }}
-                </span>
-                | {% endif %}
-                <span class="post-date">
-                    {{ post.date | date: "%b %-d, %Y" }}
-                </span>
-            </p>
-
-            <p>{{ post.excerpt }}</p>
+            <p class="post-excerpt">{{ post.excerpt }}</p>
         </div>
         {% endfor %}
     </div>
-    <div class="post-footer">
-        <div class="column-full">
-            <a href="{{ '/blog' | prepend: site.baseurl | prepend: site.url }}"
-                >Blog archive</a
-            >
-        </div>
+    <div class="archive-link">
+        <a href="{{ '/blog' | prepend: site.baseurl | prepend: site.url }}"
+            >View all posts &rarr;</a
+        >
     </div>
 </div>
