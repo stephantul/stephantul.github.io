@@ -38,7 +38,7 @@
         <link
             rel="preload"
             as="style"
-            href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap"
             onload="
                 this.onload = null;
                 this.rel = 'stylesheet';
@@ -48,7 +48,7 @@
         <noscript>
             <link
                 rel="stylesheet"
-                href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap"
+                href="https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap"
             />
         </noscript>
 
@@ -74,12 +74,23 @@
         <header class="main-header">
             <div class="wc-container header-inner">
                 <div class="site-branding">
-                    {% assign name_parts = site.harmony.name | split: " " %}
                     <a class="site-title" href="{{ site.baseurl }}/">
-                        <span class="logo-mark"
-                            >{{ name_parts[0] | slice: 0 }}{{ name_parts[1] |
-                            slice: 0 }}</span
-                        >
+                        <span class="logo-mark" aria-hidden="true">
+                            <svg
+                                viewBox="0 0 32 32"
+                                shape-rendering="crispEdges"
+                                fill="currentColor"
+                            >
+                                <rect x="0" y="0" width="32" height="4" />
+                                <rect x="0" y="28" width="32" height="4" />
+                                <rect x="0" y="4" width="4" height="24" />
+                                <rect x="28" y="4" width="4" height="24" />
+                                <rect x="9" y="9" width="14" height="4" />
+                                <rect x="9" y="13" width="4" height="6" />
+                                <rect x="19" y="13" width="4" height="6" />
+                                <rect x="0" y="19" width="23" height="4" />
+                            </svg>
+                        </span>
                         {{ site.harmony.name }}
                     </a>
                     <p class="site-description">

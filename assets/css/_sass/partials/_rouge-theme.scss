@@ -1,12 +1,12 @@
 .highlight {
     background-color: #ffffff;
     padding: 1.2em 1.4em;
-    border: 1px solid #dbe6f0;
+    border: 1px solid #dddddd;
     border-radius: 8px;
     overflow-x: auto;
     font-size: 0.9em;
     line-height: 1.5;
-    color: #1c2430;
+    color: #000000;
 }
 
 /* Token styles */
@@ -14,7 +14,7 @@
 .highlight .c1,
 .highlight .cm,
 .highlight .cs {
-    color: #7a8699;
+    color: #767676;
     font-style: italic;
 }
 
@@ -23,23 +23,24 @@
 .highlight .kp,
 .highlight .kr,
 .highlight .kt {
-    color: #2287dd;
+    color: #000000;
     font-weight: bold;
 }
 
 .highlight .nf,   // Function name
 .highlight .nc {
-    color: #0f4c81;
+    color: #333333;
+    font-weight: bold;
 }
 
 .highlight .nb,   // Built-ins
 .highlight .bp {
-    color: #1a9fb0;
+    color: #444444;
 }
 
 .highlight .n {
     // Names/variables
-    color: #1c2430;
+    color: #000000;
 }
 
 .highlight .s,    // Strings
@@ -51,31 +52,31 @@
 .highlight .sx,
 .highlight .se {
     // String escape
-    color: #4fa3d1;
+    color: #555555;
 }
 
 .highlight .m,    // Numbers
 .highlight .mi,
 .highlight .mf,
 .highlight .mh {
-    color: #4a5fa5;
+    color: #333333;
 }
 
 .highlight .o,    // Operators
 .highlight .ow {
-    color: #2287dd;
+    color: #000000;
     font-weight: bold;
 }
 
 .highlight .p {
     // Punctuation
-    color: #1c2430;
+    color: #000000;
 }
 
 .highlight .err {
     // Errors
-    color: #fff;
-    background-color: #c1392b;
+    color: #ffffff;
+    background-color: #000000;
     font-weight: bold;
     padding: 0.1em 0.3em;
     border-radius: 4px;
@@ -83,34 +84,35 @@
 
 /* Support for .token classes (in case JavaScript transforms Rouge classes) */
 .highlight .token.comment {
-    color: #7a8699;
+    color: #767676;
     font-style: italic;
 }
 
 .highlight .token.keyword,
 .highlight .token.operator {
-    color: #2287dd;
+    color: #000000;
     font-weight: bold;
 }
 
 .highlight .token.function {
-    color: #0f4c81;
+    color: #333333;
+    font-weight: bold;
 }
 
 .highlight .token.builtin {
-    color: #1a9fb0;
+    color: #444444;
 }
 
 .highlight .token.string {
-    color: #4fa3d1;
+    color: #555555;
 }
 
 .highlight .token.number {
-    color: #4a5fa5;
+    color: #333333;
 }
 
 .highlight .token.punctuation {
-    color: #1c2430;
+    color: #000000;
 }
 
 /* Optional: tighter spacing for <pre> */
@@ -129,7 +131,7 @@
     padding: 0 !important;
     font-size: inherit;
     border-radius: 0 !important;
-    color: #1c2430;
+    color: #000000;
 }
 
 /* Additional specificity to override inline code styling */
