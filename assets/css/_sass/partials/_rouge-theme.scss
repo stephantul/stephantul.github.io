@@ -1,121 +1,79 @@
+// Syntax highlighting — Atom One Light palette, tuned for the black & white site
+$hl-bg: #ffffff;
+$hl-border: #dddddd;
+$hl-fg: #383a42; // default text
+$hl-gutter: #a0a1a7; // comments, punctuation-lite
+$hl-cyan: #0184bc; // support, escapes, regex
+$hl-blue: #4078f2; // functions, decorators
+$hl-purple: #a626a4; // keywords, operator words
+$hl-green: #50a14f; // strings
+$hl-red: #e45649; // self / builtins pseudo, tags, errors
+$hl-orange: #986801; // numbers, constants, symbols
+$hl-gold: #c18401; // class names
+
 .highlight {
-    background-color: #ffffff;
+    background-color: $hl-bg;
     padding: 1.2em 1.4em;
-    border: 1px solid #dddddd;
+    border: 1px solid $hl-border;
     border-radius: 8px;
     overflow-x: auto;
     font-size: 0.9em;
     line-height: 1.5;
-    color: #000000;
+    color: $hl-fg;
+
+    .c, .c1, .cm, .cs, .cd { color: $hl-gutter; font-style: italic; }
+    .cp { color: $hl-purple; }
+
+    .k, .kn, .kp, .kr, .kd, .kv { color: $hl-purple; }
+    .kt { color: $hl-cyan; }
+    .kc { color: $hl-orange; }
+
+    .nf, .fm { color: $hl-blue; }
+    .nc, .nn { color: $hl-gold; }
+    .nd { color: $hl-blue; }
+    .nb { color: $hl-cyan; }
+    .bp { color: $hl-red; }
+    .no { color: $hl-orange; }
+    .na, .nt { color: $hl-red; }
+    .n, .nl, .nx, .py, .nv, .vc, .vg, .vi { color: $hl-fg; }
+
+    .s, .s1, .s2, .sb, .sc, .sd, .sh, .sx, .dl, .sr { color: $hl-green; }
+    .sa { color: $hl-purple; }
+    .se { color: $hl-cyan; }
+    .si { color: $hl-fg; }
+    .ss { color: $hl-orange; }
+
+    .m, .mi, .mf, .mh, .mo, .mb, .il { color: $hl-orange; }
+
+    .o { color: $hl-fg; }
+    .ow { color: $hl-purple; }
+    .p, .pi { color: $hl-fg; }
+
+    .gi { color: $hl-green; background-color: rgba(80, 161, 79, 0.12); }
+    .gd { color: $hl-red; background-color: rgba(228, 86, 73, 0.12); }
+    .gh, .gu { color: $hl-blue; }
+    .gs { font-weight: bold; }
+    .ge { font-style: italic; }
+
+    .err {
+        color: #ffffff;
+        background-color: $hl-red;
+        border-radius: 4px;
+        padding: 0.1em 0.3em;
+    }
 }
 
-/* Token styles */
-.highlight .c,    // Comment
-.highlight .c1,
-.highlight .cm,
-.highlight .cs {
-    color: #767676;
-    font-style: italic;
-}
+/* Support for .token classes (if JS ever transforms Rouge output) */
+.highlight .token.comment { color: $hl-gutter; font-style: italic; }
+.highlight .token.keyword { color: $hl-purple; }
+.highlight .token.operator { color: $hl-fg; }
+.highlight .token.function { color: $hl-blue; }
+.highlight .token.builtin { color: $hl-cyan; }
+.highlight .token.string { color: $hl-green; }
+.highlight .token.number { color: $hl-orange; }
+.highlight .token.punctuation { color: $hl-fg; }
 
-.highlight .k,    // Keywords
-.highlight .kn,
-.highlight .kp,
-.highlight .kr,
-.highlight .kt {
-    color: #000000;
-    font-weight: bold;
-}
-
-.highlight .nf,   // Function name
-.highlight .nc {
-    color: #333333;
-    font-weight: bold;
-}
-
-.highlight .nb,   // Built-ins
-.highlight .bp {
-    color: #444444;
-}
-
-.highlight .n {
-    // Names/variables
-    color: #000000;
-}
-
-.highlight .s,    // Strings
-.highlight .s1,
-.highlight .s2,
-.highlight .sb,
-.highlight .sh,
-.highlight .si,
-.highlight .sx,
-.highlight .se {
-    // String escape
-    color: #555555;
-}
-
-.highlight .m,    // Numbers
-.highlight .mi,
-.highlight .mf,
-.highlight .mh {
-    color: #333333;
-}
-
-.highlight .o,    // Operators
-.highlight .ow {
-    color: #000000;
-    font-weight: bold;
-}
-
-.highlight .p {
-    // Punctuation
-    color: #000000;
-}
-
-.highlight .err {
-    // Errors
-    color: #ffffff;
-    background-color: #000000;
-    font-weight: bold;
-    padding: 0.1em 0.3em;
-    border-radius: 4px;
-}
-
-/* Support for .token classes (in case JavaScript transforms Rouge classes) */
-.highlight .token.comment {
-    color: #767676;
-    font-style: italic;
-}
-
-.highlight .token.keyword,
-.highlight .token.operator {
-    color: #000000;
-    font-weight: bold;
-}
-
-.highlight .token.function {
-    color: #333333;
-    font-weight: bold;
-}
-
-.highlight .token.builtin {
-    color: #444444;
-}
-
-.highlight .token.string {
-    color: #555555;
-}
-
-.highlight .token.number {
-    color: #333333;
-}
-
-.highlight .token.punctuation {
-    color: #000000;
-}
-
-/* Optional: tighter spacing for <pre> */
+/* Tighter spacing for the nested <pre> */
 .highlight pre {
     margin: 0;
     padding: 0;
@@ -131,10 +89,10 @@
     padding: 0 !important;
     font-size: inherit;
     border-radius: 0 !important;
-    color: #000000;
+    color: $hl-fg;
 }
 
-/* Additional specificity to override inline code styling */
+/* Override inline-code styling inside blocks */
 pre code {
     border-radius: 0 !important;
     background: none !important;
