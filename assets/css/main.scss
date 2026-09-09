@@ -19,14 +19,13 @@
 /* --------------------------------
    Theme variables
 -------------------------------- */
-
-$bg-main: #ffffff;
-$bg-surface: #ffffff;
+// ffaabb
+$bg-main:  #55aaff;
+$bg-surface: #ffaabb;
 $text-main: #000000;
 $accent: #000000;
 $accent-soft: rgba($accent, 0.1);
-$header-bg: $accent;
-$header-bg-light: lighten($accent, 20%);
+$header-bg: #2299ff;
 $muted: #666666;
 $border: #dddddd;
 
@@ -74,7 +73,7 @@ html * {
 body {
     font-family: $primary-font;
     color: $text-main;
-    background: $bg-main;
+    background: linear-gradient(56deg, $bg-main, $bg-surface);
     font-size: 100%;
 }
 
@@ -185,12 +184,9 @@ p {
 a {
     color: $text-main;
     text-decoration: underline;
-    text-decoration-color: $border;
+    text-decoration-color: $text-main;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    transition:
-        color 0.15s ease,
-        text-decoration-color 0.15s ease;
 }
 
 a:hover {
@@ -205,8 +201,6 @@ a:hover {
 header.main-header {
     position: relative;
     padding: 1.75em 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    background: linear-gradient(90deg, $header-bg, $header-bg-light);
     font-family: $pixel-font;
 
     .header-inner {
@@ -231,7 +225,7 @@ header.main-header {
         font-family: $pixel-font;
         font-weight: 400;
         @include font-size(22px);
-        color: $bg-surface;
+        color: $text-main;
         text-decoration: none;
 
         @include MQ(M) {
@@ -243,11 +237,9 @@ header.main-header {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 34px;
-        height: 34px;
-        background: $text-main;
-        color: $bg-surface;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        width: 1.5em;
+        height: 1.9em;
+        color: $text-main;
 
         svg {
             width: 100%;
@@ -257,12 +249,12 @@ header.main-header {
     }
 
     .site-title:hover {
-        color: rgba(255, 255, 255, 0.85);
+        color: $text-main;
     }
 
     .site-description {
         margin: 0;
-        color: rgba(255, 255, 255, 0.85);
+        color: $text-main;
         @include font-size(14px);
     }
 
@@ -283,7 +275,7 @@ header.main-header {
         @include font-size(15px);
         font-weight: 500;
         text-decoration: none;
-        color: rgba(255, 255, 255, 0.85);
+        color: $text-main;
     }
 
     ul.nav-links li a::after {
@@ -293,7 +285,7 @@ header.main-header {
         right: 0;
         bottom: -2px;
         height: 2px;
-        background: $bg-surface;
+        background: $accent;
         border-radius: 2px;
         transform: scaleX(0);
         transform-origin: right;
@@ -301,7 +293,7 @@ header.main-header {
     }
 
     ul.nav-links li a:hover {
-        color: $bg-surface;
+        color: $accent;
     }
 
     ul.nav-links li a:hover::after {
@@ -317,8 +309,6 @@ header.main-header {
 footer.main-footer {
     padding: 2.5em 0;
     margin-top: 3em;
-    border-top: 2px solid $accent;
-    color: $muted;
     @include font-size(14px);
 
     ul.menu li {
@@ -455,7 +445,6 @@ p.post-meta {
 .post-preview {
     padding: 2em 0 2em 1.1em;
     border-left: 3px solid transparent;
-    border-bottom: 1px solid $border;
     transition:
         border-color 0.2s ease,
         background 0.2s ease,
@@ -463,11 +452,6 @@ p.post-meta {
 
     &:hover {
         border-left-color: $accent;
-        background: linear-gradient(
-            90deg,
-            $accent-soft,
-            rgba(255, 255, 255, 0) 55%
-        );
         transform: translateX(2px);
     }
 
@@ -575,7 +559,7 @@ p.post-meta {
     h5 {
         margin: 2em 0 0.75em;
         padding-top: 1.25em;
-        border-top: 1px solid $border;
+        border-top: 2px solid $color-black;
 
         &:first-of-type {
             border-top: none;
@@ -621,7 +605,7 @@ p.post-meta {
 
     a {
         text-decoration: none;
-        color: $muted;
+        color: $accent;
     }
 
     a:hover {
@@ -629,7 +613,7 @@ p.post-meta {
     }
 
     span {
-        color: #bbbbbb;
+        color: $accent;
     }
 }
 
